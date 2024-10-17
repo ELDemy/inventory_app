@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'features/barcode/flutter_barcode_scanner.dart';
 
 void main() {
+  var db = FirebaseFirestore.instance;
   runApp(const InventoryApp());
 }
 

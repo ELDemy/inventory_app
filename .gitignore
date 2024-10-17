@@ -10,7 +10,7 @@
 .svn/
 migrate_working_dir/
 
-# IntelliJ related
+# IntelliJ/Android Studio related
 *.iml
 *.ipr
 *.iws
@@ -41,3 +41,25 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Firebase configuration files
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+# Include this to avoid pushing Firebase config
+lib/firebase_options.dart
+firebase.json
+# Firebase-related directories and logs
+.firebase/
+firebase-debug.log
+
+# Flutter build output
+build/
+ios/Pods/
+
+# pubspec.lock (optional)
+pubspec.lock
+
+# iOS related files
+ios/Flutter/Flutter.framework
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
