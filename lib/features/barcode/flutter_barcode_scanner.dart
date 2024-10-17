@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:inventory_app/features/barcode/data/barcode_data.dart';
+import 'package:inventory_app/core/utils/barcode_util.dart';
 
 class TestBarcode extends StatefulWidget {
   const TestBarcode({super.key});
@@ -15,6 +15,7 @@ class TestBarcode extends StatefulWidget {
 class _TestBarcodeState extends State<TestBarcode> {
   String _scanBarcode = 'Unknown';
 
+  //will not need this
   Future<void> scanQR() async {
     String barcodeScanRes;
     // Platform messages may fail, so we use a try/catch PlatformException.
@@ -38,16 +39,16 @@ class _TestBarcodeState extends State<TestBarcode> {
   }
 
   Future<void> startBarcodeScanStream() async {
-    BarcodeData().startBarcodeScanStream((barcode) {
-      // setState(() {
-      //   _scanBarcode = '$_scanBarcode\n$barcode';
-      // });
+    BarcodeUtil.startBarcodeScanStream((barcode) {
+      setState(() {
+        _scanBarcode = '$_scanBarcode\n$barcode';
+      });
     });
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> scanBarcodeNormal() async {
-    String barcodeScanRes = await BarcodeData().scanBarcodeNormal();
+    String barcodeScanRes = await BarcodeUtil.scanBarcodeNormal();
 
     // If the widget was removed from the tree while the asynchronous platform
     // message was in flight, we want to discard the reply rather than calling

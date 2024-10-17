@@ -2,13 +2,18 @@ import 'dart:developer';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:inventory_app/core/utils/toast_util.dart';
 
-class BarcodeData {
-  Future<void> startBarcodeScanStream(Function(String barcode) onData) async {
+import 'toast_util.dart';
+
+class BarcodeUtil {
+  static Future<void> startBarcodeScanStream(
+      Function(String barcode) onData) async {
     FlutterBarcodeScanner.getBarcodeStreamReceiver(
-            '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
-        .listen(
+      '#ff6666',
+      'Cancel',
+      true,
+      ScanMode.BARCODE,
+    )?.listen(
       (barcode) {
         ToastUtil.showToast(barcode);
         onData(barcode);
@@ -17,7 +22,7 @@ class BarcodeData {
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
-  Future<String> scanBarcodeNormal() async {
+  static Future<String> scanBarcodeNormal() async {
     String barcodeScanRes;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
