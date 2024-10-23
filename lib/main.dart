@@ -1,10 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'features/barcode/flutter_barcode_scanner.dart';
+import 'features/product_functions/presentation/test_product_functions.dart';
 
-void main() {
-  var db = FirebaseFirestore.instance;
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const InventoryApp());
 }
 
@@ -14,7 +15,7 @@ class InventoryApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: TestBarcode(),
+      home: TestProductFunctions(),
     );
   }
 }
