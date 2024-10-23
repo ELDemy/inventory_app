@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 
@@ -23,23 +25,19 @@ class MyFirebaseService {
     }
   }
 
-  Future<void> addNewModel(String serialNumber) async {
+  Future<void> addNewModel(ProductModel productModel) async {
+    log("ELDemy:: invoked $addNewModel");
     try {
-      final docRef = projectDoc.collection('products').doc(serialNumber);
+      final docRef =
+          projectDoc.collection('products').doc(productModel.identifierSN);
 
       final docSnapshot = await docRef.get();
       if (docSnapshot.exists) {
-        print('Document with ID $serialNumber already exists.');
+        print('Document with ID ${productModel.identifierSN} already exists.');
       } else {
-        await docRef.set(ProductModel(
-          identifier: serialNumber,
-          modelName: "A01",
-          output: "10",
-          input: "5",
-          power: 20,
-          price: 50,
-        ).toFirestore());
-        print('Document with ID $serialNumber has been created.');
+        await docRef.set(productModel.toFirestore());
+        print(
+            'Document with ID ${productModel.identifierSN} has been created.');
       }
     } on FirebaseException catch (e) {
       print('Error creating document: ${e.message}');

@@ -56,8 +56,6 @@ firebase-debug.log
 build/
 ios/Pods/
 
-# pubspec.lock (optional)
-pubspec.lock
 
 # iOS related files
 ios/Flutter/Flutter.framework
