@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inventory_app/core/data/firebase_service.dart';
+import 'package:inventory_app/core/services/firebase_service.dart';
 import 'package:inventory_app/core/utils/barcode_util.dart';
 
 class TestProductFunctions extends StatefulWidget {

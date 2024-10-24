@@ -9,4 +9,8 @@ final class AddNewProductLoading extends AddProductState {}
 
 final class AddNewProductSuccess extends AddProductState {}
 
-final class AddNewProductFailure extends AddProductState {}
+final class AddNewProductFailure extends AddProductState {
+  final String errMsg;
+
+  AddNewProductFailure({required this.errMsg});
+}

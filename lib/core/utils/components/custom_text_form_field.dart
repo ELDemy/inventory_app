@@ -5,8 +5,8 @@ class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
     required this.labelText,
+    required this.controller,
     this.suffixIcon,
-    this.controller,
     this.isRequired = false,
     this.isNumbersOnly = false,
   });
@@ -14,7 +14,7 @@ class CustomTextFormField extends StatelessWidget {
   final bool isRequired;
   final String labelText;
   final Widget? suffixIcon;
-  final TextEditingController? controller;
+  final TextEditingController controller;
   final bool isNumbersOnly;
   @override
   Widget build(BuildContext context) {

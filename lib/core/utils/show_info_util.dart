@@ -17,9 +17,19 @@ class ShowInfoUtil {
 
   static MaterialBanner loadingBanner() {
     return MaterialBanner(
-      content: const SizedBox(
-          height: 42, width: 24, child: CircularProgressIndicator()),
+      content: const Center(
+        child: SizedBox(
+          height: 20,
+          width: 20,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            strokeCap: StrokeCap.round,
+          ),
+        ),
+      ),
       dividerColor: Colors.transparent,
+      backgroundColor: Colors.transparent,
+      // padding: EdgeInsets.symmetric(vertical: 8),
       actions: [SizedBox()],
     );
   }
