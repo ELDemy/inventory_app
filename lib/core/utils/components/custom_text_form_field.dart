@@ -22,8 +22,8 @@ class CustomTextFormField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: TextFormField(
         controller: controller,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: _validator,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         keyboardType: isNumbersOnly ? TextInputType.number : null,
         inputFormatters: [
           if (isNumbersOnly) FilteringTextInputFormatter.digitsOnly,

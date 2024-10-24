@@ -37,4 +37,14 @@ class ShowInfoUtil {
   static void hideCurrentMaterialBanner(BuildContext context) {
     ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
   }
+
+  static void showSnackBar(BuildContext context, String content) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(content)),
+    );
+  }
+
+  static void hideCurrentSnackBar(BuildContext context, String content) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  }
 }

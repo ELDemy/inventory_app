@@ -45,12 +45,11 @@ class _AddNewProductFormState extends State<AddNewProductForm> {
           );
         } else if (state is AddNewProductSuccess) {
           ShowInfoUtil.hideCurrentMaterialBanner(context);
+          ShowInfoUtil.showSnackBar(context, "تم اضافة المنتج بنجاح");
           _clearControllers();
         } else if (state is AddNewProductFailure) {
           ShowInfoUtil.hideCurrentMaterialBanner(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error: ${state.errMsg}')),
-          );
+          ShowInfoUtil.showSnackBar(context, state.errMsg);
         }
       },
       child: Scaffold(
