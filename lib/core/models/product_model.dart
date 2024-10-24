@@ -1,21 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductModel {
-  final String identifier;
-  final String modelName;
+  String? identifierSN;
+  final String? productName;
   final num? power;
   final String? input;
   final String? output;
   final double? price;
 
   ProductModel({
-    required this.identifier,
-    required this.modelName,
+    String? serialNumber,
+    this.identifierSN,
+    required this.productName,
     this.power,
     this.input,
     this.output,
     this.price,
-  });
+  }) {
+    if (serialNumber != null && identifierSN == null) {
+      identifierSN = serialNumber;
+    }
+  }
 
   // Factory constructor to create ProductModel from Firestore
   factory ProductModel.fromFirestore(
@@ -24,8 +29,8 @@ class ProductModel {
   ) {
     final data = snapshot.data();
     return ProductModel(
-      identifier: data?['serialNumber'],
-      modelName: data?['modelName'],
+      identifierSN: data?['serialNumber'],
+      productName: data?['modelName'],
       power: data?['power'] != null ? (data?['power'] as num) : null,
       input: data?['input'],
       output: data?['output'],
@@ -36,8 +41,8 @@ class ProductModel {
   // Convert ProductModel to a Map for Firestore
   Map<String, dynamic> toFirestore() {
     return {
-      "serialNumber": identifier,
-      "modelName": modelName,
+      "serialNumber": identifierSN,
+      "modelName": productName,
       if (power != null) "power": power,
       if (input != null) "input": input,
       if (output != null) "output": output,

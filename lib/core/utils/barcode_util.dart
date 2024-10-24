@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
-import 'toast_util.dart';
+import 'show_info_util.dart';
 
 class BarcodeUtil {
   static Future<void> startBarcodeScanStream(
@@ -15,7 +15,7 @@ class BarcodeUtil {
       ScanMode.BARCODE,
     )?.listen(
       (barcode) {
-        ToastUtil.showToast(barcode);
+        ShowInfoUtil.showToast(barcode);
         onData(barcode);
       },
     );
@@ -32,7 +32,7 @@ class BarcodeUtil {
         true,
         ScanMode.BARCODE,
       );
-      ToastUtil.showToast(barcodeScanRes);
+      ShowInfoUtil.showToast(barcodeScanRes);
     } on PlatformException {
       log('Failed to get platform version.');
       barcodeScanRes = 'مشكله فالموبايل';

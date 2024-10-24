@@ -56,7 +56,6 @@ firebase-debug.log
 build/
 ios/Pods/
 
-
 # iOS related files
 ios/Flutter/Flutter.framework
 ios/Flutter/Generated.xcconfig

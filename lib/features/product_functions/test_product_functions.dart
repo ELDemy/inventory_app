@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:inventory_app/core/data/firebase_service.dart';
 import 'package:inventory_app/core/utils/barcode_util.dart';
-import 'package:inventory_app/features/product_functions/data/firebase_service.dart';
 
 class TestProductFunctions extends StatefulWidget {
   const TestProductFunctions({super.key});
@@ -21,7 +21,7 @@ class _TestProductFunctionsState extends State<TestProductFunctions> {
       return;
     }
     print('ELDemy :: $barcodeScanRes');
-    await MyFirebaseService().addNewModel(barcodeScanRes);
+    // await MyFirebaseService().addNewModel(barcodeScanRes);
     setState(() {
       _scanBarcode = barcodeScanRes;
     });
