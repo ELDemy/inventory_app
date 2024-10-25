@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:inventory_app/core/services/firebase_service.dart';
-import 'package:inventory_app/core/utils/barcode_util.dart';
+import 'package:inventory_app/features/product_management/data/service/firebase_service.dart';
+
+import 'data/utils/barcode_util.dart';
 
 class TestProductFunctions extends StatefulWidget {
   const TestProductFunctions({super.key});

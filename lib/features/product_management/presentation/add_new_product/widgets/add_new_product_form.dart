@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/models/product_model.dart';
-import 'package:inventory_app/core/utils/components/custom_serial_text_form_field.dart';
-import 'package:inventory_app/core/utils/components/custom_text_form_field.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
-import 'package:inventory_app/features/product_management/data/add_product_cubit/add_new_product_cubit.dart';
+import 'package:inventory_app/features/product_management/data/cubit/add_new_product_cubit.dart';
+import 'package:inventory_app/features/product_management/presentation/components/custom_serial_text_form_field.dart';
+import 'package:inventory_app/features/product_management/presentation/components/custom_text_form_field.dart';
 
 class AddNewProductForm extends StatefulWidget {
   const AddNewProductForm({super.key});

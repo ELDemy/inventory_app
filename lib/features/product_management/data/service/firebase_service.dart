@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory_app/core/models/product_model.dart';
-import 'package:inventory_app/core/services/service_state.dart';
+import 'package:inventory_app/features/product_management/data/service/service_state.dart';
 
 class MyFirebaseService {
   final DocumentReference<Map<String, dynamic>> projectDoc =

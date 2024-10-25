@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:inventory_app/core/models/product_model.dart';
-import 'package:inventory_app/core/services/firebase_service.dart';
-import 'package:inventory_app/core/services/service_state.dart';
+import 'package:inventory_app/features/product_management/data/service/firebase_service.dart';
+import 'package:inventory_app/features/product_management/data/service/service_state.dart';
 import 'package:meta/meta.dart';
 
 part 'add_new_product_state.dart';

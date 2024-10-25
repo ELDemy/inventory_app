@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_app/features/product_management/data/add_product_cubit/add_new_product_cubit.dart';
+import 'package:inventory_app/features/product_management/data/cubit/add_new_product_cubit.dart';
 
 import 'widgets/add_new_product_form.dart';
 

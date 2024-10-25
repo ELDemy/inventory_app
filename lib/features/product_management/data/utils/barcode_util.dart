@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
-import 'show_info_util.dart';
+import '../../../../core/utils/show_info_util.dart';
 
 class BarcodeUtil {
   static Future<void> startBarcodeScanStream(

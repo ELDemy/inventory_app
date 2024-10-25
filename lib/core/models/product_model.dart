@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductModel {
   String? identifierSN;
+  String? serialNumber;
   final String? productName;
   final num? power;
   final String? input;
@@ -9,7 +12,7 @@ class ProductModel {
   final double? price;
 
   ProductModel({
-    String? serialNumber,
+    this.serialNumber,
     this.identifierSN,
     required this.productName,
     this.power,
@@ -17,8 +20,19 @@ class ProductModel {
     this.output,
     this.price,
   }) {
+    parseIdentifierSN();
+  }
+
+  parseIdentifierSN() {
     if (serialNumber != null && identifierSN == null) {
-      identifierSN = serialNumber;
+      if (serialNumber!.length >= 20) {
+        identifierSN = serialNumber!.substring(0, 10);
+      } else if (serialNumber!.length >= 6) {
+        identifierSN = serialNumber!.substring(0, 6);
+      } else {
+        log("unrecognized");
+        identifierSN = serialNumber;
+      }
     }
   }
 
@@ -29,7 +43,8 @@ class ProductModel {
   ) {
     final data = snapshot.data();
     return ProductModel(
-      identifierSN: data?['serialNumber'],
+      identifierSN: data?['identifierSN'],
+      serialNumber: data?['serialNumber'],
       productName: data?['modelName'],
       power: data?['power'] != null ? (data?['power'] as num) : null,
       input: data?['input'],
@@ -41,7 +56,8 @@ class ProductModel {
   // Convert ProductModel to a Map for Firestore
   Map<String, dynamic> toFirestore() {
     return {
-      "serialNumber": identifierSN,
+      "identifierSN": identifierSN,
+      "serialNumber": serialNumber,
       "modelName": productName,
       if (power != null) "power": power,
       if (input != null) "input": input,
