@@ -30,7 +30,7 @@ class CustomTextFormField extends StatelessWidget {
         ],
         decoration: InputDecoration(
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
-          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           label: _label(),
           suffixIcon: suffixIcon,
         ),
@@ -51,7 +51,7 @@ class CustomTextFormField extends StatelessWidget {
         children: [
           TextSpan(text: labelText),
           if (isRequired)
-            TextSpan(text: " *", style: TextStyle(color: Colors.red)),
+            const TextSpan(text: " *", style: TextStyle(color: Colors.red)),
         ],
       ),
     );

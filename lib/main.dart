@@ -2,10 +2,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:inventory_app/core/utils/app_theme.dart';
 
 import 'core/constants/bloc_observer.dart';
 import 'di/injector.dart';
-import 'features/product_management/presentation/add_new_product/add_new_product_screen.dart';
+import 'features/home/presentation/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,12 +27,10 @@ class InventoryApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      supportedLocales: [Locale("ar")],
-      locale: Locale("ar"),
-      theme: ThemeData.from(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-      ),
-      home: AddNewProductScreen(),
+      supportedLocales: const [Locale("ar")],
+      locale: const Locale("ar"),
+      theme: AppTheme.appTheme,
+      home: const HomeScreen(),
     );
   }
 }

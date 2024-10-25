@@ -11,7 +11,7 @@ class AddNewProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AddNewProductCubit(),
-      child: AddNewProductForm(),
+      child: const AddNewProductForm(),
     );
   }
 }

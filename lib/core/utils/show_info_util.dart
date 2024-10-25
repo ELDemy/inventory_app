@@ -16,8 +16,8 @@ class ShowInfoUtil {
   }
 
   static MaterialBanner loadingBanner() {
-    return MaterialBanner(
-      content: const Center(
+    return const MaterialBanner(
+      content: Center(
         child: SizedBox(
           height: 20,
           width: 20,

@@ -9,8 +9,8 @@ class ProductModel {
   final num? power;
   final String? input;
   final String? output;
-  final double? price;
-  final int? qty;
+  final double price;
+  final int qty;
 
   ProductModel({
     this.serialNumber,
@@ -51,8 +51,8 @@ class ProductModel {
       power: data?['power'] != null ? (data?['power'] as num) : null,
       input: data?['input'],
       output: data?['output'],
-      price: data?['price'] != null ? (data?['price'] as double) : null,
-      qty: data?['quantity'] != null ? (data?['quantity'] as int) : null,
+      price: data?['price'] != null ? (data?['price'] as double) : 0,
+      qty: data?['quantity'] != null ? (data?['quantity'] as int) : 0,
     );
   }
 
@@ -76,6 +76,7 @@ class ProductModel {
       identifierSN!: {
         "modelName": productName,
         "quantity": qty,
+        "price": price,
       }
     };
   }
