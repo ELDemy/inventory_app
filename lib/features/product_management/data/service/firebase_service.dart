@@ -1,16 +1,56 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory_app/core/models/product_model.dart';
+import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/product_management/data/service/service_state.dart';
 
-class MyFirebaseService {
-  final DocumentReference<Map<String, dynamic>> projectDoc =
-      FirebaseFirestore.instance.doc('projects/inverters');
+class AddNewProductToFirebase {
+  Future<ServiceState?> addNewProductModel(ProductModel productModel) async {
+    ServiceState? serviceState;
+    try {
+      final DocumentReference<Map<String, dynamic>> docRef = Injector.projectDoc
+          .collection('products')
+          .doc(productModel.identifierSN);
+
+      final DocumentSnapshot<Map<String, dynamic>> docSnapshot =
+          await docRef.get();
+
+      if (docSnapshot.exists) {
+        print('Document with ID ${productModel.identifierSN} already exists.');
+        return ServiceState(
+            serviceStateMsg:
+                "المنتج رقم ${productModel.identifierSN} موجود بالفعل ");
+      } else {
+        Injector.get<FirebaseFirestore>().runTransaction(
+          (transaction) async {
+            transaction.set(docRef, productModel.toFirestore());
+            transaction.update(
+              Injector.allProductsDoc,
+              productModel.toFirestoreBasicValues(),
+            );
+          },
+        ).then((value) {
+          print(
+              'Document with ID ${productModel.identifierSN} has been created.');
+        }).onError((error, stackTrace) {
+          print("Error: $error");
+          serviceState =
+              ServiceState(serviceStateMsg: "برجاء المحاول مره اخرى");
+        });
+      }
+    } on FirebaseException catch (firebaseException) {
+      print('Error creating document: ${firebaseException.message}');
+      return ServiceState.firebaseException(firebaseException);
+    } catch (e) {
+      print('An unexpected error occurred: $e');
+      return ServiceState(
+          serviceStateMsg: "حدث خطأ غير متوقع برجاء المحاوله مره اخري!!");
+    }
+    return serviceState;
+  }
 
   void get() async {
     try {
-      var x = await projectDoc
+      var x = await Injector.projectDoc
           .collection("products/A1/customer_orders")
           .where("sn_list", arrayContains: "123")
           .get();
@@ -24,33 +64,5 @@ class MyFirebaseService {
     } catch (e) {
       print('An unexpected error occurred: $e');
     }
-  }
-
-  Future<ServiceState?> addNewModel(ProductModel productModel) async {
-    log("ELDemy:: invoked $addNewModel");
-    try {
-      final docRef =
-          projectDoc.collection('products').doc(productModel.identifierSN);
-
-      final docSnapshot = await docRef.get();
-      if (docSnapshot.exists) {
-        print('Document with ID ${productModel.identifierSN} already exists.');
-        return ServiceState(
-            serviceStateMsg:
-                "المنتج رقم ${productModel.identifierSN} موجود بالفعل ");
-      } else {
-        await docRef.set(productModel.toFirestore());
-        print(
-            'Document with ID ${productModel.identifierSN} has been created.');
-      }
-    } on FirebaseException catch (firebaseException) {
-      print('Error creating document: ${firebaseException.message}');
-      return ServiceState.firebaseException(firebaseException);
-    } catch (e) {
-      print('An unexpected error occurred: $e');
-      return ServiceState(
-          serviceStateMsg: "حدث خطأ غير متوقع برجاء المحاوله مره اخري!!");
-    }
-    return null;
   }
 }

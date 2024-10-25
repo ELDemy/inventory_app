@@ -10,15 +10,17 @@ class ProductModel {
   final String? input;
   final String? output;
   final double? price;
+  final int? qty;
 
   ProductModel({
     this.serialNumber,
     this.identifierSN,
     required this.productName,
+    this.price = 0,
+    this.qty = 0,
     this.power,
     this.input,
     this.output,
-    this.price,
   }) {
     parseIdentifierSN();
   }
@@ -27,8 +29,8 @@ class ProductModel {
     if (serialNumber != null && identifierSN == null) {
       if (serialNumber!.length >= 20) {
         identifierSN = serialNumber!.substring(0, 10);
-      } else if (serialNumber!.length >= 6) {
-        identifierSN = serialNumber!.substring(0, 6);
+      } else if (serialNumber!.length >= 14) {
+        identifierSN = serialNumber!.substring(0, 10);
       } else {
         log("unrecognized");
         identifierSN = serialNumber;
@@ -50,6 +52,7 @@ class ProductModel {
       input: data?['input'],
       output: data?['output'],
       price: data?['price'] != null ? (data?['price'] as double) : null,
+      qty: data?['quantity'] != null ? (data?['quantity'] as int) : null,
     );
   }
 
@@ -62,7 +65,18 @@ class ProductModel {
       if (power != null) "power": power,
       if (input != null) "input": input,
       if (output != null) "output": output,
-      if (price != null) "price": price,
+      "price": price,
+      "quantity": qty,
+    };
+  } // Convert ProductModel to a Map for Firestore
+
+  // to add to the all products document
+  Map<String, dynamic> toFirestoreBasicValues() {
+    return {
+      identifierSN!: {
+        "modelName": productName,
+        "quantity": qty,
+      }
     };
   }
 }

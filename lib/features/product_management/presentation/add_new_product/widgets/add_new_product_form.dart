@@ -22,12 +22,14 @@ class _AddNewProductFormState extends State<AddNewProductForm> {
   final TextEditingController _powerController = TextEditingController();
   final TextEditingController _inputController = TextEditingController();
   final TextEditingController _outputController = TextEditingController();
+  final TextEditingController _quantityController = TextEditingController();
 
   @override
   void dispose() {
     _productNameController.dispose();
     _serialNumberController.dispose();
     _priceController.dispose();
+    _quantityController.dispose();
     _powerController.dispose();
     _inputController.dispose();
     _outputController.dispose();
@@ -76,6 +78,12 @@ class _AddNewProductFormState extends State<AddNewProductForm> {
                     isNumbersOnly: true,
                   ),
                   CustomTextFormField(
+                    labelText: "الكمية",
+                    controller: _quantityController,
+                    isRequired: true,
+                    isNumbersOnly: true,
+                  ),
+                  CustomTextFormField(
                     labelText: "Power",
                     controller: _powerController,
                     isRequired: true,
@@ -112,6 +120,7 @@ class _AddNewProductFormState extends State<AddNewProductForm> {
           serialNumber: _serialNumberController.text,
           productName: _productNameController.text,
           price: double.parse(_priceController.text),
+          qty: int.parse(_quantityController.text),
           power: num.parse(_powerController.text),
           input: _inputController.text,
           output: _outputController.text,
@@ -124,6 +133,7 @@ class _AddNewProductFormState extends State<AddNewProductForm> {
     _productNameController.clear();
     _serialNumberController.clear();
     _priceController.clear();
+    _quantityController.clear();
     _powerController.clear();
     _inputController.clear();
     _outputController.clear();
