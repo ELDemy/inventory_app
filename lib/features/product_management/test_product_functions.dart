@@ -41,7 +41,7 @@ class _TestProductFunctionsState extends State<TestProductFunctions> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    AddNewProductToFirebase().get();
+                    ProductManagementService().get();
                   },
                   child: const Text('get '),
                 ),

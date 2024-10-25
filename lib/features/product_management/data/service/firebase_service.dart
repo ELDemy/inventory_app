@@ -3,13 +3,12 @@ import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/product_management/data/service/service_state.dart';
 
-class AddNewProductToFirebase {
+class ProductManagementService {
   Future<ServiceState?> addNewProductModel(ProductModel productModel) async {
     ServiceState? serviceState;
     try {
-      final DocumentReference<Map<String, dynamic>> docRef = Injector.projectDoc
-          .collection('products')
-          .doc(productModel.identifierSN);
+      final DocumentReference<Map<String, dynamic>> docRef =
+          Injector.productsCollection.doc(productModel.identifierSN);
 
       final DocumentSnapshot<Map<String, dynamic>> docSnapshot =
           await docRef.get();

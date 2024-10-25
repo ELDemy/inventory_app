@@ -13,8 +13,11 @@ class Injector {
   static final DocumentReference<Map<String, dynamic>> projectDoc =
       Injector.get<FirebaseFirestore>().doc('projects/inverters');
 
+  static final productsCollection = projectDoc.collection('products');
+
   static final DocumentReference<Map<String, dynamic>> allProductsDoc =
-      Injector.get<FirebaseFirestore>().doc('projects/inverters/products/all');
+      productsCollection.doc('all');
+
   // Generic method to get instances
   static T get<T extends Object>() => _getIt<T>();
 }

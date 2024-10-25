@@ -13,7 +13,7 @@ class AddNewProductCubit extends Cubit<AddProductState> {
     emit(AddNewProductLoading());
     try {
       ServiceState? serviceState =
-          await AddNewProductToFirebase().addNewProductModel(productModel);
+          await ProductManagementService().addNewProductModel(productModel);
       if (serviceState == null) {
         emit(AddNewProductSuccess());
       } else {
