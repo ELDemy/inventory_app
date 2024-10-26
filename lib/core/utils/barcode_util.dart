@@ -3,9 +3,20 @@ import 'dart:developer';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
-import '../../../../core/utils/show_info_util.dart';
+import 'show_info_util.dart';
 
 class BarcodeUtil {
+  static String parseIdentifierFromSN(String barcode) {
+    if (barcode.length >= 20) {
+      return barcode.substring(0, 11);
+    } else if (barcode.length >= 14) {
+      return barcode.substring(0, 11);
+    } else {
+      log("unrecognized");
+      return barcode;
+    }
+  }
+
   static Future<void> startBarcodeScanStream(
       Function(String barcode) onData) async {
     FlutterBarcodeScanner.getBarcodeStreamReceiver(

@@ -1,9 +1,11 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/di/injector.dart';
-import 'package:inventory_app/features/product_management/data/service/service_state.dart';
+import 'package:inventory_app/features/product_management/data/product_management_repo/service_state.dart';
 
-class ProductManagementService {
+class ProductManagementRepo {
   Future<ServiceState?> addNewProductModel(ProductModel productModel) async {
     ServiceState? serviceState;
     try {
@@ -45,5 +47,15 @@ class ProductManagementService {
           serviceStateMsg: "حدث خطأ غير متوقع برجاء المحاوله مره اخري!!");
     }
     return serviceState;
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getProduct(
+      String identifierSN) async {
+    try {
+      return await Injector.productsCollection.doc("802R2G124FC").get();
+    } on Exception catch (e) {
+      log("Error getting Product $identifierSN  : ${e.toString()}");
+      rethrow;
+    }
   }
 }

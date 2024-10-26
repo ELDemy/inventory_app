@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:inventory_app/features/product_management/data/utils/barcode_util.dart';
+import 'package:inventory_app/core/utils/barcode_util.dart';
 
 class TestBarcode extends StatefulWidget {
   const TestBarcode({super.key});

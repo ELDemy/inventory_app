@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:inventory_app/core/utils/barcode_util.dart';
 
 class ProductModel {
   String? identifierSN;
@@ -27,14 +26,7 @@ class ProductModel {
 
   parseIdentifierSN() {
     if (serialNumber != null && identifierSN == null) {
-      if (serialNumber!.length >= 20) {
-        identifierSN = serialNumber!.substring(0, 10);
-      } else if (serialNumber!.length >= 14) {
-        identifierSN = serialNumber!.substring(0, 11);
-      } else {
-        log("unrecognized");
-        identifierSN = serialNumber;
-      }
+      identifierSN = BarcodeUtil.parseIdentifierFromSN(serialNumber!);
     }
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
-import 'package:inventory_app/features/product_management/data/utils/barcode_util.dart';
+import 'package:inventory_app/core/utils/barcode_util.dart';
 import 'package:inventory_app/features/product_management/presentation/make_order/make_order_screen.dart';
 
 class MyExpandableFAB extends StatelessWidget {
@@ -32,6 +32,7 @@ class MyExpandableFAB extends StatelessWidget {
 
   FloatingActionButton _orderButton(BuildContext context) {
     return FloatingActionButton(
+      heroTag: "order",
       backgroundColor: AppColors.primaryColor,
       foregroundColor: AppColors.foregroundColor,
       child: const Icon(Icons.shopping_cart_outlined),
@@ -49,6 +50,7 @@ class MyExpandableFAB extends StatelessWidget {
 
   FloatingActionButton _scanBarcodeButton() {
     return FloatingActionButton(
+      heroTag: "scanBarcode",
       backgroundColor: AppColors.primaryColor,
       foregroundColor: AppColors.foregroundColor,
       child: SvgPicture.asset(
@@ -75,6 +77,7 @@ class MyExpandableFAB extends StatelessWidget {
 
   RotateFloatingActionButtonBuilder _openButtonBuilder() {
     return RotateFloatingActionButtonBuilder(
+      heroTag: "openButtonBuilder",
       child: SvgPicture.asset(
         height: 35,
         "assets/icons/barcode-icon.svg",

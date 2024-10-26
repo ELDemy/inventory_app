@@ -14,3 +14,9 @@ final class ProductFailure extends ProductManagementState {
 }
 
 final class AddNewProductSuccess extends ProductManagementState {}
+
+final class ProductLoaded extends ProductManagementState {
+  final ProductModel productModel;
+
+  ProductLoaded(this.productModel);
+}
