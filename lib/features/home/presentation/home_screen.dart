@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:inventory_app/core/utils/app_colors.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:inventory_app/features/home/data/cubit/home_cubit.dart';
 import 'package:inventory_app/features/product_management/presentation/add_new_product/add_new_product_screen.dart';
 
+import 'widgets/my_expandable_fab.dart';
 import 'widgets/products_list.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final _key = GlobalKey<ExpandableFabState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,23 +34,11 @@ class HomeScreen extends StatelessWidget {
               icon: const Icon(Icons.add)),
         ],
       ),
-      floatingActionButton: _floatingActionButton(),
+      floatingActionButtonLocation: ExpandableFab.location,
+      floatingActionButton: const MyExpandableFAB(),
       body: BlocProvider(
         create: (context) => HomeCubit(),
         child: const ProductsList(),
-      ),
-    );
-  }
-
-  FloatingActionButton _floatingActionButton() {
-    return FloatingActionButton(
-      backgroundColor: AppColors.primaryColor,
-      elevation: 20,
-      onPressed: () {},
-      child: SvgPicture.asset(
-        height: 35,
-        "assets/icons/barcode-icon.svg",
-        colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
       ),
     );
   }
