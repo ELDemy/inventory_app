@@ -33,6 +33,7 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       _connectivitySubscription = Connectivity().onConnectivityChanged.listen(
         (List<ConnectivityResult> result) {
+          print("Internet Connectivity has changed: $result");
           result.contains(ConnectivityResult.none)
               ? Injector.isOnline = false
               : Injector.isOnline = true;

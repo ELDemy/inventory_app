@@ -5,14 +5,22 @@ import 'package:inventory_app/core/utils/app_colors.dart';
 import 'package:inventory_app/core/utils/barcode_util.dart';
 import 'package:inventory_app/features/product_management/presentation/make_order/make_order_screen.dart';
 
-class MyExpandableFAB extends StatelessWidget {
+class MyExpandableFAB extends StatefulWidget {
   const MyExpandableFAB({
     super.key,
   });
 
   @override
+  State<MyExpandableFAB> createState() => _MyExpandableFABState();
+}
+
+class _MyExpandableFABState extends State<MyExpandableFAB> {
+  final GlobalKey<ExpandableFabState> _key = GlobalKey<ExpandableFabState>();
+
+  @override
   Widget build(BuildContext context) {
     return ExpandableFab(
+      key: _key,
       duration: const Duration(milliseconds: 350),
       pos: ExpandableFabPos.left,
       type: ExpandableFabType.up,
@@ -37,8 +45,13 @@ class MyExpandableFAB extends StatelessWidget {
       foregroundColor: AppColors.foregroundColor,
       child: const Icon(Icons.shopping_cart_outlined),
       onPressed: () async {
+        _key.currentState?.toggle();
+
         String barcodeScanRes = await BarcodeUtil.scanBarcodeNormal();
+
+        ///todo:
         // if (barcodeScanRes != -1) return; // to not push if the code is invalid
+
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -58,7 +71,7 @@ class MyExpandableFAB extends StatelessWidget {
         "assets/icons/barcode-icon.svg",
         colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
       ),
-      onPressed: () {},
+      onPressed: () async {},
     );
   }
 

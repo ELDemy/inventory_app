@@ -4,6 +4,7 @@ import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
 import 'package:inventory_app/features/product_management/data/cubit/product_management_cubit.dart';
 
+import 'order_content.dart';
 import 'order_failure.dart';
 
 class MakeOrderBody extends StatefulWidget {
@@ -18,7 +19,6 @@ class MakeOrderBody extends StatefulWidget {
 class _MakeOrderBodyState extends State<MakeOrderBody> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     BlocProvider.of<ProductManagementCubit>(context).getProduct(widget.barcode);
   }
@@ -29,8 +29,7 @@ class _MakeOrderBodyState extends State<MakeOrderBody> {
       builder: (context, state) {
         if (state is ProductLoaded) {
           ProductModel productModel = state.productModel;
-          return Center(
-              child: Column(children: [Text(productModel.productName ?? "")]));
+          return OrderContent(productModel: productModel);
         } else if (state is ProductLoading) {
           return _circularProgress();
         } else if (state is ProductFailure) {

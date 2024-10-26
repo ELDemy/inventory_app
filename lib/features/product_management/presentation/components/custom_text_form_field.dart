@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:inventory_app/core/utils/app_colors.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
@@ -29,9 +30,13 @@ class CustomTextFormField extends StatelessWidget {
           if (isNumbersOnly) FilteringTextInputFormatter.digitsOnly,
         ],
         decoration: InputDecoration(
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(32)),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           label: _label(),
+          labelStyle: const TextStyle(color: AppColors.primaryColor),
           suffixIcon: suffixIcon,
         ),
       ),
