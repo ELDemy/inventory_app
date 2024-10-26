@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/di/injector.dart';
-import 'package:inventory_app/features/product_management/data/cubit/add_new_product_cubit.dart';
+import 'package:inventory_app/features/product_management/data/cubit/product_management_cubit.dart';
 import 'package:inventory_app/features/product_management/presentation/components/custom_serial_text_form_field.dart';
 import 'package:inventory_app/features/product_management/presentation/components/custom_text_form_field.dart';
 
@@ -39,9 +39,9 @@ class _AddNewProductFormState extends State<AddNewProductForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AddNewProductCubit, AddProductState>(
+    return BlocListener<ProductManagementCubit, ProductManagementState>(
       listener: (context, state) {
-        if (state is AddNewProductLoading) {
+        if (state is ProductLoading) {
           ShowInfoUtil.hideCurrentMaterialBanner(context);
           ShowInfoUtil.showLoadingMaterialBanner(context);
         } else if (state is AddNewProductSuccess) {
@@ -49,7 +49,7 @@ class _AddNewProductFormState extends State<AddNewProductForm> {
           ShowInfoUtil.showSnackBar(context, "تم اضافة المنتج بنجاح");
           _clearControllers();
           Navigator.pop(context);
-        } else if (state is AddNewProductFailure) {
+        } else if (state is ProductFailure) {
           ShowInfoUtil.showSnackBar(context, state.errMsg);
           if (Injector.isOnline) {
             ShowInfoUtil.hideCurrentMaterialBanner(context);
@@ -120,7 +120,7 @@ class _AddNewProductFormState extends State<AddNewProductForm> {
 
   void _onSubmit() async {
     if (_formKey.currentState!.validate()) {
-      await BlocProvider.of<AddNewProductCubit>(context).addNewProduct(
+      await BlocProvider.of<ProductManagementCubit>(context).addNewProduct(
         ProductModel(
           serialNumber: _serialNumberController.text,
           productName: _productNameController.text,

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
+import 'package:inventory_app/features/product_management/data/utils/barcode_util.dart';
+import 'package:inventory_app/features/product_management/presentation/make_order/make_order_screen.dart';
 
 class MyExpandableFAB extends StatelessWidget {
   const MyExpandableFAB({
@@ -23,17 +25,25 @@ class MyExpandableFAB extends StatelessWidget {
       closeButtonBuilder: _closedButtonBuilder(),
       children: [
         _scanBarcodeButton(),
-        _orderButton(),
+        _orderButton(context),
       ],
     );
   }
 
-  FloatingActionButton _orderButton() {
+  FloatingActionButton _orderButton(BuildContext context) {
     return FloatingActionButton(
       backgroundColor: AppColors.primaryColor,
       foregroundColor: AppColors.foregroundColor,
       child: const Icon(Icons.shopping_cart_outlined),
-      onPressed: () {},
+      onPressed: () async {
+        String barcodeScanRes = await BarcodeUtil.scanBarcodeNormal();
+        // if (barcodeScanRes != -1) return; // to not push if the code is invalid
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MakeOrderScreen(barcode: barcodeScanRes)),
+        );
+      },
     );
   }
 

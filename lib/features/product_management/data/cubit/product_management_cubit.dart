@@ -5,33 +5,29 @@ import 'package:inventory_app/features/product_management/data/service/product_m
 import 'package:inventory_app/features/product_management/data/service/service_state.dart';
 import 'package:meta/meta.dart';
 
-part 'add_new_product_state.dart';
+part 'product_management_state.dart';
 
-class AddNewProductCubit extends Cubit<AddProductState> {
-  AddNewProductCubit() : super(AddNewProductInitial());
+class ProductManagementCubit extends Cubit<ProductManagementState> {
+  ProductManagementCubit() : super(ProductManagementInitial());
 
   Future addNewProduct(ProductModel productModel) async {
     if (!Injector.isOnline) {
-      emit(AddNewProductFailure("برجاء التحقق من الاتصال بالانترنت"));
+      emit(ProductFailure("برجاء التحقق من الاتصال بالانترنت"));
       return;
     }
-    emit(AddNewProductLoading());
+    emit(ProductLoading());
     try {
       ServiceState? serviceState =
           await ProductManagementService().addNewProductModel(productModel);
       if (serviceState == null) {
         emit(AddNewProductSuccess());
       } else {
-        emit(AddNewProductFailure(serviceState.serviceStateMsg));
+        emit(ProductFailure(serviceState.serviceStateMsg));
       }
     } on Exception {
       emit(
-        AddNewProductFailure("حدث خطأ غير متوقع برجاء المحاوله مره اخرى!!"),
+        ProductFailure("حدث خطأ غير متوقع برجاء المحاوله مره اخرى!!"),
       );
     }
-  }
-
-  emitLoading() {
-    emit(AddNewProductLoading());
   }
 }
