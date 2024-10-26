@@ -69,7 +69,6 @@ class ProductCard extends StatelessWidget {
   }
 
   Color get _cardColor {
-    return AppColors.primaryBackgroundColor;
     switch (product.qty) {
       case >= 15:
         return AppColors.primaryBackgroundColor;
@@ -80,30 +79,4 @@ class ProductCard extends StatelessWidget {
     }
     return AppColors.primaryBackgroundColor;
   }
-  //
-  // Text _requestDate(RequestModel2 request) {
-  //   DateFormat format = DateFormat('M/dd');
-  //   if (request.date.year != DateTime.now().year) {
-  //     format = DateFormat('yyyy/MM/dd');
-  //   }
-  //
-  //   return Text(
-  //     format.format(request.date),
-  //     style: TextStyle(
-  //       fontSize: 14,
-  //       color: AppColors.lightBlack,
-  //     ),
-  //   );
-  // }
-  //
-  // Text _rStatus(RequestModel2 request) {
-  //   return Text(
-  //     request.status,
-  //     style: const TextStyle(
-  //
-  //         ///todo
-  //         // color: request.statusDetails.color,
-  //         ),
-  //   );
-  // }
 }

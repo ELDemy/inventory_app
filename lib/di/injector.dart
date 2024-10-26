@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
 
 class Injector {
+  static bool isOnline = true;
+
   static final GetIt _getIt = GetIt.instance;
 
   // Initialize all the dependencies
@@ -11,7 +13,7 @@ class Injector {
   }
 
   static final DocumentReference<Map<String, dynamic>> projectDoc =
-      Injector.get<FirebaseFirestore>().doc('projects/inverters');
+      _getIt.get<FirebaseFirestore>().doc('projects/inverters');
 
   static final productsCollection = projectDoc.collection('products');
 

@@ -12,5 +12,5 @@ final class AddNewProductSuccess extends AddProductState {}
 final class AddNewProductFailure extends AddProductState {
   final String errMsg;
 
-  AddNewProductFailure({required this.errMsg});
+  AddNewProductFailure(this.errMsg);
 }

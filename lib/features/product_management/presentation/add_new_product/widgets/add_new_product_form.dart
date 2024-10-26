@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
+import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/product_management/data/cubit/add_new_product_cubit.dart';
 import 'package:inventory_app/features/product_management/presentation/components/custom_serial_text_form_field.dart';
 import 'package:inventory_app/features/product_management/presentation/components/custom_text_form_field.dart';
@@ -42,16 +43,17 @@ class _AddNewProductFormState extends State<AddNewProductForm> {
       listener: (context, state) {
         if (state is AddNewProductLoading) {
           ShowInfoUtil.hideCurrentMaterialBanner(context);
-          ScaffoldMessenger.of(context).showMaterialBanner(
-            ShowInfoUtil.loadingBanner(),
-          );
+          ShowInfoUtil.showLoadingMaterialBanner(context);
         } else if (state is AddNewProductSuccess) {
           ShowInfoUtil.hideCurrentMaterialBanner(context);
           ShowInfoUtil.showSnackBar(context, "تم اضافة المنتج بنجاح");
           _clearControllers();
+          Navigator.pop(context);
         } else if (state is AddNewProductFailure) {
-          ShowInfoUtil.hideCurrentMaterialBanner(context);
           ShowInfoUtil.showSnackBar(context, state.errMsg);
+          if (Injector.isOnline) {
+            ShowInfoUtil.hideCurrentMaterialBanner(context);
+          }
         }
       },
       child: Scaffold(
@@ -59,7 +61,7 @@ class _AddNewProductFormState extends State<AddNewProductForm> {
         body: Form(
           key: _formKey,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -99,10 +101,13 @@ class _AddNewProductFormState extends State<AddNewProductForm> {
                     controller: _outputController,
                     isRequired: true,
                   ),
-                  const SizedBox(height: 100),
+                  const SizedBox(height: 30),
                   ElevatedButton(
                     onPressed: _onSubmit,
-                    child: const Text("إضافة المنتج"),
+                    child: const Text(
+                      "إضافة المنتج",
+                      style: TextStyle(fontSize: 20),
+                    ),
                   ),
                 ],
               ),

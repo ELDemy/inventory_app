@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:inventory_app/core/models/product_model.dart';
+import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/product_management/data/service/product_management_service.dart';
 import 'package:inventory_app/features/product_management/data/service/service_state.dart';
 import 'package:meta/meta.dart';
@@ -10,6 +11,10 @@ class AddNewProductCubit extends Cubit<AddProductState> {
   AddNewProductCubit() : super(AddNewProductInitial());
 
   Future addNewProduct(ProductModel productModel) async {
+    if (!Injector.isOnline) {
+      emit(AddNewProductFailure("برجاء التحقق من الاتصال بالانترنت"));
+      return;
+    }
     emit(AddNewProductLoading());
     try {
       ServiceState? serviceState =
@@ -17,12 +22,11 @@ class AddNewProductCubit extends Cubit<AddProductState> {
       if (serviceState == null) {
         emit(AddNewProductSuccess());
       } else {
-        emit(AddNewProductFailure(errMsg: serviceState.serviceStateMsg));
+        emit(AddNewProductFailure(serviceState.serviceStateMsg));
       }
     } on Exception {
       emit(
-        AddNewProductFailure(
-            errMsg: "حدث خطأ غير متوقع برجاء المحاوله مره اخرى!!"),
+        AddNewProductFailure("حدث خطأ غير متوقع برجاء المحاوله مره اخرى!!"),
       );
     }
   }

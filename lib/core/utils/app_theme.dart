@@ -4,8 +4,7 @@ import 'app_colors.dart';
 
 class AppTheme {
   static final ThemeData appTheme = ThemeData(
-    colorScheme:
-        ColorScheme.fromSeed(seedColor: AppColors.primaryBackgroundColor),
+    colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
     scaffoldBackgroundColor: AppColors.primaryBackgroundColor,
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.primaryColor,
@@ -13,6 +12,12 @@ class AppTheme {
       scrolledUnderElevation: 5,
       shadowColor: AppColors.primaryColor,
       foregroundColor: Colors.white,
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.primaryColor,
+        foregroundColor: AppColors.foregroundColor,
+      ),
     ),
   );
 }

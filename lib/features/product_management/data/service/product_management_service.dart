@@ -46,22 +46,4 @@ class ProductManagementService {
     }
     return serviceState;
   }
-
-  void get() async {
-    try {
-      var x = await Injector.projectDoc
-          .collection("products/A1/customer_orders")
-          .where("sn_list", arrayContains: "123")
-          .get();
-
-      print("Successfully completed");
-      for (var docSnapshot in x.docs) {
-        print('${docSnapshot.id} => ${docSnapshot.data()}');
-      }
-    } on FirebaseException catch (e) {
-      print('Error fetching documents: ${e.message}');
-    } catch (e) {
-      print('An unexpected error occurred: $e');
-    }
-  }
 }

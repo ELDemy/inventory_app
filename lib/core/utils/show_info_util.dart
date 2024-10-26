@@ -15,8 +15,32 @@ class ShowInfoUtil {
     );
   }
 
-  static MaterialBanner loadingBanner() {
-    return const MaterialBanner(
+  static void showMaterialBanner(
+    BuildContext context, {
+    required String msg,
+    List<Widget> actions = const [SizedBox()],
+    bool isDismissible = false,
+  }) {
+    ScaffoldMessenger.of(context).showMaterialBanner(
+      MaterialBanner(
+        content: Text(msg),
+        backgroundColor: const Color(0xDFD32F2F),
+        actions: isDismissible
+            ? [
+                TextButton(
+                  onPressed: () {
+                    hideCurrentMaterialBanner(context);
+                  },
+                  child: const Text('اخفاء'),
+                ),
+              ]
+            : actions,
+      ),
+    );
+  }
+
+  static void showLoadingMaterialBanner(BuildContext context) {
+    ScaffoldMessenger.of(context).showMaterialBanner(const MaterialBanner(
       content: Center(
         child: SizedBox(
           height: 20,
@@ -31,7 +55,7 @@ class ShowInfoUtil {
       backgroundColor: Colors.transparent,
       // padding: EdgeInsets.symmetric(vertical: 8),
       actions: [SizedBox()],
-    );
+    ));
   }
 
   static void hideCurrentMaterialBanner(BuildContext context) {

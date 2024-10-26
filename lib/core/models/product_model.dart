@@ -30,7 +30,7 @@ class ProductModel {
       if (serialNumber!.length >= 20) {
         identifierSN = serialNumber!.substring(0, 10);
       } else if (serialNumber!.length >= 14) {
-        identifierSN = serialNumber!.substring(0, 10);
+        identifierSN = serialNumber!.substring(0, 11);
       } else {
         log("unrecognized");
         identifierSN = serialNumber;
