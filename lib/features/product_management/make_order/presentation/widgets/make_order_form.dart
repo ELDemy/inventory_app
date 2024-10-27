@@ -75,10 +75,7 @@ class _MakeOrderFormState extends State<MakeOrderForm> {
                       orderPrice: double.parse(_priceController.text),
                       quantity: int.parse(_qtyController.text),
                       clientName: _clientNameController.text,
-                      clientPhoneNumber: _clientNameController.text,
-
-                      ///todo:
-                      employee: "employeeName",
+                      clientPhoneNumber: _clientNumberController.text,
                     ),
                   );
                 }

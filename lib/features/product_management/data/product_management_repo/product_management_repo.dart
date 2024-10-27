@@ -89,4 +89,18 @@ class ProductManagementRepo {
       rethrow;
     }
   }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getOrder(String barcode) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> x = await Injector
+          .productsHistoryCollection
+          .where("serialNumbers", arrayContains: "A5380173000231200")
+          .limit(1)
+          .get();
+      return x;
+    } on Exception catch (e) {
+      log("Error getting Product $barcode  : ${e.toString()}");
+      rethrow;
+    }
+  }
 }
