@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/di/injector.dart';
@@ -53,9 +55,12 @@ class HomeCubit extends Cubit<HomeState> {
           emit(HomeFailure(error.toString()));
         },
       );
+    } on FirebaseException catch (e) {
+      log('Error fetching documents: ${e.message}');
+      return emit(HomeFailure(FirebaseFailure.fromFirebaseException(e).errMsg));
     } catch (e) {
-      print("Error at Home Cubit: ${e}");
-      emit(HomeFailure(e.toString()));
+      log("Error at Home Cubit: ${e}");
+      return emit(HomeFailure("حدث خطأ!!"));
     }
   }
 

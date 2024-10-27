@@ -8,7 +8,7 @@ class HomeRepo {
   Stream<DocumentSnapshot<Map<String, dynamic>>> getProductsStream() {
     try {
       // Return the stream of product snapshots
-      return Injector.allProductsDoc.snapshots();
+      return Injector.allProductsDoc.snapshots(includeMetadataChanges: true);
     } on FirebaseException catch (e) {
       print('Error fetching documents: ${e.message}');
       throw FirebaseFailure.fromFirebaseException(e);

@@ -40,23 +40,36 @@ class ShowInfoUtil {
     );
   }
 
-  static void showLoadingMaterialBanner(BuildContext context) {
-    ScaffoldMessenger.of(context).showMaterialBanner(const MaterialBanner(
-      content: Center(
-        child: SizedBox(
-          height: 20,
-          width: 20,
-          child: CircularProgressIndicator(
-            strokeWidth: 2,
-            strokeCap: StrokeCap.round,
+  static void showLoadingDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => const AlertDialog(
+        backgroundColor: Colors.transparent,
+        content: Center(
+          child: SizedBox(
+            height: 50,
+            width: 50,
+            child: CircularProgressIndicator(strokeCap: StrokeCap.round),
           ),
         ),
       ),
-      dividerColor: Colors.transparent,
-      backgroundColor: Colors.transparent,
-      // padding: EdgeInsets.symmetric(vertical: 8),
-      actions: [SizedBox()],
-    ));
+    );
+    // ScaffoldMessenger.of(context).showMaterialBanner(const MaterialBanner(
+    //   content: Center(
+    //     child: SizedBox(
+    //       height: 20,
+    //       width: 20,
+    //       child: CircularProgressIndicator(
+    //         strokeWidth: 2,
+    //         strokeCap: StrokeCap.round,
+    //       ),
+    //     ),
+    //   ),
+    //   dividerColor: Colors.transparent,
+    //   backgroundColor: Colors.transparent,
+    //   // padding: EdgeInsets.symmetric(vertical: 8),
+    //   actions: [SizedBox()],
+    // ));
   }
 
   static void hideCurrentMaterialBanner(BuildContext context) {
@@ -72,5 +85,17 @@ class ShowInfoUtil {
 
   static void hideCurrentSnackBar(BuildContext context) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  }
+
+  static PreferredSize loadingIndicator(bool isLoading) {
+    return PreferredSize(
+      preferredSize: const Size.fromHeight(2),
+      child: isLoading
+          ? const LinearProgressIndicator(
+              backgroundColor: Colors.transparent,
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            )
+          : const SizedBox.shrink(),
+    );
   }
 }

@@ -14,7 +14,7 @@ class ProductsList extends StatelessWidget {
     return BlocConsumer<HomeCubit, HomeState>(
       listener: (context, state) {
         if (state is HomeLoading) {
-          ShowInfoUtil.showLoadingMaterialBanner(context);
+          ShowInfoUtil.showLoadingDialog(context);
         } else if (state is InternetState) {
           state.connectionBanner(context);
         } else if (state is HomeFailure) {

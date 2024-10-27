@@ -43,7 +43,7 @@ class _AddNewProductFormState extends State<AddNewProductForm> {
       listener: (context, state) {
         if (state is AddProductLoading) {
           ShowInfoUtil.hideCurrentMaterialBanner(context);
-          ShowInfoUtil.showLoadingMaterialBanner(context);
+          ShowInfoUtil.showLoadingDialog(context);
         } else if (state is AddNewProductSuccess) {
           ShowInfoUtil.hideCurrentMaterialBanner(context);
           ShowInfoUtil.showSnackBar(context, "تم اضافة المنتج بنجاح");

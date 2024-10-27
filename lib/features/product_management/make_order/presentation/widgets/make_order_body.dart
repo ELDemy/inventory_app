@@ -15,12 +15,13 @@ class MakeOrderBody extends StatelessWidget {
     return BlocConsumer<MakeOrderCubit, MakeOrderState>(
       listener: (context, state) {
         if (state is MakeOrderLoading) {
-          ShowInfoUtil.showLoadingMaterialBanner(context);
+          ShowInfoUtil.showLoadingDialog(context);
         } else if (state is MakeOrderSuccess) {
-          ShowInfoUtil.hideCurrentMaterialBanner(context);
+          Navigator.pop(context);
           ShowInfoUtil.showSnackBar(context, "تمت العمليه بنجاح");
           Navigator.pop(context);
         } else if (state is MakeOrderFailure) {
+          Navigator.pop(context);
           ShowInfoUtil.showMaterialBanner(context,
               msg: state.errMsg, isDismissible: true);
         }

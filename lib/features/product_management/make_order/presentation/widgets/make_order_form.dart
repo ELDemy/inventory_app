@@ -72,7 +72,7 @@ class _MakeOrderFormState extends State<MakeOrderForm> {
                     OrderModel(
                       product: orderCubit.productModel,
                       serialNumbers: barcodes,
-                      orderPrice: double.parse(_priceController.text),
+                      price: double.parse(_priceController.text),
                       quantity: int.parse(_qtyController.text),
                       clientName: _clientNameController.text,
                       clientPhoneNumber: _clientNumberController.text,

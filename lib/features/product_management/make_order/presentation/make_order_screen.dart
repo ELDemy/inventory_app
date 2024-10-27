@@ -11,13 +11,11 @@ class MakeOrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("تسليم طلب"),
-      ),
-      body: BlocProvider(
-        create: (context) => MakeOrderCubit(barcode),
-        child: const MakeOrderBody(),
+    return BlocProvider(
+      create: (context) => MakeOrderCubit("802R2G124FC48878"),
+      child: Scaffold(
+        appBar: AppBar(title: const Text("تسليم طلب")),
+        body: const MakeOrderBody(),
       ),
     );
   }

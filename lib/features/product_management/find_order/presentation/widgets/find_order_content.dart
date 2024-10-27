@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/models/order_model.dart';
+import 'package:inventory_app/core/utils/date_extension.dart';
 import 'package:inventory_app/features/product_management/components/card_detail_row.dart';
 import 'package:inventory_app/features/product_management/components/product_details_card.dart';
 import 'package:inventory_app/features/product_management/find_order/data/order_cubit/find_order_cubit.dart';
@@ -18,56 +19,62 @@ class FindOrderContent extends StatelessWidget {
         child: Column(
           children: [
             ProductDetailsCard(productModel: orderModel.product, isOrder: true),
-            _clientCard(),
-            CustomCard(
-              title: "التفاصيل",
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CardDetailRow(
-                    label: "تاريخ العمليه :",
-                    content: orderModel.creationTime.toString(),
-                    iconData: Icons.date_range_rounded,
-                  ),
-                  CardDetailRow(
-                    label: "المسئول :",
-                    content: orderModel.employee,
-                    iconData: Icons.person,
-                  ),
-                  CardDetailRow(
-                    label: "سعر البيع :",
-                    content: orderModel.orderPrice.toString(),
-                    iconData: Icons.attach_money_rounded,
-                  ),
-                  CardDetailRow(
-                    label: "الكمية :",
-                    content: orderModel.quantity.toString(),
-                    iconData: Icons.numbers_rounded,
-                  ),
-                  Card(
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.only(top: 10, right: 15, bottom: 10),
-                      child: Column(
-                        children: [
-                          ...orderModel.serialNumbers.map((barcode) => Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [Text(barcode)])),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            _clientCard(orderModel),
+            _orderDetailsCard(orderModel),
           ],
         ),
       ),
     );
   }
 
-  CustomCard _clientCard() {
-    return const CustomCard(
+  CustomCard _orderDetailsCard(OrderModel orderModel) {
+    return CustomCard(
+      title: "التفاصيل",
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          CardDetailRow(
+            label: "تاريخ العمليه :",
+            content: orderModel.creationTime?.dayFormat() ?? "",
+            iconData: Icons.date_range_rounded,
+          ),
+          CardDetailRow(
+            label: "المسئول :",
+            content: orderModel.employee ?? "###",
+            iconData: Icons.person,
+          ),
+          CardDetailRow(
+            label: "سعر البيع :",
+            content: orderModel.price.toString(),
+            iconData: Icons.attach_money_rounded,
+          ),
+          CardDetailRow(
+            label: "الكمية :",
+            content: orderModel.quantity.toString(),
+            iconData: Icons.numbers_rounded,
+          ),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 10, right: 15, bottom: 10),
+              child: Column(
+                children: [
+                  ...orderModel.serialNumbers.map(
+                    (barcode) => Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [Text(barcode)],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  CustomCard _clientCard(OrderModel orderModel) {
+    return CustomCard(
       title: "بينات العميل",
       iconData: Icons.person,
       child: Column(
@@ -75,12 +82,12 @@ class FindOrderContent extends StatelessWidget {
         children: [
           CardDetailRow(
             label: "اسم العميل :",
-            content: "content",
+            content: orderModel.clientName ?? "--",
             iconData: Icons.person,
           ),
           CardDetailRow(
             label: "رقم الموبايل :",
-            content: "01098665523",
+            content: orderModel.clientPhoneNumber ?? "--",
             iconData: Icons.numbers_sharp,
           ),
         ],

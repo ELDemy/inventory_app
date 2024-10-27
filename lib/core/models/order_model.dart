@@ -4,9 +4,9 @@ import 'package:inventory_app/core/models/product_model.dart';
 class OrderModel {
   final ProductModel product;
   final List<String> serialNumbers;
-  final String employee;
+  final String? employee;
   final int quantity;
-  final double orderPrice;
+  final double price;
   final String? clientName;
   final String? clientPhoneNumber;
   final DateTime? creationTime;
@@ -14,14 +14,13 @@ class OrderModel {
   OrderModel({
     required this.product,
     required this.serialNumbers,
-    String? employee,
+    this.employee,
     this.clientName,
     this.clientPhoneNumber,
     required this.quantity,
-    required this.orderPrice,
-    DateTime? creationTime,
-  })  : this.creationTime = creationTime ?? DateTime.now(),
-        this.employee = employee ?? "employeeName";
+    required this.price,
+    this.creationTime,
+  });
 
   // Factory constructor to create OrderModel from Firestore
   factory OrderModel.fromFirestore(
@@ -33,26 +32,28 @@ class OrderModel {
       serialNumbers: data?['serialNumbers'] is Iterable
           ? List<String>.from(data?['serialNumbers'])
           : [],
-      employee: data?['employee'] ?? '',
+      employee: data?['employee'],
       clientName: data?['clientName'],
-      clientPhoneNumber: data?['clientPhoneNumber'].toString(),
-      orderPrice: data?['priceSale'] ?? 0,
+      clientPhoneNumber: data?['clientPhoneNumber'],
+      price: data?['price'] ?? 0,
       quantity: data?['quantity'] ?? 0,
-      creationTime: data?['creationTime'],
+      creationTime: data?['creationTime'] is Timestamp
+          ? (data?['creationTime'] as Timestamp).toDate()
+          : data?['creationTime'] as DateTime?,
     );
   }
 
   // Convert OrderModel to a Map for Firestore
   Map<String, dynamic> toFirestore() {
     return {
-      "product": product.toFirestore(), // Assuming product has this method
+      "creationTime": DateTime.now(),
+      "employee": "اسم الموظف",
+      "product": product.toFirestore(),
       "serialNumbers": serialNumbers,
-      "employee": employee,
-      "priceSale": orderPrice,
+      "price": price,
       "quantity": quantity,
-      "creationTime": creationTime,
-      if (clientName != null) "clientName": clientName,
-      if (clientPhoneNumber != null) "clientPhoneNumber": clientPhoneNumber,
+      "clientName": clientName,
+      "clientPhoneNumber": clientPhoneNumber,
     };
   }
 }

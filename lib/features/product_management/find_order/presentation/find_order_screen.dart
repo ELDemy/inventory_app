@@ -14,7 +14,7 @@ class FindOrderScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("بيانات المنتج")),
       body: BlocProvider(
-        create: (context) => FindOrderCubit("A538017300023120010"),
+        create: (context) => FindOrderCubit("-1"),
         child: const FindOrderBody(),
       ),
     );

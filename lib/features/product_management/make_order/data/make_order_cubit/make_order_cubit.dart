@@ -22,6 +22,9 @@ class MakeOrderCubit extends Cubit<MakeOrderState> {
 
   Future<void> fetchProduct() async {
     try {
+      if (!Injector.isOnline) {
+        return emit(ProductFailure("تأكد من الاتصال بالانترنت "));
+      }
       emit(ProductLoading());
 
       String identifierSN = BarcodeUtil.parseIdentifierFromSN(barcode);
@@ -49,6 +52,9 @@ class MakeOrderCubit extends Cubit<MakeOrderState> {
 
   Future<void> makeOrder(OrderModel orderModel) async {
     try {
+      if (!Injector.isOnline) {
+        return emit(ProductFailure("تأكد من الاتصال بالانترنت "));
+      }
       emit(MakeOrderLoading());
 
       await productManagementRepo.makeOrder(orderModel).then(
@@ -58,7 +64,9 @@ class MakeOrderCubit extends Cubit<MakeOrderState> {
         },
       ).onError(
         (error, stackTrace) {
-          emit(MakeOrderFailure("خطأ! برجاء اعادة المحاوله"));
+          return emit(
+            MakeOrderFailure("عملية غير مكتملة!! تأكد من الاتصال بالانترنت"),
+          );
         },
       );
     } on FirebaseException catch (firebaseException) {

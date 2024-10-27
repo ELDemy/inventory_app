@@ -94,7 +94,7 @@ class ProductManagementRepo {
     try {
       QuerySnapshot<Map<String, dynamic>> x = await Injector
           .productsHistoryCollection
-          .where("serialNumbers", arrayContains: "A538017300023120010")
+          .where("serialNumbers", arrayContains: barcode)
           .limit(1)
           .get();
       return x;
