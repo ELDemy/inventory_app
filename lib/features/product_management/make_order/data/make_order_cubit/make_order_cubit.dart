@@ -51,9 +51,16 @@ class MakeOrderCubit extends Cubit<MakeOrderState> {
     try {
       emit(OrderLoading());
 
-      await productManagementRepo.makeOrder(orderModel);
-
-      return emit(OrderSuccess());
+      await productManagementRepo.makeOrder(orderModel).then(
+        (value) {
+          print('Order Transaction has been created successfully.');
+          return emit(OrderSuccess());
+        },
+      ).onError(
+        (error, stackTrace) {
+          emit(OrderFailure("خطأ! برجاء اعادة المحاوله"));
+        },
+      );
     } on FirebaseException catch (firebaseException) {
       print('Error creating document: ${firebaseException.message}');
       return emit(OrderFailure(

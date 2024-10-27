@@ -10,7 +10,7 @@ class ProductManagementRepo {
   Future<DocumentSnapshot<Map<String, dynamic>>> getProduct(
       String identifierSN) async {
     try {
-      return await Injector.productsCollection.doc("802R2G124FC").get();
+      return await Injector.productsCollection.doc(identifierSN).get();
     } on Exception catch (e) {
       log("Error getting Product $identifierSN  : ${e.toString()}");
       rethrow;
@@ -40,7 +40,14 @@ class ProductManagementRepo {
               productModel.toFirestoreBasicValues(),
             );
           },
-        );
+        ).then((value) {
+          print('Order Transaction has been created successfully.');
+          return null;
+        }).onError((error, stackTrace) {
+          print("Error: $error");
+          serviceState =
+              ServiceState(serviceStateMsg: "برجاء المحاول مره اخرى");
+        });
       }
     } on FirebaseException catch (firebaseException) {
       print('Error creating document: ${firebaseException.message}');
@@ -53,13 +60,12 @@ class ProductManagementRepo {
     return serviceState;
   }
 
-  Future<ServiceState?> makeOrder(OrderModel orderModel) async {
-    ServiceState? serviceState;
+  Future<void> makeOrder(OrderModel orderModel) async {
     try {
       final DocumentReference<Map<String, dynamic>> docRef =
           Injector.productsHistoryCollection.doc();
 
-      await Injector.get<FirebaseFirestore>().runTransaction(
+      return await Injector.get<FirebaseFirestore>().runTransaction(
         (transaction) async {
           transaction.set(docRef, orderModel.toFirestore());
           transaction.update(
@@ -77,13 +83,10 @@ class ProductManagementRepo {
       );
     } on FirebaseException catch (firebaseException) {
       print('Error creating document: ${firebaseException.message}');
-      return ServiceState.firebaseException(firebaseException);
+      rethrow;
     } catch (e) {
       print('An unexpected error occurred: $e');
-      return ServiceState(
-        serviceStateMsg: "حدث خطأ غير متوقع برجاء المحاوله مره اخري!!",
-      );
+      rethrow;
     }
-    return serviceState;
   }
 }
