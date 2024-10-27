@@ -9,16 +9,19 @@ class OrderModel {
   final double orderPrice;
   final String? clientName;
   final String? clientPhoneNumber;
+  final DateTime? creationTime;
 
   OrderModel({
     required this.product,
     required this.serialNumbers,
-    required this.employee,
+    String? employee,
     this.clientName,
     this.clientPhoneNumber,
     required this.quantity,
     required this.orderPrice,
-  });
+    DateTime? creationTime,
+  })  : this.creationTime = creationTime ?? DateTime.now(),
+        this.employee = employee ?? "employeeName";
 
   // Factory constructor to create OrderModel from Firestore
   factory OrderModel.fromFirestore(
@@ -36,6 +39,7 @@ class OrderModel {
       clientPhoneNumber: data?['clientPhoneNumber'],
       orderPrice: data?['priceSale'] ?? 0,
       quantity: data?['quantity'] ?? 0,
+      creationTime: data?['creationTime'],
     );
   }
 
@@ -47,6 +51,7 @@ class OrderModel {
       "employee": employee,
       "priceSale": orderPrice,
       "quantity": quantity,
+      "creationTime": creationTime,
       if (clientName != null) "clientName": clientName,
       if (clientPhoneNumber != null) "clientPhoneNumber": clientPhoneNumber,
     };

@@ -14,7 +14,7 @@ class ProductModel {
   ProductModel({
     this.serialNumber,
     this.identifierSN,
-    required this.productName,
+    this.productName,
     this.price = 0,
     this.qty = 0,
     this.power,

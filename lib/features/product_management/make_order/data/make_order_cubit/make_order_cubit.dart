@@ -49,26 +49,27 @@ class MakeOrderCubit extends Cubit<MakeOrderState> {
 
   Future<void> makeOrder(OrderModel orderModel) async {
     try {
-      emit(OrderLoading());
+      emit(MakeOrderLoading());
 
       await productManagementRepo.makeOrder(orderModel).then(
         (value) {
           print('Order Transaction has been created successfully.');
-          return emit(OrderSuccess());
+          return emit(MakeOrderSuccess());
         },
       ).onError(
         (error, stackTrace) {
-          emit(OrderFailure("خطأ! برجاء اعادة المحاوله"));
+          emit(MakeOrderFailure("خطأ! برجاء اعادة المحاوله"));
         },
       );
     } on FirebaseException catch (firebaseException) {
       print('Error creating document: ${firebaseException.message}');
-      return emit(OrderFailure(
+      return emit(MakeOrderFailure(
         FirebaseFailure.fromFirebaseException(firebaseException).errMsg,
       ));
     } catch (e) {
       print('An unexpected error occurred: $e');
-      return emit(OrderFailure("حدث خطأ غير متوقع برجاء المحاوله مره اخري!!"));
+      return emit(
+          MakeOrderFailure("حدث خطأ غير متوقع برجاء المحاوله مره اخري!!"));
     }
   }
 }

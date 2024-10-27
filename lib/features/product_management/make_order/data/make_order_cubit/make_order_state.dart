@@ -21,12 +21,12 @@ final class ProductFailure extends FetchProductState {
 @immutable
 sealed class MakingOrderState extends MakeOrderState {}
 
-final class OrderLoading extends MakingOrderState {}
+final class MakeOrderLoading extends MakingOrderState {}
 
-final class OrderSuccess extends MakingOrderState {}
+final class MakeOrderSuccess extends MakingOrderState {}
 
-final class OrderFailure extends MakingOrderState {
+final class MakeOrderFailure extends MakingOrderState {
   final String errMsg;
 
-  OrderFailure(this.errMsg);
+  MakeOrderFailure(this.errMsg);
 }

@@ -6,16 +6,16 @@ import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/features/product_management/make_order/data/make_order_cubit/make_order_cubit.dart';
 
 import 'custom_card.dart';
-import 'order_details_card.dart';
+import 'make_order_details_form.dart';
 
-class OrderForm extends StatefulWidget {
-  const OrderForm({super.key});
+class MakeOrderForm extends StatefulWidget {
+  const MakeOrderForm({super.key});
 
   @override
-  State<OrderForm> createState() => _OrderFormState();
+  State<MakeOrderForm> createState() => _MakeOrderFormState();
 }
 
-class _OrderFormState extends State<OrderForm> {
+class _MakeOrderFormState extends State<MakeOrderForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController _clientNameController = TextEditingController();
@@ -51,7 +51,7 @@ class _OrderFormState extends State<OrderForm> {
               ],
             ),
           ),
-          OrderDetails(
+          MakeOrderDetailsForm(
             qtyController: _qtyController,
             priceController: _priceController,
             productModel: orderCubit.productModel,

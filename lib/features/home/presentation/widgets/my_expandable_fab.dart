@@ -3,6 +3,7 @@ import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
 import 'package:inventory_app/core/utils/barcode_util.dart';
+import 'package:inventory_app/features/product_management/find_order/presentation/find_order_screen.dart';
 import 'package:inventory_app/features/product_management/make_order/presentation/make_order_screen.dart';
 
 class MyExpandableFAB extends StatefulWidget {
@@ -38,6 +39,32 @@ class _MyExpandableFABState extends State<MyExpandableFAB> {
     );
   }
 
+  FloatingActionButton _scanBarcodeButton() {
+    return FloatingActionButton(
+      heroTag: "scanBarcode",
+      backgroundColor: AppColors.primaryColor,
+      foregroundColor: AppColors.foregroundColor,
+      child: SvgPicture.asset(
+        height: 35,
+        "assets/icons/barcode-icon.svg",
+        colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+      ),
+      onPressed: () async {
+        _key.currentState?.toggle();
+        String barcodeScanRes = await BarcodeUtil.scanBarcodeNormal();
+
+        ///todo:
+        // if (barcodeScanRes != -1) return; // to not push if the code is invalid
+
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    FindOrderScreen(barcode: barcodeScanRes)));
+      },
+    );
+  }
+
   FloatingActionButton _orderButton(BuildContext context) {
     return FloatingActionButton(
       heroTag: "order",
@@ -53,25 +80,11 @@ class _MyExpandableFABState extends State<MyExpandableFAB> {
         // if (barcodeScanRes != -1) return; // to not push if the code is invalid
 
         Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => MakeOrderScreen(barcode: barcodeScanRes)),
-        );
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    MakeOrderScreen(barcode: barcodeScanRes)));
       },
-    );
-  }
-
-  FloatingActionButton _scanBarcodeButton() {
-    return FloatingActionButton(
-      heroTag: "scanBarcode",
-      backgroundColor: AppColors.primaryColor,
-      foregroundColor: AppColors.foregroundColor,
-      child: SvgPicture.asset(
-        height: 35,
-        "assets/icons/barcode-icon.svg",
-        colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-      ),
-      onPressed: () async {},
     );
   }
 

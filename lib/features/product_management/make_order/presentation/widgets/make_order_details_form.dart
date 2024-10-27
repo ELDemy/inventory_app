@@ -8,8 +8,8 @@ import 'package:inventory_app/core/utils/show_info_util.dart';
 
 import 'custom_card.dart';
 
-class OrderDetails extends StatefulWidget {
-  const OrderDetails({
+class MakeOrderDetailsForm extends StatefulWidget {
+  const MakeOrderDetailsForm({
     super.key,
     required this.qtyController,
     required this.priceController,
@@ -22,10 +22,10 @@ class OrderDetails extends StatefulWidget {
   final ProductModel productModel;
   final List<String> barcodes;
   @override
-  State<OrderDetails> createState() => _OrderDetailsState();
+  State<MakeOrderDetailsForm> createState() => _MakeOrderDetailsFormState();
 }
 
-class _OrderDetailsState extends State<OrderDetails> {
+class _MakeOrderDetailsFormState extends State<MakeOrderDetailsForm> {
   @override
   Widget build(BuildContext context) {
     return CustomCard(
