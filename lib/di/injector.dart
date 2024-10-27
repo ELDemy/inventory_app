@@ -17,7 +17,11 @@ class Injector {
   static final DocumentReference<Map<String, dynamic>> projectDoc =
       _getIt.get<FirebaseFirestore>().doc('projects/inverters');
 
-  static final productsCollection = projectDoc.collection('products');
+  static final CollectionReference<Map<String, dynamic>> productsCollection =
+      projectDoc.collection('products');
+
+  static final CollectionReference<Map<String, dynamic>>
+      productsHistoryCollection = projectDoc.collection('products_history');
 
   static final DocumentReference<Map<String, dynamic>> allProductsDoc =
       productsCollection.doc('all');

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
 import 'package:inventory_app/features/product_management/make_order/data/make_order_cubit/make_order_cubit.dart';
 
@@ -12,10 +11,9 @@ class ProductDetailsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ProductModel productModel =
-        BlocProvider.of<MakeOrderCubit>(context).productModel;
+    MakeOrderCubit orderCubit = BlocProvider.of<MakeOrderCubit>(context);
     return CustomCard(
-      title: productModel.productName ?? "###",
+      title: orderCubit.productModel.productName ?? "###",
       iconData: Icons.inventory_2_outlined,
       child: Row(
         children: [
@@ -26,33 +24,33 @@ class ProductDetailsCard extends StatelessWidget {
               children: [
                 ProductDetailRow(
                   label: "",
-                  content: "${productModel.identifierSN ?? "###"} ",
+                  content: "${orderCubit.productModel.identifierSN ?? "###"} ",
                   iconWidget: barcodeIcon(),
                 ),
                 ProductDetailRow(
                   label: "Power :",
-                  content: "${productModel.power ?? "###"} ",
+                  content: "${orderCubit.productModel.power ?? "###"} ",
                   iconData: Icons.bolt,
                 ),
                 ProductDetailRow(
                   label: "Input :",
-                  content: "${productModel.input ?? "###"} ",
+                  content: "${orderCubit.productModel.input ?? "###"} ",
                   iconData: Icons.south_west_rounded,
                 ),
                 ProductDetailRow(
                   label: "Output :",
-                  content: "${productModel.output ?? "###"} ",
+                  content: "${orderCubit.productModel.output ?? "###"} ",
                   iconData: Icons.north_east,
                 ),
                 ProductDetailRow(
                   label: "السعر :",
-                  content: "${productModel.price} ",
+                  content: "${orderCubit.productModel.price}",
                   iconData: Icons.attach_money_rounded,
                 ),
                 ProductDetailRow(
                   label: "الكمية المتاحة :",
-                  content: "${productModel.qty}",
-                  iconData: Icons.inventory_2_outlined,
+                  content: "${orderCubit.productModel.qty}",
+                  iconData: Icons.inventory_rounded,
                 ),
               ],
             ),

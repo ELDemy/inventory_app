@@ -21,6 +21,7 @@ class ShowInfoUtil {
     List<Widget> actions = const [SizedBox()],
     bool isDismissible = false,
   }) {
+    hideCurrentMaterialBanner(context);
     ScaffoldMessenger.of(context).showMaterialBanner(
       MaterialBanner(
         content: Text(msg),
@@ -63,12 +64,13 @@ class ShowInfoUtil {
   }
 
   static void showSnackBar(BuildContext context, String content) {
+    hideCurrentSnackBar(context);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(content)),
     );
   }
 
-  static void hideCurrentSnackBar(BuildContext context, String content) {
+  static void hideCurrentSnackBar(BuildContext context) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
   }
 }

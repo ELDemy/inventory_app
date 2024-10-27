@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/features/product_management/make_order/data/make_order_cubit/make_order_cubit.dart';
 
-class OrderFailureScreen extends StatelessWidget {
-  const OrderFailureScreen({super.key, required this.errMsg});
+class ProductFailureScreen extends StatelessWidget {
+  const ProductFailureScreen({super.key, required this.errMsg});
 
   final String errMsg;
 

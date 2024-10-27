@@ -1,11 +1,22 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/product_management/data/product_management_repo/service_state.dart';
 
 class ProductManagementRepo {
+  Future<DocumentSnapshot<Map<String, dynamic>>> getProduct(
+      String identifierSN) async {
+    try {
+      return await Injector.productsCollection.doc("802R2G124FC").get();
+    } on Exception catch (e) {
+      log("Error getting Product $identifierSN  : ${e.toString()}");
+      rethrow;
+    }
+  }
+
   Future<ServiceState?> addNewProductModel(ProductModel productModel) async {
     ServiceState? serviceState;
     try {
@@ -21,7 +32,7 @@ class ProductManagementRepo {
             serviceStateMsg:
                 "المنتج رقم ${productModel.identifierSN} موجود بالفعل ");
       } else {
-        Injector.get<FirebaseFirestore>().runTransaction(
+        await Injector.get<FirebaseFirestore>().runTransaction(
           (transaction) async {
             transaction.set(docRef, productModel.toFirestore());
             transaction.update(
@@ -29,14 +40,7 @@ class ProductManagementRepo {
               productModel.toFirestoreBasicValues(),
             );
           },
-        ).then((value) {
-          print(
-              'Document with ID ${productModel.identifierSN} has been created.');
-        }).onError((error, stackTrace) {
-          print("Error: $error");
-          serviceState =
-              ServiceState(serviceStateMsg: "برجاء المحاول مره اخرى");
-        });
+        );
       }
     } on FirebaseException catch (firebaseException) {
       print('Error creating document: ${firebaseException.message}');
@@ -49,13 +53,37 @@ class ProductManagementRepo {
     return serviceState;
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getProduct(
-      String identifierSN) async {
+  Future<ServiceState?> makeOrder(OrderModel orderModel) async {
+    ServiceState? serviceState;
     try {
-      return await Injector.productsCollection.doc("802R2G124FC").get();
-    } on Exception catch (e) {
-      log("Error getting Product $identifierSN  : ${e.toString()}");
-      rethrow;
+      final DocumentReference<Map<String, dynamic>> docRef =
+          Injector.productsHistoryCollection.doc();
+
+      await Injector.get<FirebaseFirestore>().runTransaction(
+        (transaction) async {
+          transaction.set(docRef, orderModel.toFirestore());
+          transaction.update(
+            Injector.allProductsDoc,
+            {
+              '${orderModel.product.identifierSN}.quantity':
+                  FieldValue.increment(-orderModel.quantity),
+            },
+          );
+          transaction.update(
+            Injector.productsCollection.doc(orderModel.product.identifierSN),
+            {'quantity': FieldValue.increment(-orderModel.quantity)},
+          );
+        },
+      );
+    } on FirebaseException catch (firebaseException) {
+      print('Error creating document: ${firebaseException.message}');
+      return ServiceState.firebaseException(firebaseException);
+    } catch (e) {
+      print('An unexpected error occurred: $e');
+      return ServiceState(
+        serviceStateMsg: "حدث خطأ غير متوقع برجاء المحاوله مره اخري!!",
+      );
     }
+    return serviceState;
   }
 }
