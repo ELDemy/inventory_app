@@ -6,6 +6,7 @@ class OrderModel {
   final List<String> serialNumbers;
   final String employee;
   final int quantity;
+  final double orderPrice;
   final String? clientName;
   final String? clientPhoneNumber;
 
@@ -15,7 +16,9 @@ class OrderModel {
     required this.employee,
     this.clientName,
     this.clientPhoneNumber,
-  }) : quantity = serialNumbers.length;
+    required this.quantity,
+    required this.orderPrice,
+  });
 
   // Factory constructor to create OrderModel from Firestore
   factory OrderModel.fromFirestore(
@@ -31,6 +34,8 @@ class OrderModel {
       employee: data?['employee'] ?? '',
       clientName: data?['clientName'],
       clientPhoneNumber: data?['clientPhoneNumber'],
+      orderPrice: data?['priceSale'] ?? 0,
+      quantity: data?['quantity'] ?? 0,
     );
   }
 
@@ -40,6 +45,8 @@ class OrderModel {
       "product": product.toFirestore(), // Assuming product has this method
       "serialNumbers": serialNumbers,
       "employee": employee,
+      "priceSale": orderPrice,
+      "quantity": quantity,
       if (clientName != null) "clientName": clientName,
       if (clientPhoneNumber != null) "clientPhoneNumber": clientPhoneNumber,
     };

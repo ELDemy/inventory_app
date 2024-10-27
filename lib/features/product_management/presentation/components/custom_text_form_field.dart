@@ -10,6 +10,7 @@ class CustomTextFormField extends StatelessWidget {
     this.suffixIcon,
     this.isRequired = false,
     this.isNumbersOnly = false,
+    this.onChanged,
   });
 
   final bool isRequired;
@@ -17,11 +18,13 @@ class CustomTextFormField extends StatelessWidget {
   final Widget? suffixIcon;
   final TextEditingController controller;
   final bool isNumbersOnly;
+  final Function(String value)? onChanged;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: TextFormField(
+        onChanged: onChanged,
         controller: controller,
         validator: _validator,
         autovalidateMode: AutovalidateMode.onUserInteraction,

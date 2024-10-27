@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
 
-class MyOrderCard extends StatelessWidget {
-  const MyOrderCard({
-    super.key,
-    required this.child,
-    required this.title,
-  });
+class CustomCard extends StatelessWidget {
+  const CustomCard(
+      {super.key, required this.child, required this.title, this.iconData});
 
   final Widget child;
   final String title;
+  final IconData? iconData;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -17,14 +15,22 @@ class MyOrderCard extends StatelessWidget {
       child: Card(
         elevation: 5,
         color: AppColors.primaryBackgroundColor,
-        // surfaceTintColor: AppColors.primaryColor,
+        // surfaceTintColor: AppColors.primaryColor.withOpacity(0),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 10),
           child: Column(
             children: [
-              Text(
-                title,
-                style: const TextStyle(fontSize: 18),
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Icon(iconData ?? Icons.info_outline_rounded, size: 20),
+                  const SizedBox(width: 5),
+                  Text(
+                    title,
+                    style: const TextStyle(fontSize: 18),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
               const Divider(color: AppColors.primaryColor, thickness: 1),
               child,

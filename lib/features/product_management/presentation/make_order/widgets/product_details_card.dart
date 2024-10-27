@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
 
-import 'my_order_card.dart';
+import 'custom_card.dart';
 
-class ProductCard extends StatelessWidget {
-  const ProductCard({
+class ProductDetailsCard extends StatelessWidget {
+  const ProductDetailsCard({
     super.key,
     required this.productModel,
   });
@@ -14,8 +15,9 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MyOrderCard(
-      title: "بيانات المنتج",
+    return CustomCard(
+      title: productModel.productName ?? "###",
+      iconData: Icons.inventory_2_outlined,
       child: Row(
         children: [
           Expanded(
@@ -23,33 +25,35 @@ class ProductCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                ProductDetail(
-                  label: "اسم الموديل :",
-                  content: "${productModel.productName ?? "###"} ",
-                ),
-                ProductDetail(
-                  label: "المعرف :",
+                ProductDetailRow(
+                  label: "",
                   content: "${productModel.identifierSN ?? "###"} ",
+                  iconWidget: barcodeIcon(),
                 ),
-                ProductDetail(
+                ProductDetailRow(
                   label: "Power :",
                   content: "${productModel.power ?? "###"} ",
+                  iconData: Icons.bolt,
                 ),
-                ProductDetail(
+                ProductDetailRow(
                   label: "Input :",
                   content: "${productModel.input ?? "###"} ",
+                  iconData: Icons.south_west_rounded,
                 ),
-                ProductDetail(
+                ProductDetailRow(
                   label: "Output :",
                   content: "${productModel.output ?? "###"} ",
+                  iconData: Icons.north_east,
                 ),
-                ProductDetail(
+                ProductDetailRow(
                   label: "السعر :",
                   content: "${productModel.price} ",
+                  iconData: Icons.attach_money_rounded,
                 ),
-                ProductDetail(
+                ProductDetailRow(
                   label: "الكمية المتاحة :",
                   content: "${productModel.qty}",
+                  iconData: Icons.inventory_2_outlined,
                 ),
               ],
             ),
@@ -58,35 +62,52 @@ class ProductCard extends StatelessWidget {
       ),
     );
   }
+
+  SvgPicture barcodeIcon() {
+    return SvgPicture.asset(
+      height: 18,
+      "assets/icons/barcode-icon.svg",
+      colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
+    );
+  }
 }
 
-class ProductDetail extends StatelessWidget {
-  const ProductDetail({
+class ProductDetailRow extends StatelessWidget {
+  const ProductDetailRow({
     super.key,
     required this.label,
     required this.content,
+    this.iconWidget,
+    this.iconData,
   });
 
   final String label;
   final String content;
+  final Widget? iconWidget;
+  final IconData? iconData;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Wrap(
         children: [
-          Text(
-            label,
-            style: const TextStyle(
-              color: AppColors.primaryColor,
-              fontSize: 18,
-            ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              iconWidget ?? Icon(iconData, size: 20),
+              const SizedBox(width: 5),
+              Text(
+                label,
+                style: const TextStyle(
+                    color: AppColors.primaryColor, fontSize: 18),
+              ),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.only(right: 10.0),
             child: Text(
               content,
-              style: const TextStyle(fontSize: 24),
+              style: const TextStyle(fontSize: 20),
             ),
           )
         ],

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 
 import 'order_form.dart';
-import 'product_card.dart';
+import 'product_details_card.dart';
 
 class OrderContent extends StatelessWidget {
   const OrderContent({
@@ -20,7 +20,7 @@ class OrderContent extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 10),
-            ProductCard(productModel: productModel),
+            ProductDetailsCard(productModel: productModel),
             OrderForm(productModel: productModel),
           ],
         ),

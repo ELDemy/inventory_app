@@ -13,7 +13,7 @@ class MakeOrderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("تسليم عميل"),
+        title: const Text("تسليم طلب"),
       ),
       body: BlocProvider(
         create: (context) => ProductManagementCubit(),
