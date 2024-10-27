@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
+import 'package:inventory_app/features/product_management/make_order/data/make_order_cubit/make_order_cubit.dart';
 
 import 'custom_card.dart';
 
 class ProductDetailsCard extends StatelessWidget {
-  const ProductDetailsCard({
-    super.key,
-    required this.productModel,
-  });
-
-  final ProductModel productModel;
+  const ProductDetailsCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    ProductModel productModel =
+        BlocProvider.of<MakeOrderCubit>(context).productModel;
     return CustomCard(
       title: productModel.productName ?? "###",
       iconData: Icons.inventory_2_outlined,

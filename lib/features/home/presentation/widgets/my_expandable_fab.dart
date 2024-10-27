@@ -3,7 +3,7 @@ import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
 import 'package:inventory_app/core/utils/barcode_util.dart';
-import 'package:inventory_app/features/product_management/presentation/make_order/make_order_screen.dart';
+import 'package:inventory_app/features/product_management/make_order/presentation/make_order_screen.dart';
 
 class MyExpandableFAB extends StatefulWidget {
   const MyExpandableFAB({

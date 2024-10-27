@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_app/core/components/custom_text_form_field.dart';
 import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
 import 'package:inventory_app/core/utils/app_icons.dart';
 import 'package:inventory_app/core/utils/barcode_util.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
-import 'package:inventory_app/features/product_management/presentation/components/custom_text_form_field.dart';
-import 'package:inventory_app/features/product_management/presentation/make_order/widgets/custom_card.dart';
+import 'package:inventory_app/features/product_management/make_order/data/make_order_cubit/make_order_cubit.dart';
+
+import 'custom_card.dart';
 
 class OrderForm extends StatefulWidget {
-  const OrderForm({super.key, required this.productModel});
-  final ProductModel productModel;
+  const OrderForm({super.key});
+
   @override
   State<OrderForm> createState() => _OrderFormState();
 }
@@ -24,8 +27,11 @@ class _OrderFormState extends State<OrderForm> {
   final TextEditingController _priceController = TextEditingController();
 
   final List<String> barcodes = [];
+
   @override
   Widget build(BuildContext context) {
+    ProductModel productModel =
+        BlocProvider.of<MakeOrderCubit>(context).productModel;
     return Form(
       key: _formKey,
       child: Column(
@@ -52,7 +58,7 @@ class _OrderFormState extends State<OrderForm> {
           OrderDetails(
             qtyController: _qtyController,
             priceController: _priceController,
-            productModel: widget.productModel,
+            productModel: productModel,
             barcodes: barcodes,
           ),
           Padding(
@@ -69,7 +75,7 @@ class _OrderFormState extends State<OrderForm> {
                 }
                 if (_formKey.currentState!.validate()) {
                   var x = OrderModel(
-                    product: widget.productModel,
+                    product: productModel,
                     serialNumbers: barcodes,
                     orderPrice: double.parse(_priceController.text),
                     quantity: int.parse(_qtyController.text),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inventory_app/core/utils/barcode_util.dart';
 
-import 'custom_text_form_field.dart';
+import '../../../../core/components/custom_text_form_field.dart';
 
 class CustomSerialTextFormField extends StatelessWidget {
   const CustomSerialTextFormField({super.key, required this.controller});

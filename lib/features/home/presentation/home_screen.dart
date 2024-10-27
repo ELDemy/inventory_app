@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:inventory_app/features/home/data/cubit/home_cubit.dart';
-import 'package:inventory_app/features/product_management/presentation/add_new_product/add_new_product_screen.dart';
+import 'package:inventory_app/features/product_management/add_new_product/presentation/add_new_product_screen.dart';
 
 import 'widgets/my_expandable_fab.dart';
 import 'widgets/products_list.dart';

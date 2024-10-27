@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_app/features/product_management/data/cubit/product_management_cubit.dart';
+import 'package:inventory_app/features/product_management/make_order/data/make_order_cubit/make_order_cubit.dart';
 
-class OrderFailure extends StatelessWidget {
-  const OrderFailure({
-    super.key,
-    required this.barcode,
-    required this.errMsg,
-  });
+class OrderFailureScreen extends StatelessWidget {
+  const OrderFailureScreen({super.key, required this.errMsg});
 
-  final String barcode;
   final String errMsg;
 
   @override
@@ -27,12 +22,11 @@ class OrderFailure extends StatelessWidget {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              BlocProvider.of<ProductManagementCubit>(context)
-                  .getProduct(barcode);
+              BlocProvider.of<MakeOrderCubit>(context).fetchProduct();
             },
             child: const Text("اعادة المحاولة"),
           ),
-          Text(barcode),
+          Text(BlocProvider.of<MakeOrderCubit>(context).barcode),
         ],
       ),
     );
