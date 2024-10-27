@@ -26,27 +26,23 @@ class FindOrderCubit extends Cubit<FindOrderState> {
 
       QuerySnapshot<Map<String, dynamic>> qSnapshot =
           await productManagementRepo.getOrder(barcode);
-      print("ELDEMY qSnapshot ::${qSnapshot.size}");
 
       if (qSnapshot.docs.isNotEmpty) {
-        QueryDocumentSnapshot<Map<String, dynamic>> docSnapshot =
-            qSnapshot.docs[0];
-        print("ELDEMY ::${docSnapshot}");
-        orderModel = OrderModel.fromFirestore(docSnapshot, null);
+        DocumentSnapshot<Map<String, dynamic>> docSnapshot = qSnapshot.docs[0];
+
+        orderModel = OrderModel.fromFirestore(docSnapshot.data(), null);
         return emit(FindOrderSuccess());
       } else {
         return emit(FindOrderFailure(
-            "المنتج بمعرف رقم $barcode  غير موجود في قاعدة البيانات \n "));
+            "المنتج بمعرف رقم $barcode  غير موجود في قاعدة البيانات "));
       }
     } on FirebaseException catch (firebaseException) {
       print('Error getting document: ${firebaseException.message}');
       return emit(FindOrderFailure(
-        FirebaseFailure.fromFirebaseException(firebaseException).errMsg,
-      ));
+          FirebaseFailure.fromFirebaseException(firebaseException).errMsg));
     } catch (e) {
       print('An unexpected error occurred: $e');
-      return emit(
-          FindOrderFailure("حدث خطأ غير متوقع برجاء المحاوله مره اخري!!"));
+      return emit(FindOrderFailure("حدث خطأ !! برجاء المحاوله مره اخري!!"));
     }
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inventory_app/core/models/product_model.dart';
-import 'package:inventory_app/core/utils/app_colors.dart';
 
 import '../make_order/presentation/widgets/custom_card.dart';
+import 'card_detail_row.dart';
 
 class ProductDetailsCard extends StatelessWidget {
   const ProductDetailsCard(
@@ -23,34 +23,34 @@ class ProductDetailsCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                ProductDetailRow(
+                CardDetailRow(
                   label: "",
                   content: "${productModel.identifierSN ?? "###"} ",
                   iconWidget: barcodeIcon(),
                 ),
-                ProductDetailRow(
+                CardDetailRow(
                   label: "Power :",
                   content: "${productModel.power ?? "###"} ",
                   iconData: Icons.bolt,
                 ),
-                ProductDetailRow(
+                CardDetailRow(
                   label: "Input :",
                   content: "${productModel.input ?? "###"} ",
                   iconData: Icons.south_west_rounded,
                 ),
-                ProductDetailRow(
+                CardDetailRow(
                   label: "Output :",
                   content: "${productModel.output ?? "###"} ",
                   iconData: Icons.north_east,
                 ),
                 if (!isOrder)
-                  ProductDetailRow(
+                  CardDetailRow(
                     label: "السعر :",
                     content: "${productModel.price}",
                     iconData: Icons.attach_money_rounded,
                   ),
                 if (!isOrder)
-                  ProductDetailRow(
+                  CardDetailRow(
                     label: "الكمية المتاحة :",
                     content: "${productModel.qty}",
                     iconData: Icons.inventory_rounded,
@@ -68,50 +68,6 @@ class ProductDetailsCard extends StatelessWidget {
       height: 18,
       "assets/icons/barcode-icon.svg",
       colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
-    );
-  }
-}
-
-class ProductDetailRow extends StatelessWidget {
-  const ProductDetailRow({
-    super.key,
-    required this.label,
-    required this.content,
-    this.iconWidget,
-    this.iconData,
-  });
-
-  final String label;
-  final String content;
-  final Widget? iconWidget;
-  final IconData? iconData;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Wrap(
-        children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              iconWidget ?? Icon(iconData, size: 20),
-              const SizedBox(width: 5),
-              Text(
-                label,
-                style: const TextStyle(
-                    color: AppColors.primaryColor, fontSize: 18),
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 10.0),
-            child: Text(
-              content,
-              style: const TextStyle(fontSize: 20),
-            ),
-          )
-        ],
-      ),
     );
   }
 }

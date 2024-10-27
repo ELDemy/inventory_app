@@ -3,7 +3,7 @@ import 'package:inventory_app/core/utils/app_colors.dart';
 
 class CustomCard extends StatelessWidget {
   const CustomCard(
-      {super.key, required this.child, required this.title, this.iconData});
+      {super.key, required this.title, required this.child, this.iconData});
 
   final Widget child;
   final String title;
@@ -33,7 +33,11 @@ class CustomCard extends StatelessWidget {
                 ],
               ),
               const Divider(color: AppColors.primaryColor, thickness: 1),
-              child,
+              Row(
+                children: [
+                  Expanded(child: child),
+                ],
+              ),
             ],
           ),
         ),

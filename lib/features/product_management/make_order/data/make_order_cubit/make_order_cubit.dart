@@ -29,7 +29,7 @@ class MakeOrderCubit extends Cubit<MakeOrderState> {
           await productManagementRepo.getProduct(identifierSN);
 
       if (docSnapshot.exists) {
-        productModel = ProductModel.fromFirestore(docSnapshot, null);
+        productModel = ProductModel.fromFirestore(docSnapshot.data(), null);
         return emit(ProductLoaded());
       } else {
         return emit(ProductFailure(

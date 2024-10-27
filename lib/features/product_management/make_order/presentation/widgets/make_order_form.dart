@@ -34,7 +34,7 @@ class _MakeOrderFormState extends State<MakeOrderForm> {
         children: [
           CustomCard(
             title: "بيانات العميل",
-            iconData: Icons.account_circle,
+            iconData: Icons.person,
             child: Column(
               children: [
                 CustomTextFormField(

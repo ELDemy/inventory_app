@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_app/core/utils/app_colors.dart';
+import 'package:inventory_app/core/components/failure_screen.dart';
+import 'package:inventory_app/core/components/my_citcular_loading.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/features/product_management/make_order/data/make_order_cubit/make_order_cubit.dart';
 
 import 'make_order_content.dart';
-import 'product_failure_screen.dart';
 
 class MakeOrderBody extends StatelessWidget {
   const MakeOrderBody({super.key});
@@ -27,11 +27,11 @@ class MakeOrderBody extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is ProductLoading || state is MakeOrderInitial) {
-          return _circularProgress();
+          return const MyCircularLoading();
         } else if (state is ProductLoaded || state is MakingOrderState) {
           return const MakeOrderContent();
         } else if (state is ProductFailure) {
-          return ProductFailureScreen(errMsg: state.errMsg);
+          return _failureScreen(state, context);
         } else {
           return const Center(
             child: Text("خطأ برجاء المحاوله مره اخرى!!! "),
@@ -41,8 +41,12 @@ class MakeOrderBody extends StatelessWidget {
     );
   }
 
-  Center _circularProgress() {
-    return const Center(
-        child: CircularProgressIndicator(color: AppColors.primaryColor));
+  FailureScreen _failureScreen(ProductFailure state, BuildContext context) {
+    MakeOrderCubit makeOrderCubit = BlocProvider.of<MakeOrderCubit>(context);
+    return FailureScreen(
+      errMsg: state.errMsg,
+      bottomText: makeOrderCubit.barcode,
+      onTap: () => makeOrderCubit.fetchProduct(),
+    );
   }
 }

@@ -25,10 +25,9 @@ class OrderModel {
 
   // Factory constructor to create OrderModel from Firestore
   factory OrderModel.fromFirestore(
-    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    Map<String, dynamic>? data,
     SnapshotOptions? options,
   ) {
-    final data = snapshot.data();
     return OrderModel(
       product: ProductModel.fromFirestore(data?['product'], null),
       serialNumbers: data?['serialNumbers'] is Iterable
@@ -36,7 +35,7 @@ class OrderModel {
           : [],
       employee: data?['employee'] ?? '',
       clientName: data?['clientName'],
-      clientPhoneNumber: data?['clientPhoneNumber'],
+      clientPhoneNumber: data?['clientPhoneNumber'].toString(),
       orderPrice: data?['priceSale'] ?? 0,
       quantity: data?['quantity'] ?? 0,
       creationTime: data?['creationTime'],
