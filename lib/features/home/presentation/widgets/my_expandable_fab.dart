@@ -3,6 +3,7 @@ import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
 import 'package:inventory_app/core/utils/barcode_util.dart';
+import 'package:inventory_app/features/product_management/add_edit_product/presentation/add_new_product/add_new_product_screen.dart';
 import 'package:inventory_app/features/product_management/find_order/presentation/find_order_screen.dart';
 import 'package:inventory_app/features/product_management/make_order/presentation/make_order_screen.dart';
 
@@ -34,7 +35,8 @@ class _MyExpandableFABState extends State<MyExpandableFAB> {
       closeButtonBuilder: _closedButtonBuilder(),
       children: [
         _scanBarcodeButton(),
-        _orderButton(context),
+        _orderButton(),
+        _addNewProductButton(),
       ],
     );
   }
@@ -52,20 +54,19 @@ class _MyExpandableFABState extends State<MyExpandableFAB> {
       onPressed: () async {
         _key.currentState?.toggle();
         String barcodeScanRes = await BarcodeUtil.scanBarcodeNormal();
-
-        ///todo:
-        // if (barcodeScanRes != -1) return; // to not push if the code is invalid
+        if (barcodeScanRes == "-1")
+          return; // to not push if the code is invalid
 
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    FindOrderScreen(barcode: barcodeScanRes)));
+          context,
+          MaterialPageRoute(
+              builder: (context) => FindOrderScreen(barcode: barcodeScanRes)),
+        );
       },
     );
   }
 
-  FloatingActionButton _orderButton(BuildContext context) {
+  FloatingActionButton _orderButton() {
     return FloatingActionButton(
       heroTag: "order",
       backgroundColor: AppColors.primaryColor,
@@ -75,15 +76,33 @@ class _MyExpandableFABState extends State<MyExpandableFAB> {
         _key.currentState?.toggle();
 
         String barcodeScanRes = await BarcodeUtil.scanBarcodeNormal();
-
-        ///todo:
-        // if (barcodeScanRes != -1) return; // to not push if the code is invalid
+        if (barcodeScanRes == "-1")
+          return; // to not push if the code is invalid
 
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    MakeOrderScreen(barcode: barcodeScanRes)));
+          context,
+          MaterialPageRoute(
+              builder: (context) => MakeOrderScreen(barcode: barcodeScanRes)),
+        );
+      },
+    );
+  }
+
+  FloatingActionButton _addNewProductButton() {
+    return FloatingActionButton(
+      heroTag: "add order",
+      backgroundColor: AppColors.primaryColor,
+      foregroundColor: AppColors.foregroundColor,
+      child: const Icon(
+        Icons.add_circle_outline_rounded,
+        size: 26,
+      ),
+      onPressed: () async {
+        _key.currentState?.toggle();
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AddNewProductScreen()),
+        );
       },
     );
   }

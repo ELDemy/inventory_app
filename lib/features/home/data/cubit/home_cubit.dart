@@ -22,6 +22,27 @@ class HomeCubit extends Cubit<HomeState> {
   StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
 
   List<ProductModel> products = [];
+  List<ProductModel>? searchedProducts;
+
+  void setSearchedProducts(String searchText) {
+    searchText = searchText.toLowerCase();
+    searchedProducts = products.where((product) {
+      final identifierMatches = product.identifierSN != null &&
+          product.identifierSN!.toLowerCase().contains(searchText);
+
+      final nameMatches = product.productName != null &&
+          product.productName!.toLowerCase().contains(searchText);
+
+      return identifierMatches || nameMatches;
+    }).toList();
+
+    emit(HomeSearchedProducts(searchedProducts));
+  }
+
+  void clearSearchedProducts() {
+    searchedProducts = null;
+    emit(HomeProductsState());
+  }
 
   @override
   Future<void> close() {

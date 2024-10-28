@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_app/core/components/my_citcular_loading.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/features/home/data/cubit/home_cubit.dart';
@@ -13,9 +14,7 @@ class ProductsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<HomeCubit, HomeState>(
       listener: (context, state) {
-        if (state is HomeLoading) {
-          ShowInfoUtil.showLoadingDialog(context);
-        } else if (state is InternetState) {
+        if (state is InternetState) {
           state.connectionBanner(context);
         } else if (state is HomeFailure) {
           ShowInfoUtil.showMaterialBanner(context,
@@ -23,7 +22,14 @@ class ProductsList extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        final List<ProductModel> products = context.watch<HomeCubit>().products;
+        List<ProductModel> products = context.watch<HomeCubit>().products;
+        if (state is HomeLoading) {
+          return const MyCircularLoading();
+        } else if (state is HomeSearchedProducts &&
+            state.searchedProducts != null) {
+          products = state.searchedProducts!;
+        }
+
         return products.isNotEmpty
             ? ListView.builder(
                 padding:

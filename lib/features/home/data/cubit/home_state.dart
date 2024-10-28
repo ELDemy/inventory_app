@@ -7,8 +7,12 @@ final class HomeInitial extends HomeState {}
 
 final class HomeLoading extends HomeState {}
 
-final class HomeProductsState extends HomeState {
-  HomeProductsState();
+final class HomeProductsState extends HomeState {}
+
+final class HomeSearchedProducts extends HomeState {
+  final List<ProductModel>? searchedProducts;
+
+  HomeSearchedProducts(this.searchedProducts);
 }
 
 final class HomeFailure extends HomeState {
