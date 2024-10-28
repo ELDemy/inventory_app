@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
+import 'package:inventory_app/features/product_management/product_screen/presentation/product_screen.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({required this.product, super.key});
@@ -18,22 +19,7 @@ class ProductCard extends StatelessWidget {
         padding: const EdgeInsets.only(left: 20, top: 16, bottom: 16, right: 8),
         child: Row(
           children: [
-            InkWell(
-              borderRadius: BorderRadius.circular(24),
-              onTap: () {},
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: Transform.flip(
-                  flipX: true,
-                  child: SvgPicture.asset(
-                    "assets/icons/arrow-right.svg",
-                    width: 24,
-                    colorFilter: const ColorFilter.mode(
-                        AppColors.primaryColor, BlendMode.srcIn),
-                  ),
-                ),
-              ),
-            ),
+            _rightArrow(context),
             const SizedBox(width: 8),
             Expanded(
               child: Column(
@@ -63,6 +49,33 @@ class ProductCard extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  InkWell _rightArrow(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(24),
+      onTap: () {
+        if (product.identifierSN == null) return;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) =>
+                  ProductScreen(identifierSN: product.identifierSN!)),
+        );
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Transform.flip(
+          flipX: true,
+          child: SvgPicture.asset(
+            "assets/icons/arrow-right.svg",
+            width: 24,
+            colorFilter:
+                const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),
+          ),
         ),
       ),
     );

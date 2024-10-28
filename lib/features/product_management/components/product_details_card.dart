@@ -6,8 +6,11 @@ import '../make_order/presentation/widgets/custom_card.dart';
 import 'card_detail_row.dart';
 
 class ProductDetailsCard extends StatelessWidget {
-  const ProductDetailsCard(
-      {super.key, required this.productModel, this.isOrder = false});
+  const ProductDetailsCard({
+    super.key,
+    required this.productModel,
+    this.isOrder = false,
+  });
 
   final ProductModel productModel;
   final bool isOrder;

@@ -16,7 +16,7 @@ class FirebaseFailure extends Failure {
       case 'network-error':
         return 'حدث خطأ في الشبكة. يرجى التحقق من الاتصال.';
       case 'unavailable':
-        return 'حدث خطأ في الوصول الى الخادم يرجى اعادة المحاولة';
+        return 'حدث خطأ في الوصول الى الخدمة يرجى اعادة المحاولة';
       case 'not-found':
         return 'الوثيقة المطلوبة غير موجودة.';
       case 'already-exists':

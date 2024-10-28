@@ -23,9 +23,9 @@ class MakeOrderCubit extends Cubit<MakeOrderState> {
   Future<void> fetchProduct() async {
     try {
       if (!Injector.isOnline) {
-        return emit(ProductFailure("تأكد من الاتصال بالانترنت "));
+        return emit(FetchProductFailure("تأكد من الاتصال بالانترنت "));
       }
-      emit(ProductLoading());
+      emit(FetchProductLoading());
 
       String identifierSN = BarcodeUtil.parseIdentifierFromSN(barcode);
       DocumentSnapshot<Map<String, dynamic>> docSnapshot =
@@ -33,27 +33,27 @@ class MakeOrderCubit extends Cubit<MakeOrderState> {
 
       if (docSnapshot.exists) {
         productModel = ProductModel.fromFirestore(docSnapshot.data(), null);
-        return emit(ProductLoaded());
+        return emit(FetchProductLoaded());
       } else {
-        return emit(ProductFailure(
+        return emit(FetchProductFailure(
             "المنتج بمعرف رقم $identifierSN  غير موجود في قاعدة البيانات \n برجاء اضافة المنتج ثم اعادة المحاولة "));
       }
     } on FirebaseException catch (firebaseException) {
       print('Error getting document: ${firebaseException.message}');
-      return emit(ProductFailure(
+      return emit(FetchProductFailure(
         FirebaseFailure.fromFirebaseException(firebaseException).errMsg,
       ));
     } catch (e) {
       print('An unexpected error occurred: $e');
       return emit(
-          ProductFailure("حدث خطأ غير متوقع برجاء المحاوله مره اخري!!"));
+          FetchProductFailure("حدث خطأ غير متوقع برجاء المحاوله مره اخري!!"));
     }
   }
 
   Future<void> makeOrder(OrderModel orderModel) async {
     try {
       if (!Injector.isOnline) {
-        return emit(ProductFailure("تأكد من الاتصال بالانترنت "));
+        return emit(FetchProductFailure("تأكد من الاتصال بالانترنت "));
       }
       emit(MakeOrderLoading());
 

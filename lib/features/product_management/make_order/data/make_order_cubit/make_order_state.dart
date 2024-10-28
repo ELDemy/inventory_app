@@ -8,14 +8,14 @@ final class MakeOrderInitial extends MakeOrderState {}
 @immutable
 sealed class FetchProductState extends MakeOrderState {}
 
-final class ProductLoading extends FetchProductState {}
+final class FetchProductLoading extends FetchProductState {}
 
-final class ProductLoaded extends FetchProductState {}
+final class FetchProductLoaded extends FetchProductState {}
 
-final class ProductFailure extends FetchProductState {
+final class FetchProductFailure extends FetchProductState {
   final String errMsg;
 
-  ProductFailure(this.errMsg);
+  FetchProductFailure(this.errMsg);
 }
 
 @immutable

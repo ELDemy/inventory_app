@@ -1,146 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_app/core/components/custom_serial_text_form_field.dart';
-import 'package:inventory_app/core/components/custom_text_form_field.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
-import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/product_management/add_new_product/data/add_new_product_cubit/add_new_product_cubit.dart';
+import 'package:inventory_app/features/product_management/components/product_form.dart';
 
-class AddNewProductForm extends StatefulWidget {
+class AddNewProductForm extends StatelessWidget {
   const AddNewProductForm({super.key});
-
-  @override
-  State<AddNewProductForm> createState() => _AddNewProductFormState();
-}
-
-class _AddNewProductFormState extends State<AddNewProductForm> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  final TextEditingController _productNameController = TextEditingController();
-  final TextEditingController _serialNumberController = TextEditingController();
-  final TextEditingController _priceController = TextEditingController();
-  final TextEditingController _powerController = TextEditingController();
-  final TextEditingController _inputController = TextEditingController();
-  final TextEditingController _outputController = TextEditingController();
-  final TextEditingController _quantityController = TextEditingController();
-
-  @override
-  void dispose() {
-    _productNameController.dispose();
-    _serialNumberController.dispose();
-    _priceController.dispose();
-    _quantityController.dispose();
-    _powerController.dispose();
-    _inputController.dispose();
-    _outputController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<AddNewProductCubit, AddNewProductState>(
       listener: (context, state) {
         if (state is AddProductLoading) {
-          ShowInfoUtil.hideCurrentMaterialBanner(context);
           ShowInfoUtil.showLoadingDialog(context);
         } else if (state is AddNewProductSuccess) {
-          ShowInfoUtil.hideCurrentMaterialBanner(context);
+          Navigator.pop(context);
           ShowInfoUtil.showSnackBar(context, "تم اضافة المنتج بنجاح");
-          _clearControllers();
           Navigator.pop(context);
         } else if (state is AddProductFailure) {
+          Navigator.pop(context);
           ShowInfoUtil.showSnackBar(context, state.errMsg);
-          if (Injector.isOnline) {
-            ShowInfoUtil.hideCurrentMaterialBanner(context);
-          }
         }
       },
       child: Scaffold(
         appBar: AppBar(title: const Text("إضافة منتج جديد")),
-        body: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  CustomTextFormField(
-                    labelText: "اسم المنتج",
-                    controller: _productNameController,
-                    isRequired: true,
-                  ),
-                  CustomSerialTextFormField(
-                    controller: _serialNumberController,
-                  ),
-                  CustomTextFormField(
-                    labelText: "السعر",
-                    controller: _priceController,
-                    isRequired: true,
-                    isNumbersOnly: true,
-                  ),
-                  CustomTextFormField(
-                    labelText: "الكمية",
-                    controller: _quantityController,
-                    isRequired: true,
-                    isNumbersOnly: true,
-                  ),
-                  CustomTextFormField(
-                    labelText: "Power",
-                    controller: _powerController,
-                    isRequired: true,
-                    isNumbersOnly: true,
-                  ),
-                  CustomTextFormField(
-                    labelText: "Input",
-                    controller: _inputController,
-                    isRequired: true,
-                  ),
-                  CustomTextFormField(
-                    labelText: "Output",
-                    controller: _outputController,
-                    isRequired: true,
-                  ),
-                  const SizedBox(height: 30),
-                  ElevatedButton(
-                    onPressed: _onSubmit,
-                    child: const Text(
-                      "إضافة المنتج",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+        body: ProductForm(
+          onSubmit: ({
+            required formKey,
+            required productNameController,
+            required serialNumberController,
+            required priceController,
+            required quantityController,
+            required powerController,
+            required inputController,
+            required outputController,
+          }) {
+            if (formKey.currentState!.validate()) {
+              BlocProvider.of<AddNewProductCubit>(context).addNewProduct(
+                ProductModel(
+                  serialNumber: serialNumberController.text,
+                  productName: productNameController.text,
+                  price: double.parse(priceController.text),
+                  qty: int.parse(quantityController.text),
+                  power: num.parse(powerController.text),
+                  input: inputController.text,
+                  output: outputController.text,
+                ),
+              );
+            }
+          },
+          buttonText: "إضافة المنتج",
         ),
       ),
     );
-  }
-
-  void _onSubmit() async {
-    if (_formKey.currentState!.validate()) {
-      await BlocProvider.of<AddNewProductCubit>(context).addNewProduct(
-        ProductModel(
-          serialNumber: _serialNumberController.text,
-          productName: _productNameController.text,
-          price: double.parse(_priceController.text),
-          qty: int.parse(_quantityController.text),
-          power: num.parse(_powerController.text),
-          input: _inputController.text,
-          output: _outputController.text,
-        ),
-      );
-    }
-  }
-
-  void _clearControllers() {
-    _productNameController.clear();
-    _serialNumberController.clear();
-    _priceController.clear();
-    _quantityController.clear();
-    _powerController.clear();
-    _inputController.clear();
-    _outputController.clear();
   }
 }

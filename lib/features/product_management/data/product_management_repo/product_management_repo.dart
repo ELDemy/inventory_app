@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/di/injector.dart';
-import 'package:inventory_app/features/product_management/data/product_management_repo/service_state.dart';
 
 class ProductManagementRepo {
   Future<DocumentSnapshot<Map<String, dynamic>>> getProduct(
@@ -17,47 +16,42 @@ class ProductManagementRepo {
     }
   }
 
-  Future<ServiceState?> addNewProductModel(ProductModel productModel) async {
-    ServiceState? serviceState;
+  Future<void> deleteProduct(String identifierSN) async {
+    try {
+      Injector.get<FirebaseFirestore>().runTransaction(
+        (transaction) async {
+          transaction.delete(Injector.productsCollection.doc(identifierSN));
+          transaction.update(
+              Injector.allProductsDoc, {identifierSN: FieldValue.delete()});
+        },
+      );
+      return await Injector.productsCollection.doc(identifierSN).delete();
+    } on Exception catch (e) {
+      log("Error getting Product $identifierSN  : ${e.toString()}");
+      rethrow;
+    }
+  }
+
+  Future<void> addProduct(ProductModel productModel) async {
     try {
       final DocumentReference<Map<String, dynamic>> docRef =
           Injector.productsCollection.doc(productModel.identifierSN);
-
-      final DocumentSnapshot<Map<String, dynamic>> docSnapshot =
-          await docRef.get();
-
-      if (docSnapshot.exists) {
-        print('Document with ID ${productModel.identifierSN} already exists.');
-        return ServiceState(
-            serviceStateMsg:
-                "المنتج رقم ${productModel.identifierSN} موجود بالفعل ");
-      } else {
-        await Injector.get<FirebaseFirestore>().runTransaction(
-          (transaction) async {
-            transaction.set(docRef, productModel.toFirestore());
-            transaction.update(
-              Injector.allProductsDoc,
-              productModel.toFirestoreBasicValues(),
-            );
-          },
-        ).then((value) {
-          print('Order Transaction has been created successfully.');
-          return null;
-        }).onError((error, stackTrace) {
-          print("Error: $error");
-          serviceState =
-              ServiceState(serviceStateMsg: "برجاء المحاول مره اخرى");
-        });
-      }
+      final DocumentReference<Map<String, dynamic>> allProductsDocRef =
+          Injector.allProductsDoc;
+      return await Injector.get<FirebaseFirestore>().runTransaction(
+        (transaction) async {
+          transaction.set(docRef, productModel.toFirestore());
+          transaction.update(
+              allProductsDocRef, productModel.toFirestoreBasicValues());
+        },
+      );
     } on FirebaseException catch (firebaseException) {
       print('Error creating document: ${firebaseException.message}');
-      return ServiceState.firebaseException(firebaseException);
+      rethrow;
     } catch (e) {
       print('An unexpected error occurred: $e');
-      return ServiceState(
-          serviceStateMsg: "حدث خطأ غير متوقع برجاء المحاوله مره اخري!!");
+      rethrow;
     }
-    return serviceState;
   }
 
   Future<void> makeOrder(OrderModel orderModel) async {

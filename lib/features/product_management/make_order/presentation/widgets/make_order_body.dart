@@ -27,11 +27,11 @@ class MakeOrderBody extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state is ProductLoading || state is MakeOrderInitial) {
+        if (state is FetchProductLoading || state is MakeOrderInitial) {
           return const MyCircularLoading();
-        } else if (state is ProductLoaded || state is MakingOrderState) {
+        } else if (state is FetchProductLoaded || state is MakingOrderState) {
           return const MakeOrderContent();
-        } else if (state is ProductFailure) {
+        } else if (state is FetchProductFailure) {
           return _failureScreen(state, context);
         } else {
           return const Center(
@@ -42,7 +42,8 @@ class MakeOrderBody extends StatelessWidget {
     );
   }
 
-  FailureScreen _failureScreen(ProductFailure state, BuildContext context) {
+  FailureScreen _failureScreen(
+      FetchProductFailure state, BuildContext context) {
     MakeOrderCubit makeOrderCubit = BlocProvider.of<MakeOrderCubit>(context);
     return FailureScreen(
       errMsg: state.errMsg,
