@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:inventory_app/core/utils/app_theme.dart';
+import 'package:inventory_app/features/auth/data/auth_cubit/auth_cubit.dart';
+import 'package:inventory_app/features/home/presentation/home_screen.dart';
 
 import 'core/constants/bloc_observer.dart';
 import 'di/injector.dart';
-import 'features/home/presentation/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,17 +22,20 @@ class InventoryApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: const [
-        GlobalCupertinoLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
-      supportedLocales: const [Locale("ar")],
-      locale: const Locale("ar"),
-      theme: AppTheme.appTheme,
-      home: const HomeScreen(),
+    return BlocProvider(
+      create: (context) => AuthCubit(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: const [
+          GlobalCupertinoLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: const [Locale("ar")],
+        locale: const Locale("ar"),
+        theme: AppTheme.appTheme,
+        home: const HomeScreen(),
+      ),
     );
   }
 }

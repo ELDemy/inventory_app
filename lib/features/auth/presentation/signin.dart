@@ -1,7 +1,11 @@
 // sign_in_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_app/core/components/custom_text_form_field.dart';
+import 'package:inventory_app/core/utils/app_colors.dart';
+import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/features/auth/data/auth_cubit/auth_cubit.dart';
+import 'package:inventory_app/features/home/presentation/home_screen.dart';
 
 import 'sign_up_screen.dart';
 
@@ -15,22 +19,16 @@ class SignInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sign In')),
       body: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           if (state is AuthError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: Colors.red,
-              ),
-            );
+            ShowInfoUtil.showSnackBar(context, state.message);
           } else if (state is AuthSuccess) {
-            // Navigate to home screen or handle success
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Sign in successful!'),
-                backgroundColor: Colors.green,
+            ShowInfoUtil.showSnackBar(context, 'تم تسجيل الدخول بنجاح!');
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const HomeScreen(),
               ),
             );
           }
@@ -43,41 +41,26 @@ class SignInScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      border: OutlineInputBorder(),
+                  const Text(
+                    "تسجيل الدخول",
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryColor,
                     ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your email';
-                      }
-                      if (!value.contains('@')) {
-                        return 'Please enter a valid email';
-                      }
-                      return null;
-                    },
+                  ),
+                  const SizedBox(height: 20),
+                  CustomTextFormField(
+                    controller: _emailController,
+                    labelText: 'البريد الالكتروني',
+                    isRequired: true,
+                  ),
+                  CustomTextFormField(
+                    controller: _passwordController,
+                    labelText: 'كلمة السر',
+                    isRequired: true,
                   ),
                   const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                      border: OutlineInputBorder(),
-                    ),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
-                      }
-                      if (value.length < 6) {
-                        return 'Password must be at least 6 characters';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 24),
                   SizedBox(
                     width: double.infinity,
                     height: 50,
@@ -87,14 +70,14 @@ class SignInScreen extends StatelessWidget {
                           : () {
                               if (_formKey.currentState!.validate()) {
                                 context.read<AuthCubit>().signIn(
-                                      email: _emailController.text.trim(),
-                                      password: _passwordController.text,
-                                    );
+                                    email: _emailController.text.trim(),
+                                    password: _passwordController.text,
+                                    context: context);
                               }
                             },
                       child: state is AuthLoading
                           ? const CircularProgressIndicator()
-                          : const Text('Sign In'),
+                          : const Text('تسجيل الدخول'),
                     ),
                   ),
                   const SizedBox(height: 16),

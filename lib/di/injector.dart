@@ -9,11 +9,12 @@ class Injector {
   static final GetIt _getIt = GetIt.instance;
 
   // Initialize all the dependencies
-  static void init() {
+  static void init() async {
     _getIt.registerSingleton<FirebaseFirestore>(FirebaseFirestore.instance);
     _getIt.registerSingleton<ProductManagementRepo>(ProductManagementRepo());
   }
 
+  // fireStore database
   static final DocumentReference<Map<String, dynamic>> projectDoc =
       _getIt.get<FirebaseFirestore>().doc('projects/inverters');
 
@@ -22,12 +23,15 @@ class Injector {
 
   static final DocumentReference<Map<String, dynamic>> allProductsDoc =
       productsCollection.doc('all');
+  static DocumentReference<Map<String, dynamic>>? userDoc;
 
   static final CollectionReference<Map<String, dynamic>>
       productsHistoryCollection = projectDoc.collection('products_history');
+
   static final CollectionReference<Map<String, dynamic>> usersCollection =
       projectDoc.collection('users');
 
+  static Map<String, dynamic>? userData;
   // Generic method to get instances
   static T get<T extends Object>() => _getIt<T>();
 }

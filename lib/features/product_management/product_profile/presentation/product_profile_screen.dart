@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/components/failure_screen.dart';
 import 'package:inventory_app/core/components/my_citcular_loading.dart';
+import 'package:inventory_app/core/utils/app_colors.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/features/product_management/product_profile/data/product_cubit/product_profile_cubit.dart';
 
@@ -48,20 +49,45 @@ class ProductProfileScreen extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: const Text("بيانات المنتج"),
-              actions: [
-                IconButton(
-                    onPressed: () {
-                      BlocProvider.of<ProductProfileCubit>(context)
-                          .deleteProduct();
-                    },
-                    icon: const Icon(Icons.delete_outline_rounded, size: 30))
-              ],
+              actions: [_trashIcon(context)],
             ),
             body: bodyContent,
           );
         },
       ),
     );
+  }
+
+  IconButton _trashIcon(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext dialogContext) {
+              return AlertDialog(
+                backgroundColor: AppColors.primaryBackgroundColor,
+                title: const Text('تأكيد حذف المنتج'),
+                content: Text(identifierSN),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(dialogContext).pop(),
+                    child: const Text('الغاء'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(dialogContext).pop();
+                      BlocProvider.of<ProductProfileCubit>(context)
+                          .deleteProduct();
+                    },
+                    child:
+                        const Text('حذف', style: TextStyle(color: Colors.red)),
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        icon: const Icon(Icons.delete_outline_rounded, size: 30));
   }
 
   FailureScreen _failureScreen(
