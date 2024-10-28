@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
-import 'package:inventory_app/features/product_management/add_new_product/data/add_new_product_cubit/add_new_product_cubit.dart';
-import 'package:inventory_app/features/product_management/components/product_form.dart';
+import 'package:inventory_app/features/product_management/add_edit_product/data/add_edit_product_cubit/add_edit_product_cubit.dart';
+import 'package:inventory_app/features/product_management/add_edit_product/presentation/widgets/product_form.dart';
 
 class AddNewProductForm extends StatelessWidget {
   const AddNewProductForm({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AddNewProductCubit, AddNewProductState>(
+    return BlocListener<AddEditProductCubit, AddEditProductState>(
       listener: (context, state) {
-        if (state is AddProductLoading) {
+        if (state is AddEditProductLoading) {
           ShowInfoUtil.showLoadingDialog(context);
-        } else if (state is AddNewProductSuccess) {
+        } else if (state is AddEditProductSuccess) {
           Navigator.pop(context);
           ShowInfoUtil.showSnackBar(context, "تم اضافة المنتج بنجاح");
           Navigator.pop(context);
-        } else if (state is AddProductFailure) {
+        } else if (state is AddEditProductFailure) {
           Navigator.pop(context);
           ShowInfoUtil.showSnackBar(context, state.errMsg);
         }
@@ -37,7 +37,7 @@ class AddNewProductForm extends StatelessWidget {
             required outputController,
           }) {
             if (formKey.currentState!.validate()) {
-              BlocProvider.of<AddNewProductCubit>(context).addNewProduct(
+              BlocProvider.of<AddEditProductCubit>(context).addNewProduct(
                 ProductModel(
                   serialNumber: serialNumberController.text,
                   productName: productNameController.text,

@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/components/failure_screen.dart';
 import 'package:inventory_app/core/components/my_citcular_loading.dart';
-import 'package:inventory_app/features/product_management/product_screen/data/product_cubit/product_cubit.dart';
+import 'package:inventory_app/features/product_management/product_profile/data/product_cubit/product_profile_cubit.dart';
 
-import 'product_content.dart';
+import 'product_profile_content.dart';
 
-class ProductBody extends StatelessWidget {
-  const ProductBody({super.key});
+class ProductProfileBody extends StatelessWidget {
+  const ProductProfileBody({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProductCubit, ProductState>(
+    return BlocBuilder<ProductProfileCubit, ProductProfileState>(
       builder: (context, state) {
-        if (state is ProductInitial || state is ProductLoading) {
+        if (state is ProductProfileInitial || state is ProductProfileLoading) {
           return const MyCircularLoading();
-        } else if (state is ProductSuccess) {
-          return const ProductContent();
-        } else if (state is ProductFailure) {
+        } else if (state is ProductProfileSuccess) {
+          return const ProductProfileContent();
+        } else if (state is ProductProfileFailure) {
           return _failureScreen(state, context);
         } else {
           return const Center(
@@ -28,8 +28,10 @@ class ProductBody extends StatelessWidget {
     );
   }
 
-  FailureScreen _failureScreen(ProductFailure state, BuildContext context) {
-    ProductCubit productCubit = BlocProvider.of<ProductCubit>(context);
+  FailureScreen _failureScreen(
+      ProductProfileFailure state, BuildContext context) {
+    ProductProfileCubit productCubit =
+        BlocProvider.of<ProductProfileCubit>(context);
     return FailureScreen(
       errMsg: state.errMsg,
       bottomText: productCubit.identifierSN,

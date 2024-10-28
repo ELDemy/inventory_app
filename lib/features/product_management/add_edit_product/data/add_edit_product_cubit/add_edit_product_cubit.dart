@@ -5,62 +5,62 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/di/injector.dart';
-import 'package:inventory_app/features/product_management/data/product_management_repo/product_management_repo.dart';
+import 'package:inventory_app/features/product_management/shared/data/product_management_repo/product_management_repo.dart';
 import 'package:meta/meta.dart';
 
-part 'add_new_product_state.dart';
+part 'add_edit_product_state.dart';
 
-class AddNewProductCubit extends Cubit<AddNewProductState> {
-  AddNewProductCubit() : super(AddNewProductInitial());
+class AddEditProductCubit extends Cubit<AddEditProductState> {
+  AddEditProductCubit() : super(AddEditProductInitial());
 
   final ProductManagementRepo productManagementRepo =
       Injector.get<ProductManagementRepo>();
 
   Future<void> addNewProduct(ProductModel productModel) async {
     if (!Injector.isOnline) {
-      emit(AddProductFailure("برجاء التحقق من الاتصال بالانترنت"));
+      emit(AddEditProductFailure("برجاء التحقق من الاتصال بالانترنت"));
       return;
     }
-    emit(AddProductLoading());
+    emit(AddEditProductLoading());
     try {
       DocumentSnapshot<Map<String, dynamic>> doc =
           await productManagementRepo.getProduct(productModel.identifierSN!);
 
       if (doc.exists) {
         print('Document with ID ${productModel.identifierSN} already exists.');
-        return emit(AddProductFailure(
+        return emit(AddEditProductFailure(
             "المنتج رقم ${productModel.identifierSN} موجود بالفعل "));
       }
 
       await productManagementRepo.addProduct(productModel);
 
-      emit(AddNewProductSuccess());
+      emit(AddEditProductSuccess());
     } on FirebaseException catch (firebaseException) {
       log('Error creating document: ${firebaseException.message}');
-      return emit(AddProductFailure(
+      return emit(AddEditProductFailure(
           FirebaseFailure.fromFirebaseException(firebaseException).errMsg));
     } catch (e) {
       log('An unexpected error occurred: $e');
-      return emit(AddProductFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
+      return emit(AddEditProductFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
     }
   }
 
   Future<void> updateProduct(ProductModel productModel) async {
     if (!Injector.isOnline) {
-      emit(AddProductFailure("برجاء التحقق من الاتصال بالانترنت"));
+      emit(AddEditProductFailure("برجاء التحقق من الاتصال بالانترنت"));
       return;
     }
-    emit(AddProductLoading());
+    emit(AddEditProductLoading());
     try {
       await productManagementRepo.addProduct(productModel);
-      emit(AddNewProductSuccess());
+      emit(AddEditProductSuccess());
     } on FirebaseException catch (firebaseException) {
       log('Error creating document: ${firebaseException.message}');
-      return emit(AddProductFailure(
+      return emit(AddEditProductFailure(
           FirebaseFailure.fromFirebaseException(firebaseException).errMsg));
     } catch (e) {
       log('An unexpected error occurred: $e');
-      return emit(AddProductFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
+      return emit(AddEditProductFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
     }
   }
 }

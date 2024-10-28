@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
-import 'package:inventory_app/features/product_management/product_screen/presentation/product_screen.dart';
+import 'package:inventory_app/features/product_management/product_profile/presentation/product_profile_screen.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({required this.product, super.key});
@@ -11,12 +11,12 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 5),
-      elevation: 5,
-      color: AppColors.primaryBackgroundColor,
-      shadowColor: AppColors.primaryBackgroundColor,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: _cardColor.withOpacity(.3)),
+        borderRadius: BorderRadius.circular(16),
+      ),
       child: Padding(
-        padding: const EdgeInsets.only(left: 20, top: 16, bottom: 16, right: 8),
+        padding: const EdgeInsets.only(left: 20, top: 8, bottom: 8, right: 8),
         child: Row(
           children: [
             _rightArrow(context),
@@ -24,25 +24,60 @@ class ProductCard extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text(
-                        product.productName ?? "",
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w700),
+                      Expanded(
+                        child: Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          alignment: WrapAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              product.productName ?? "###",
+                              style: const TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w700),
+                            ),
+                            Text(
+                              "${product.identifierSN}#",
+                              style: const TextStyle(
+                                  fontSize: 12, color: Colors.grey),
+                            ),
+                          ],
+                        ),
                       ),
-                      Text("#${product.identifierSN}"),
                     ],
                   ),
+                  const SizedBox(height: 5),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisSize: MainAxisSize.max,
                     children: [
-                      Text("الكمية: ${product.qty}"),
-                      const SizedBox(width: 30),
-                      Text("السعر : ${product.price}"),
+                      Expanded(
+                        child: Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          alignment: WrapAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(Icons.inventory_rounded,
+                                    size: 16, color: _cardColor),
+                                Text(
+                                  "  ${product.qty} ",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                    color: _cardColor,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text("السعر : ${product.price}\$"),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -63,7 +98,7 @@ class ProductCard extends StatelessWidget {
           context,
           MaterialPageRoute(
               builder: (context) =>
-                  ProductScreen(identifierSN: product.identifierSN!)),
+                  ProductProfileScreen(identifierSN: product.identifierSN!)),
         );
       },
       child: Padding(
@@ -73,8 +108,7 @@ class ProductCard extends StatelessWidget {
           child: SvgPicture.asset(
             "assets/icons/arrow-right.svg",
             width: 24,
-            colorFilter:
-                const ColorFilter.mode(AppColors.primaryColor, BlendMode.srcIn),
+            colorFilter: ColorFilter.mode(_cardColor, BlendMode.srcIn),
           ),
         ),
       ),
@@ -83,13 +117,12 @@ class ProductCard extends StatelessWidget {
 
   Color get _cardColor {
     switch (product.qty) {
-      case >= 15:
-        return AppColors.primaryBackgroundColor;
-      case >= 10:
-        return AppColors.lightApprovedColor;
-      case < 10:
-        return AppColors.lightRejectedColor;
+      case >= 3:
+        return AppColors.primaryColor;
+      case < 3:
+        return AppColors.lightRedColor;
+      default:
+        return AppColors.primaryColor;
     }
-    return AppColors.primaryBackgroundColor;
   }
 }

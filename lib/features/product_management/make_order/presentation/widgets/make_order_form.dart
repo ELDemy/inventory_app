@@ -63,8 +63,8 @@ class _MakeOrderFormState extends State<MakeOrderForm> {
               onPressed: () {
                 if (_qtyController.text.isNotEmpty &&
                     barcodes.length != double.parse(_qtyController.text)) {
-                  ShowInfoUtil.showSnackBar(
-                      context, "عدد الباركود لا يساوي الكميه المدخله");
+                  ShowInfoUtil.showSnackBar(context,
+                      "يجب ادخال الباركود الخاص بجميع الوحدات\n عدد الوحدات لا يساوي عدد الباركود");
                   return;
                 }
                 if (_formKey.currentState!.validate()) {

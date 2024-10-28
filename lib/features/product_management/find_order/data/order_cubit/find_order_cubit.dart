@@ -2,8 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/core/models/order_model.dart';
+import 'package:inventory_app/core/utils/barcode_util.dart';
 import 'package:inventory_app/di/injector.dart';
-import 'package:inventory_app/features/product_management/data/product_management_repo/product_management_repo.dart';
+import 'package:inventory_app/features/product_management/shared/data/product_management_repo/product_management_repo.dart';
 import 'package:meta/meta.dart';
 
 part 'find_order_state.dart';
@@ -33,8 +34,10 @@ class FindOrderCubit extends Cubit<FindOrderState> {
         orderModel = OrderModel.fromFirestore(docSnapshot.data(), null);
         return emit(FindOrderSuccess());
       } else {
+        String identifierSN = BarcodeUtil.parseIdentifierFromSN(barcode);
+
         return emit(FindOrderFailure(
-            "المنتج بمعرف رقم $barcode  غير موجود في قاعدة البيانات "));
+            "المنتج رقم $barcodeغير موجود في قاعدة البيانات "));
       }
     } on FirebaseException catch (firebaseException) {
       print('Error getting document: ${firebaseException.message}');

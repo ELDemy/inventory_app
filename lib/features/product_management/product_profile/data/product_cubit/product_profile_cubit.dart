@@ -3,13 +3,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/di/injector.dart';
-import 'package:inventory_app/features/product_management/data/product_management_repo/product_management_repo.dart';
+import 'package:inventory_app/features/product_management/shared/data/product_management_repo/product_management_repo.dart';
 import 'package:meta/meta.dart';
 
-part 'product_state.dart';
+part 'product_profile_state.dart';
 
-class ProductCubit extends Cubit<ProductState> {
-  ProductCubit(this.identifierSN) : super(ProductInitial()) {
+class ProductProfileCubit extends Cubit<ProductProfileState> {
+  ProductProfileCubit(this.identifierSN) : super(ProductProfileInitial()) {
     fetchProduct();
   }
 
@@ -22,30 +22,30 @@ class ProductCubit extends Cubit<ProductState> {
   Future<void> fetchProduct() async {
     try {
       if (!Injector.isOnline) {
-        return emit(ProductFailure("تأكد من الاتصال بالانترنت "));
+        return emit(ProductProfileFailure("تأكد من الاتصال بالانترنت "));
       }
-      emit(ProductLoading());
+      emit(ProductProfileLoading());
 
       DocumentSnapshot<Map<String, dynamic>> docSnapshot =
           await productManagementRepo.getProduct(identifierSN);
 
       if (docSnapshot.exists) {
         productModel = ProductModel.fromFirestore(docSnapshot.data(), null);
-        return emit(ProductSuccess());
+        return emit(ProductProfileSuccess());
       } else {
-        return emit(ProductFailure(
+        return emit(ProductProfileFailure(
             "المنتج بمعرف رقم $identifierSN  غير موجود في قاعدة البيانات \n برجاء اضافة المنتج ثم اعادة المحاولة "));
       }
     } on FirebaseException catch (firebaseException) {
       print('Error getting document: ${firebaseException.message}');
       return emit(
-        ProductFailure(
+        ProductProfileFailure(
             FirebaseFailure.fromFirebaseException(firebaseException).errMsg),
       );
     } catch (e) {
       print('An unexpected error occurred: $e');
       return emit(
-          ProductFailure("حدث خطأ غير متوقع برجاء المحاوله مره اخري!!"));
+          ProductProfileFailure("حدث خطأ غير متوقع برجاء المحاوله مره اخري!!"));
     }
   }
 

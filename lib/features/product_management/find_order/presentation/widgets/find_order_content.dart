@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/core/utils/date_extension.dart';
-import 'package:inventory_app/features/product_management/components/card_detail_row.dart';
-import 'package:inventory_app/features/product_management/components/product_details_card.dart';
 import 'package:inventory_app/features/product_management/find_order/data/order_cubit/find_order_cubit.dart';
 import 'package:inventory_app/features/product_management/make_order/presentation/widgets/custom_card.dart';
+import 'package:inventory_app/features/product_management/shared/components/card_detail_row.dart';
+import 'package:inventory_app/features/product_management/shared/components/product_details_card.dart';
 
 class FindOrderContent extends StatelessWidget {
   const FindOrderContent({super.key});

@@ -3,20 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/components/failure_screen.dart';
 import 'package:inventory_app/core/components/my_citcular_loading.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
-import 'package:inventory_app/features/product_management/product_screen/data/product_cubit/product_cubit.dart';
+import 'package:inventory_app/features/product_management/product_profile/data/product_cubit/product_profile_cubit.dart';
 
-import 'product_content.dart';
+import 'widgets/product_profile_content.dart';
 
-class ProductScreen extends StatelessWidget {
-  const ProductScreen({super.key, required this.identifierSN});
+class ProductProfileScreen extends StatelessWidget {
+  const ProductProfileScreen({super.key, required this.identifierSN});
 
   final String identifierSN;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProductCubit(identifierSN),
-      child: BlocConsumer<ProductCubit, ProductState>(
+      create: (context) => ProductProfileCubit(identifierSN),
+      child: BlocConsumer<ProductProfileCubit, ProductProfileState>(
         listener: (context, state) {
           if (state is DeleteProductLoading) {
             ShowInfoUtil.showLoadingDialog(context);
@@ -32,11 +32,13 @@ class ProductScreen extends StatelessWidget {
         },
         builder: (context, state) {
           Widget bodyContent;
-          if (state is ProductInitial || state is ProductLoading) {
+          if (state is ProductProfileInitial ||
+              state is ProductProfileLoading) {
             bodyContent = const MyCircularLoading();
-          } else if (state is ProductSuccess || state is DeleteProductState) {
-            bodyContent = const ProductContent();
-          } else if (state is ProductFailure) {
+          } else if (state is ProductProfileSuccess ||
+              state is DeleteProductState) {
+            bodyContent = const ProductProfileContent();
+          } else if (state is ProductProfileFailure) {
             bodyContent = _failureScreen(state, context);
           } else {
             bodyContent = const Center(
@@ -49,7 +51,8 @@ class ProductScreen extends StatelessWidget {
               actions: [
                 IconButton(
                     onPressed: () {
-                      BlocProvider.of<ProductCubit>(context).deleteProduct();
+                      BlocProvider.of<ProductProfileCubit>(context)
+                          .deleteProduct();
                     },
                     icon: const Icon(Icons.delete_outline_rounded, size: 30))
               ],
@@ -61,8 +64,10 @@ class ProductScreen extends StatelessWidget {
     );
   }
 
-  FailureScreen _failureScreen(ProductFailure state, BuildContext context) {
-    ProductCubit productCubit = BlocProvider.of<ProductCubit>(context);
+  FailureScreen _failureScreen(
+      ProductProfileFailure state, BuildContext context) {
+    ProductProfileCubit productCubit =
+        BlocProvider.of<ProductProfileCubit>(context);
     return FailureScreen(
       errMsg: state.errMsg,
       bottomText: productCubit.identifierSN,

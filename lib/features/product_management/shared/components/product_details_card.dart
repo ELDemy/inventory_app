@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inventory_app/core/models/product_model.dart';
+import 'package:inventory_app/features/product_management/make_order/presentation/widgets/custom_card.dart';
 
-import '../make_order/presentation/widgets/custom_card.dart';
 import 'card_detail_row.dart';
 
 class ProductDetailsCard extends StatelessWidget {
@@ -44,7 +44,7 @@ class ProductDetailsCard extends StatelessWidget {
                 CardDetailRow(
                   label: "Output :",
                   content: "${productModel.output ?? "###"} ",
-                  iconData: Icons.north_east,
+                  iconData: Icons.north_east_rounded,
                 ),
                 if (!isOrder)
                   CardDetailRow(

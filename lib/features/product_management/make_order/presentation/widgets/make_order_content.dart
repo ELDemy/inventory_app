@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/features/product_management/make_order/data/make_order_cubit/make_order_cubit.dart';
+import 'package:inventory_app/features/product_management/shared/components/product_details_card.dart';
 
-import '../../../components/product_details_card.dart';
 import 'make_order_form.dart';
 
 class MakeOrderContent extends StatelessWidget {

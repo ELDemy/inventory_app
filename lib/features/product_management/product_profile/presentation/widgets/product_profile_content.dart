@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_app/features/product_management/components/product_details_card.dart';
-import 'package:inventory_app/features/product_management/edit_product/presentation/edit_product_form.dart';
-import 'package:inventory_app/features/product_management/product_screen/data/product_cubit/product_cubit.dart';
+import 'package:inventory_app/features/product_management/add_edit_product/presentation/edit_product_form.dart';
+import 'package:inventory_app/features/product_management/product_profile/data/product_cubit/product_profile_cubit.dart';
+import 'package:inventory_app/features/product_management/shared/components/product_details_card.dart';
 
-class ProductContent extends StatelessWidget {
-  const ProductContent({super.key});
+class ProductProfileContent extends StatelessWidget {
+  const ProductProfileContent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final ProductCubit productCubit = BlocProvider.of<ProductCubit>(context);
+    final ProductProfileCubit productCubit =
+        BlocProvider.of<ProductProfileCubit>(context);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(

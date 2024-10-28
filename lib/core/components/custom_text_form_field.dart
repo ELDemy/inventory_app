@@ -30,7 +30,8 @@ class CustomTextFormField extends StatelessWidget {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         keyboardType: isNumbersOnly ? TextInputType.number : null,
         inputFormatters: [
-          if (isNumbersOnly) FilteringTextInputFormatter.digitsOnly,
+          if (isNumbersOnly)
+            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
         ],
         decoration: InputDecoration(
           border: OutlineInputBorder(

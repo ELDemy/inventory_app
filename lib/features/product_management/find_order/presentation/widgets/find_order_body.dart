@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/components/failure_screen.dart';
 import 'package:inventory_app/core/components/my_citcular_loading.dart';
+import 'package:inventory_app/core/utils/barcode_util.dart';
 import 'package:inventory_app/features/product_management/find_order/data/order_cubit/find_order_cubit.dart';
 
 import 'find_order_content.dart';
@@ -30,7 +31,7 @@ class FindOrderBody extends StatelessWidget {
     FindOrderCubit findOrderCubit = BlocProvider.of<FindOrderCubit>(context);
     return FailureScreen(
       errMsg: state.errMsg,
-      bottomText: findOrderCubit.barcode,
+      bottomText: BarcodeUtil.parseIdentifierFromSN(findOrderCubit.barcode),
       onTap: () => findOrderCubit.fetchOrder(),
     );
   }

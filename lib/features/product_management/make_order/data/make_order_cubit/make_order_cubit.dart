@@ -5,7 +5,7 @@ import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/core/utils/barcode_util.dart';
 import 'package:inventory_app/di/injector.dart';
-import 'package:inventory_app/features/product_management/data/product_management_repo/product_management_repo.dart';
+import 'package:inventory_app/features/product_management/shared/data/product_management_repo/product_management_repo.dart';
 import 'package:meta/meta.dart';
 
 part 'make_order_state.dart';

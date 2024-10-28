@@ -6,6 +6,8 @@ class AppColors {
   static const Color foregroundColor = Colors.white;
 
   static const Color lightPrimaryColor = Color(0xFFDCA500);
+  static const Color lightRedColor = Color(0xFFD45353);
+  static const Color lightGreenColor = Color(0xFF53D48C);
 
   static const Color lightPendingColor = Color(0xFFF5FCFB);
   static const Color lightApprovedColor = Color(0xFFFAFDF5);

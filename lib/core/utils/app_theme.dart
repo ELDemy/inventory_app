@@ -19,5 +19,15 @@ class AppTheme {
         foregroundColor: AppColors.foregroundColor,
       ),
     ),
+    cardTheme: CardTheme(
+      elevation: 5,
+      margin: const EdgeInsets.symmetric(vertical: 5),
+      color: AppColors.primaryBackgroundColor,
+      shadowColor: AppColors.primaryBackgroundColor,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: AppColors.primaryColor.withOpacity(.3)),
+        borderRadius: BorderRadius.circular(16),
+      ),
+    ),
   );
 }

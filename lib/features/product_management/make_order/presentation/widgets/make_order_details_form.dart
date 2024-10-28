@@ -90,6 +90,7 @@ class _MakeOrderDetailsFormState extends State<MakeOrderDetailsForm> {
     return InkWell(
       onTap: () async {
         String barcode = await BarcodeUtil.scanBarcodeNormal();
+        if (barcode == -1) return;
         if (widget.barcodes.contains(barcode)) {
           ShowInfoUtil.showSnackBar(context, "تم اضافته بالفعل");
           return;

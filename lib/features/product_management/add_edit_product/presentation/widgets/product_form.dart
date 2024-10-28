@@ -82,6 +82,7 @@ class _ProductFormState extends State<ProductForm> {
                 labelText: "اسم المنتج",
                 controller: productNameController,
                 isRequired: true,
+                suffixIcon: const Icon(Icons.abc),
               ),
               if (!widget.isUpdate)
                 CustomSerialTextFormField(
@@ -92,28 +93,30 @@ class _ProductFormState extends State<ProductForm> {
                 controller: priceController,
                 isRequired: true,
                 isNumbersOnly: true,
+                suffixIcon: const Icon(Icons.attach_money_rounded),
               ),
               CustomTextFormField(
                 labelText: "الكمية",
                 controller: quantityController,
                 isRequired: true,
                 isNumbersOnly: true,
+                suffixIcon: const Icon(Icons.inventory_2_outlined),
               ),
               CustomTextFormField(
                 labelText: "Power",
                 controller: powerController,
-                isRequired: true,
                 isNumbersOnly: true,
+                suffixIcon: const Icon(Icons.bolt),
               ),
               CustomTextFormField(
                 labelText: "Input",
                 controller: inputController,
-                isRequired: true,
+                suffixIcon: const Icon(Icons.south_east_rounded),
               ),
               CustomTextFormField(
                 labelText: "Output",
                 controller: outputController,
-                isRequired: true,
+                suffixIcon: const Icon(Icons.north_west_rounded),
               ),
               const SizedBox(height: 10),
               ElevatedButton(
