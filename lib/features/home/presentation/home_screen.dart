@@ -43,18 +43,17 @@ class HomeScreen extends StatelessWidget {
     if (FirebaseAuth.instance.currentUser?.email == null) {
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => SignInScreen()),
+        MaterialPageRoute(builder: (context) => const SignInScreen()),
         (route) => false,
       );
-    } else if (Injector.userModel?.role == "مدير" ||
+    } else if (Injector.userModel?.role == "المدير" ||
         SuperAdmin.isSuperAdmin()) {
       return InkWell(
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const UserManagementScreen(),
-            ),
+                builder: (context) => const UserManagementScreen()),
           );
         },
         child: Container(

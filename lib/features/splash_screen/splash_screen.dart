@@ -32,17 +32,27 @@ class _SplashScreenState extends State<SplashScreen> {
             MaterialPageRoute(builder: (context) => const HomeScreen()));
       } else {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => SignInScreen()));
+            context, MaterialPageRoute(builder: (context) => const SignInScreen()));
       }
     } catch (e) {
       log('Error checking login status: $e');
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => SignInScreen()));
+          context, MaterialPageRoute(builder: (context) => const SignInScreen()));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: MyCircularLoading());
+    return Scaffold(
+      body: Center(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Image.asset("assets/logo.png"),
+            const MyCircularLoading(),
+          ],
+        ),
+      ),
+    );
   }
 }

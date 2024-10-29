@@ -38,24 +38,28 @@ class UserManagementBody extends StatelessWidget {
             itemCount: users.length,
             itemBuilder: (context, index) {
               final UserModel user = users[index];
-              return Card(
-                child: ListTile(
-                  leading: const CircleAvatar(child: Icon(Icons.person)),
-                  title: Text(user.name),
-                  subtitle: Text(user.email),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-                  trailing: IconButton(
-                    icon: const Icon(
-                      Icons.delete_outline_rounded,
-                      color: AppColors.lightRedColor,
-                    ),
-                    onPressed: () => _showDeleteConfirmation(context, user),
-                  ),
-                ),
-              );
+              return userCard(user, context);
             },
           );
         },
+      ),
+    );
+  }
+
+  Card userCard(UserModel user, BuildContext context) {
+    return Card(
+      child: ListTile(
+        leading: const CircleAvatar(child: Icon(Icons.person)),
+        title: Text(user.name),
+        subtitle: Text("${user.email}\n${user.password}"),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+        trailing: InkWell(
+          onTap: () => _showDeleteConfirmation(context, user),
+          child: const Icon(
+            Icons.delete_outline_rounded,
+            color: AppColors.lightRedColor,
+          ),
+        ),
       ),
     );
   }

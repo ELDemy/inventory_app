@@ -30,7 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_lints: ^5.0.0
   cupertino_icons: ^1.0.8
   flutter_barcode_scanner:
     path: local_packages/flutter_barcode_scanner-2.0.0
@@ -45,7 +44,6 @@ dependencies:
   connectivity_plus: ^6.1.0
   flutter_expandable_fab: ^2.3.0
   intl: ^0.19.0
-  shared_preferences: ^2.3.2
   animation_search_bar: ^0.0.10
 
 
@@ -75,7 +73,6 @@ flutter:
   assets:
     - assets/
     - assets/icons/
-  #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

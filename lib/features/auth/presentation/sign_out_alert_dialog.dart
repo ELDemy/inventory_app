@@ -26,9 +26,7 @@ class SignOutAlertDialog extends StatelessWidget {
           PageRouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) {
               return FadeTransition(
-                opacity: animation,
-                child: SignInScreen(),
-              );
+                  opacity: animation, child: const SignInScreen());
             },
             transitionDuration: const Duration(milliseconds: 500),
           ),

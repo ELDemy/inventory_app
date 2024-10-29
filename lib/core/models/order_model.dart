@@ -3,6 +3,7 @@ import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/di/injector.dart';
 
 class OrderModel {
+  final String? docId;
   final ProductModel product;
   final List<String> serialNumbers;
   final String? employee;
@@ -13,6 +14,7 @@ class OrderModel {
   final DateTime? creationTime;
 
   OrderModel({
+    this.docId,
     required this.product,
     required this.serialNumbers,
     this.employee,
@@ -26,9 +28,11 @@ class OrderModel {
   // Factory constructor to create OrderModel from Firestore
   factory OrderModel.fromFirestore(
     Map<String, dynamic>? data,
+    String docId,
     SnapshotOptions? options,
   ) {
     return OrderModel(
+      docId: docId,
       product: ProductModel.fromFirestore(data?['product'], null),
       serialNumbers: data?['serialNumbers'] is Iterable
           ? List<String>.from(data?['serialNumbers'])

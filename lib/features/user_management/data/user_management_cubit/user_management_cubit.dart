@@ -16,6 +16,7 @@ class UserManagementCubit extends Cubit<UserManagementState> {
   }
 
   final List<UserModel> users = [];
+
   Future<void> getUsers() async {
     try {
       emit(UserManagementLoading());
@@ -23,10 +24,13 @@ class UserManagementCubit extends Cubit<UserManagementState> {
 
       QuerySnapshot<Map<String, dynamic>> usersDocs =
           await Injector.usersCollection.get();
+
       if (usersDocs.docs.isNotEmpty) {
         for (QueryDocumentSnapshot<Map<String, dynamic>> doc
             in usersDocs.docs) {
-          users.add(UserModel.fromFirestore(doc.data()));
+          if (doc.data()['role'] != "المدير") {
+            users.add(UserModel.fromFirestore(doc.data()));
+          }
         }
       }
       emit(UserManagementSuccess());
