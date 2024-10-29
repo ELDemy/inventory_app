@@ -7,8 +7,6 @@ import 'package:inventory_app/core/components/sign_out_alert_dialog.dart';
 import 'package:inventory_app/di/injector.dart';
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   StreamSubscription<DocumentSnapshot>? _userDocSubscription;
 
   // Check if email exists in users collection
@@ -16,10 +14,6 @@ class AuthService {
     final DocumentSnapshot<Map<String, dynamic>> docSnapshot =
         await Injector.usersCollection.doc(email).get();
 
-    if (docSnapshot.exists) {
-      Injector.userDoc = Injector.usersCollection.doc(email);
-      Injector.userData = docSnapshot.data();
-    }
     return docSnapshot.exists;
   }
 
@@ -31,10 +25,12 @@ class AuthService {
         .doc(email)
         .snapshots()
         .listen((docSnapshot) async {
-      print("ELDemt:: Document changed : ${docSnapshot.exists}");
-      Injector.userData = docSnapshot.data();
+      print(
+          "ELDemy:: User document has changed- docSnapshot.exists : ${docSnapshot.exists}");
+
       if (!docSnapshot.exists) {
-        await logout();
+        /// todo: user automatic logging out
+        await signOut();
         if (context.mounted) {
           await showDialog(
               context: context,
@@ -45,8 +41,8 @@ class AuthService {
     });
   }
 
-  Future<void> logout() async {
-    await _auth.signOut();
+  Future<void> signOut() async {
+    await FirebaseAuth.instance.signOut();
     _userDocSubscription?.cancel();
   }
 

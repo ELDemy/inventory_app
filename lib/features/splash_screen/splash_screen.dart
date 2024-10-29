@@ -1,6 +1,9 @@
 // Example usage in splash screen:
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_app/core/components/my_citcular_loading.dart';
 import 'package:inventory_app/features/auth/data/auth_cubit/auth_cubit.dart';
 import 'package:inventory_app/features/auth/presentation/signin.dart';
 import 'package:inventory_app/features/home/presentation/home_screen.dart';
@@ -32,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
             context, MaterialPageRoute(builder: (context) => SignInScreen()));
       }
     } catch (e) {
-      print('Error checking login status: $e');
+      log('Error checking login status: $e');
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => SignInScreen()));
     }
@@ -40,10 +43,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
+    return const Scaffold(body: MyCircularLoading());
   }
 }
