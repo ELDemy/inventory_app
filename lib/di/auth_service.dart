@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/auth/presentation/sign_out_alert_dialog.dart';
+import 'package:inventory_app/features/user_management/data/user_model.dart';
 
 class AuthService {
   StreamSubscription<DocumentSnapshot>? _userDocSubscription;
@@ -13,6 +14,8 @@ class AuthService {
   Future<bool> checkUserInFirestore(String email) async {
     final DocumentSnapshot<Map<String, dynamic>> docSnapshot =
         await Injector.usersCollection.doc(email).get();
+
+    Injector.userModel = UserModel.fromFirestore(docSnapshot.data());
 
     return docSnapshot.exists;
   }

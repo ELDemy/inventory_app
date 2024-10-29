@@ -48,8 +48,6 @@ class UserManagementCubit extends Cubit<UserManagementState> {
       await Injector.usersCollection.doc(email).delete();
       print("ELDEMY:: deleted doc");
 
-      users.removeWhere((user) => user.email == email);
-
       await getUsers();
       emit(UserManagementSuccess());
     } on FirebaseException catch (firebaseException) {
@@ -77,30 +75,16 @@ class UserManagementCubit extends Cubit<UserManagementState> {
 
       await _addUserDoc(email, name, password);
 
-      users.add(
-        UserModel(
-          createdAt: DateTime.now(),
-          password: password,
-          role: "موظف",
-          name: name,
-          email: email,
-        ),
-      );
       emit(UserSignUpSuccess());
     } on FirebaseAuthException catch (e) {
-      String errorMessage = 'حدث خطأ ما';
-      if (e.code == 'email-already-in-use') {
-        await _addUserDoc(email, name, password);
-        errorMessage = 'تم الاضافه الى قاعدة البيانات مرة اخرى';
-        return emit(UserSignUpSuccess());
-      } else if (e.code == 'weak-password') {
-        errorMessage = 'كلمة المرور ضعيفة جدًا';
-      } else if (e.code == 'invalid-email') {
-        errorMessage = 'يرجى إدخال بريد إلكتروني صحيح';
-      }
-      emit(UserSignUpFailure(errorMessage));
+      emit(UserSignUpFailure(
+        FirebaseFailure.fromFirebaseAuthException(e).errMsg,
+      ));
+    } on FirebaseException catch (firebaseException) {
+      emit(UserSignUpFailure(
+          FirebaseFailure.fromFirebaseException(firebaseException).errMsg));
     } catch (e) {
-      emit(UserSignUpFailure('حدث خطأ غير متوقع'));
+      emit(UserSignUpFailure('حدث خطأ برجاء المحاوله مره اخري!!'));
     }
   }
 

@@ -1,13 +1,15 @@
 // lib/di/injector.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get_it/get_it.dart';
-import 'package:inventory_app/features/auth/data/auth_service.dart';
+import 'package:inventory_app/di/auth_service.dart';
 import 'package:inventory_app/features/product_management/shared/data/product_management_repo/product_management_repo.dart';
+import 'package:inventory_app/features/user_management/data/user_model.dart';
 
 class Injector {
   static bool isOnline = true; // checker if the user is online or not
 
   static final GetIt _getIt = GetIt.instance;
+  static UserModel? userModel;
 
   // Initialize all the dependencies
   static void init() async {

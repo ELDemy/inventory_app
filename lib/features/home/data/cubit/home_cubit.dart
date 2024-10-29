@@ -9,8 +9,8 @@ import 'package:get_it/get_it.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
+import 'package:inventory_app/di/auth_service.dart';
 import 'package:inventory_app/di/injector.dart';
-import 'package:inventory_app/features/auth/data/auth_service.dart';
 import 'package:inventory_app/features/home/data/home_repo/home_repo.dart';
 
 part 'home_state.dart';
