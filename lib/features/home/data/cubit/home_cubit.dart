@@ -76,9 +76,7 @@ class HomeCubit extends Cubit<HomeState> {
         },
         onError: (error) {
           print("Error in user document listener: $error");
-          print(error.toString());
           if (error.toString().toLowerCase().contains('permission-denied')) {
-            print("Handling user deletion");
             GetIt.I.get<AuthService>().handleUserDeletion(context);
           }
         },

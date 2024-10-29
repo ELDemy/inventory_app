@@ -33,7 +33,6 @@ class AuthCubit extends Cubit<AuthState> {
 
         if (userExists) {
           _authService.setupUserListener(context, currentUser.email!);
-          _authService.setupAuthStateListener(context);
           return true;
         } else {
           await _authService.signOut();
@@ -62,7 +61,6 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthError('هذا المستخدم غير مسجل في النظام'));
       } else {
         _authService.setupUserListener(context, userCredential.user!.email!);
-        _authService.setupAuthStateListener(context);
         emit(AuthSuccess());
       }
     } on FirebaseAuthException catch (e) {

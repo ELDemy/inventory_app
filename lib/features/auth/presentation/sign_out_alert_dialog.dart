@@ -10,9 +10,7 @@ class SignOutAlertDialog extends StatelessWidget {
       showDialog(
         context: context,
         barrierDismissible: false,
-        builder: (_) => const Center(
-          child: CircularProgressIndicator(),
-        ),
+        builder: (_) => const Center(child: CircularProgressIndicator()),
       );
 
       // Add a small delay for better UX
