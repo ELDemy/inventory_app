@@ -80,7 +80,7 @@ class AuthCubit extends Cubit<AuthState> {
       log('Error fetching documents: ${e.message}');
       return emit(AuthError(FirebaseFailure.fromFirebaseException(e).errMsg));
     } catch (e) {
-      log("Error at Home Cubit: ${e}");
+      log("Error at Home Cubit: $e");
       return emit(AuthError("حدث خطأ يرجى اعادة المحاولة!!"));
     }
   }

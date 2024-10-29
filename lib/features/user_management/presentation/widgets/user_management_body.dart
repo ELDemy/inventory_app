@@ -16,11 +16,8 @@ class UserManagementBody extends StatelessWidget {
       appBar: AppBar(
         title: const Text('إدارة المستخدمين'),
         actions: [
-          IconButton(
-            onPressed: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SignUpScreen())),
-            icon: const Icon(Icons.add),
-          )
+          _addIcon(context),
+          const SizedBox(width: 16),
         ],
       ),
       body: BlocBuilder<UserManagementCubit, UserManagementState>(
@@ -30,8 +27,7 @@ class UserManagementBody extends StatelessWidget {
           } else if (state is UserManagementFailure) {
             return _failureScreen(state, context);
           }
-          final List<UserModel> users =
-              context.read<UserManagementCubit>().users;
+          List<UserModel> users = context.watch<UserManagementCubit>().users;
 
           if (users.isEmpty) {
             return const Center(child: Text('لا يوجد مستخدمين حالياً'));
@@ -60,6 +56,35 @@ class UserManagementBody extends StatelessWidget {
             },
           );
         },
+      ),
+    );
+  }
+
+  InkWell _addIcon(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+              value: context.read<UserManagementCubit>(),
+              child: const SignUpScreen(),
+            ),
+          ),
+        );
+      },
+      child: Container(
+        height: 35,
+        width: 48,
+        margin: const EdgeInsets.only(right: 5),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(30),
+        ),
+        child: const Icon(
+          Icons.add,
+          color: AppColors.primaryColor,
+        ),
       ),
     );
   }

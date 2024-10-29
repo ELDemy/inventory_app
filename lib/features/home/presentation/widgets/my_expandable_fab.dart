@@ -54,8 +54,9 @@ class _MyExpandableFABState extends State<MyExpandableFAB> {
       onPressed: () async {
         _key.currentState?.toggle();
         String barcodeScanRes = await BarcodeUtil.scanBarcodeNormal();
-        if (barcodeScanRes == "-1")
+        if (barcodeScanRes == "-1") {
           return; // to not push if the code is invalid
+        }
 
         Navigator.push(
           context,
@@ -76,8 +77,9 @@ class _MyExpandableFABState extends State<MyExpandableFAB> {
         _key.currentState?.toggle();
 
         String barcodeScanRes = await BarcodeUtil.scanBarcodeNormal();
-        if (barcodeScanRes == "-1")
+        if (barcodeScanRes == "-1") {
           return; // to not push if the code is invalid
+        }
 
         Navigator.push(
           context,

@@ -85,7 +85,7 @@ class HomeCubit extends Cubit<HomeState> {
       log('Error fetching documents: ${e.message}');
       return emit(HomeFailure(FirebaseFailure.fromFirebaseException(e).errMsg));
     } catch (e) {
-      log("Error at Home Cubit: ${e}");
+      log("Error at Home Cubit: $e");
       return emit(HomeFailure("حدث خطأ!!"));
     }
   }

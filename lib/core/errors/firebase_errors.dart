@@ -8,16 +8,12 @@ class FirebaseFailure extends Failure {
     return FirebaseFailure(_handleFirebaseException(e));
   }
 
-  factory FirebaseFailure.fromFirebaseAuthException(FirebaseAuthException e) {
-    return FirebaseFailure(_handleAuthException(e));
-  }
-
   static String _handleFirebaseException(FirebaseException e) {
     switch (e.code) {
       case 'network-request-failed':
         return 'خطأ في الشبكة. يرجى التحقق من الاتصال.';
       case 'permission-denied':
-        return 'ليس لديك صلاحيه';
+        return 'ليس لديك صلاحية الاستخدام';
       case 'not-found':
         return 'المورد المطلوب غير موجود.';
       case 'unavailable':
@@ -39,6 +35,9 @@ class FirebaseFailure extends Failure {
     }
   }
 
+  factory FirebaseFailure.fromFirebaseAuthException(FirebaseAuthException e) {
+    return FirebaseFailure(_handleAuthException(e));
+  }
   // Private static method to handle various FirebaseAuthException codes
   static String _handleAuthException(FirebaseAuthException e) {
     switch (e.code) {

@@ -23,7 +23,6 @@ class UserManagementCubit extends Cubit<UserManagementState> {
 
       QuerySnapshot<Map<String, dynamic>> usersDocs =
           await Injector.usersCollection.get();
-      print(usersDocs);
       if (usersDocs.docs.isNotEmpty) {
         for (QueryDocumentSnapshot<Map<String, dynamic>> doc
             in usersDocs.docs) {
@@ -44,10 +43,8 @@ class UserManagementCubit extends Cubit<UserManagementState> {
   Future<void> deleteUser(String email) async {
     try {
       emit(UserManagementLoading());
-      print(email);
       await Injector.usersCollection.doc(email).delete();
       print("ELDEMY:: deleted doc");
-
       await getUsers();
       emit(UserManagementSuccess());
     } on FirebaseException catch (firebaseException) {
@@ -74,9 +71,16 @@ class UserManagementCubit extends Cubit<UserManagementState> {
       );
 
       await _addUserDoc(email, name, password);
-
+      getUsers();
       emit(UserSignUpSuccess());
     } on FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use') {
+        await _addUserDoc(email, name, password);
+        getUsers();
+        emit(UserSignUpSuccess());
+        return emit(UserSignUpFailure(
+            "البريد الالكتروني مسجل سابقا!! يجب استخدام الباسوورد القديم"));
+      }
       emit(UserSignUpFailure(
         FirebaseFailure.fromFirebaseAuthException(e).errMsg,
       ));

@@ -155,7 +155,7 @@ class _AnimatedSearchBarState extends State<AnimatedSearchBar>
                         hintText: widget.searchHintText,
                         border: InputBorder.none,
                         contentPadding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                            const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                         hintStyle: TextStyle(
                           color: widget.textColor?.withOpacity(0.5) ??
                               AppColors.primaryColor,
