@@ -23,7 +23,12 @@ class CardDetailRow extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              iconWidget ?? Icon(iconData, size: 20),
+              iconWidget ??
+                  Icon(
+                    iconData,
+                    size: 20,
+                    color: AppColors.iconsColor,
+                  ),
               const SizedBox(width: 5),
               Text(
                 label,

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:inventory_app/core/components/custom_icon_container.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
 import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/auth/presentation/signin.dart';
@@ -39,7 +40,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  InkWell? _usersIcons(BuildContext context) {
+  Widget? _usersIcons(BuildContext context) {
     if (FirebaseAuth.instance.currentUser?.email == null) {
       Navigator.pushAndRemoveUntil(
         context,
@@ -48,7 +49,11 @@ class HomeScreen extends StatelessWidget {
       );
     } else if (Injector.userModel?.role == "المدير" ||
         SuperAdmin.isSuperAdmin()) {
-      return InkWell(
+      return CustomIconContainer(
+        child: const Icon(
+          Icons.person,
+          color: AppColors.iconsColor,
+        ),
         onTap: () {
           Navigator.push(
             context,
@@ -56,19 +61,6 @@ class HomeScreen extends StatelessWidget {
                 builder: (context) => const UserManagementScreen()),
           );
         },
-        child: Container(
-          height: 35,
-          width: 48,
-          margin: const EdgeInsets.only(right: 5),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: const Icon(
-            Icons.person,
-            color: AppColors.primaryColor,
-          ),
-        ),
       );
     }
     return null;

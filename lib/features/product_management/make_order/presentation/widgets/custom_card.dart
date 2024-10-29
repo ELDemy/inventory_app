@@ -14,7 +14,7 @@ class CustomCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Card(
         elevation: 5,
-        color: AppColors.primaryBackgroundColor,
+        color: AppColors.cardBackgroundColor,
         // surfaceTintColor: AppColors.primaryColor.withOpacity(0),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 10),
@@ -23,7 +23,11 @@ class CustomCard extends StatelessWidget {
               Wrap(
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  Icon(iconData ?? Icons.info_outline_rounded, size: 20),
+                  Icon(
+                    iconData ?? Icons.info_outline_rounded,
+                    size: 20,
+                    color: AppColors.iconsColor,
+                  ),
                   const SizedBox(width: 5),
                   Text(
                     title,

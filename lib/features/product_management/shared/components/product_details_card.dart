@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:inventory_app/core/components/my_barcode_icon.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/features/product_management/make_order/presentation/widgets/custom_card.dart';
 
 import 'card_detail_row.dart';
 
 class ProductDetailsCard extends StatelessWidget {
-  const ProductDetailsCard({
-    super.key,
-    required this.productModel,
-    this.isOrder = false,
-  });
+  const ProductDetailsCard(
+      {super.key, required this.productModel, this.isOrder = false});
 
   final ProductModel productModel;
   final bool isOrder;
@@ -29,7 +27,7 @@ class ProductDetailsCard extends StatelessWidget {
                 CardDetailRow(
                   label: "",
                   content: "${productModel.identifierSN ?? "###"} ",
-                  iconWidget: barcodeIcon(),
+                  iconWidget: const MyBarcodeIcon(height: 18),
                 ),
                 CardDetailRow(
                   label: "Power :",

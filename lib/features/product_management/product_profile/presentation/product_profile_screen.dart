@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_app/core/components/custom_icon_container.dart';
 import 'package:inventory_app/core/components/failure_screen.dart';
 import 'package:inventory_app/core/components/my_citcular_loading.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
@@ -49,7 +50,7 @@ class ProductProfileScreen extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: const Text("بيانات المنتج"),
-              actions: [_trashIcon(context)],
+              actions: [_trashIcon(context), const SizedBox(width: 10)],
             ),
             body: bodyContent,
           );
@@ -58,36 +59,37 @@ class ProductProfileScreen extends StatelessWidget {
     );
   }
 
-  IconButton _trashIcon(BuildContext context) {
-    return IconButton(
-        onPressed: () {
-          showDialog(
-            context: context,
-            builder: (BuildContext dialogContext) {
-              return AlertDialog(
-                backgroundColor: AppColors.primaryBackgroundColor,
-                title: const Text('تأكيد حذف المنتج'),
-                content: Text(identifierSN),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(dialogContext).pop(),
-                    child: const Text('الغاء'),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(dialogContext).pop();
-                      BlocProvider.of<ProductProfileCubit>(context)
-                          .deleteProduct();
-                    },
-                    child:
-                        const Text('حذف', style: TextStyle(color: Colors.red)),
-                  ),
-                ],
-              );
-            },
-          );
-        },
-        icon: const Icon(Icons.delete_outline_rounded, size: 30));
+  Widget _trashIcon(BuildContext context) {
+    return CustomIconContainer(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            return AlertDialog(
+              backgroundColor: AppColors.primaryBackgroundColor,
+              title: const Text('تأكيد حذف المنتج'),
+              content: Text(identifierSN),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(dialogContext).pop(),
+                  child: const Text('الغاء'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(dialogContext).pop();
+                    BlocProvider.of<ProductProfileCubit>(context)
+                        .deleteProduct();
+                  },
+                  child: const Text('حذف', style: TextStyle(color: Colors.red)),
+                ),
+              ],
+            );
+          },
+        );
+      },
+      child:
+          const Icon(Icons.delete_outline_rounded, color: AppColors.iconsColor),
+    );
   }
 
   FailureScreen _failureScreen(

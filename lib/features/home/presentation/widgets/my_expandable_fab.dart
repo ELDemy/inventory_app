@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:inventory_app/core/components/my_barcode_icon.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
 import 'package:inventory_app/core/utils/barcode_util.dart';
 import 'package:inventory_app/features/product_management/add_edit_product/presentation/add_new_product/add_new_product_screen.dart';
@@ -44,13 +44,9 @@ class _MyExpandableFABState extends State<MyExpandableFAB> {
   FloatingActionButton _scanBarcodeButton() {
     return FloatingActionButton(
       heroTag: "scanBarcode",
-      backgroundColor: AppColors.primaryColor,
-      foregroundColor: AppColors.foregroundColor,
-      child: SvgPicture.asset(
-        height: 35,
-        "assets/icons/barcode-icon.svg",
-        colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-      ),
+      backgroundColor: AppColors.fabBackgroundColor,
+      foregroundColor: AppColors.fabIconsColor,
+      child: const MyBarcodeIcon(color: AppColors.fabIconsColor),
       onPressed: () async {
         _key.currentState?.toggle();
         String barcodeScanRes = await BarcodeUtil.scanBarcodeNormal();
@@ -70,8 +66,8 @@ class _MyExpandableFABState extends State<MyExpandableFAB> {
   FloatingActionButton _orderButton() {
     return FloatingActionButton(
       heroTag: "order",
-      backgroundColor: AppColors.primaryColor,
-      foregroundColor: AppColors.foregroundColor,
+      backgroundColor: AppColors.fabBackgroundColor,
+      foregroundColor: AppColors.fabIconsColor,
       child: const Icon(Icons.shopping_cart_outlined),
       onPressed: () async {
         _key.currentState?.toggle();
@@ -93,8 +89,8 @@ class _MyExpandableFABState extends State<MyExpandableFAB> {
   FloatingActionButton _addNewProductButton() {
     return FloatingActionButton(
       heroTag: "add order",
-      backgroundColor: AppColors.primaryColor,
-      foregroundColor: AppColors.foregroundColor,
+      backgroundColor: AppColors.fabBackgroundColor,
+      foregroundColor: AppColors.fabIconsColor,
       child: const Icon(
         Icons.add_circle_outline_rounded,
         size: 26,
@@ -125,12 +121,8 @@ class _MyExpandableFABState extends State<MyExpandableFAB> {
   RotateFloatingActionButtonBuilder _openButtonBuilder() {
     return RotateFloatingActionButtonBuilder(
       heroTag: "openButtonBuilder",
-      child: SvgPicture.asset(
-        height: 35,
-        "assets/icons/barcode-icon.svg",
-        colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-      ),
-      backgroundColor: AppColors.primaryColor,
+      child: const MyBarcodeIcon(color: AppColors.fabIconsColor),
+      backgroundColor: AppColors.fabBackgroundColor,
     );
   }
 }

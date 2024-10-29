@@ -11,7 +11,7 @@ class AppTheme {
       elevation: 2,
       scrolledUnderElevation: 5,
       shadowColor: AppColors.primaryColor,
-      foregroundColor: Colors.white,
+      foregroundColor: AppColors.foregroundColor,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
@@ -19,10 +19,11 @@ class AppTheme {
         foregroundColor: AppColors.foregroundColor,
       ),
     ),
+    iconTheme: const IconThemeData(color: AppColors.iconsColor),
     cardTheme: CardTheme(
       elevation: 5,
       margin: const EdgeInsets.symmetric(vertical: 5),
-      color: AppColors.primaryBackgroundColor,
+      color: AppColors.cardBackgroundColor,
       shadowColor: AppColors.primaryBackgroundColor,
       shape: RoundedRectangleBorder(
         side: BorderSide(color: AppColors.primaryColor.withOpacity(.3)),

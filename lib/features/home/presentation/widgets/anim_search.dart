@@ -25,7 +25,7 @@ class _CustomAnimatedSearchBarState extends State<CustomAnimatedSearchBar> {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return AnimatedSearchBar(
-          width: MediaQuery.of(context).size.width * .8,
+          width: MediaQuery.of(context).size.width * .5,
           textController: _searchController,
           searchHintText: "اسم الموديل او الرقم التعريفي",
           onChanged: (value) {
@@ -36,10 +36,9 @@ class _CustomAnimatedSearchBarState extends State<CustomAnimatedSearchBar> {
             _searchController.clear();
             context.read<HomeCubit>().clearSearchedProducts();
           },
-
           textColor: Colors.black,
-          searchIconColor: AppColors.primaryColor, // Optional
-          closeIconColor: AppColors.primaryColor, // Optional
+          searchIconColor: AppColors.iconsColor, // Optional
+          closeIconColor: AppColors.iconsColor, // Optional
         );
       },
     );
@@ -143,23 +142,20 @@ class _AnimatedSearchBarState extends State<AnimatedSearchBar>
             children: [
               if (_widthAnimation.value > 0)
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: TextField(
-                      controller: widget.textController,
-                      onChanged: widget.onChanged,
-                      style: TextStyle(
-                        color: widget.textColor ?? Colors.black,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: widget.searchHintText,
-                        border: InputBorder.none,
-                        contentPadding:
-                            const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                        hintStyle: TextStyle(
-                          color: widget.textColor?.withOpacity(0.5) ??
-                              AppColors.primaryColor,
-                        ),
+                  child: TextField(
+                    controller: widget.textController,
+                    onChanged: widget.onChanged,
+                    style: TextStyle(
+                      color: widget.textColor ?? Colors.black,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: widget.searchHintText,
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 8),
+                      hintStyle: TextStyle(
+                        color: widget.textColor?.withOpacity(0.5) ??
+                            AppColors.primaryColor,
                       ),
                     ),
                   ),
