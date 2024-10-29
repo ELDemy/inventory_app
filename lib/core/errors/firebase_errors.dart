@@ -44,6 +44,8 @@ class FirebaseFailure extends Failure {
     switch (e.code) {
       case 'email-already-in-use':
         return 'البريد الإلكتروني موجود بالفعل.';
+      case 'invalid-credential':
+        return 'اسم المستخدم او كلمة السر غير صحيحه';
       case 'user-not-found':
         return 'لم يتم العثور على حساب بهذا البريد الإلكتروني.';
       case 'wrong-password':

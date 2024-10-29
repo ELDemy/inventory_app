@@ -32,7 +32,8 @@ class AuthCubit extends Cubit<AuthState> {
             await _authService.checkUserInFirestore(currentUser!.email!);
 
         if (userExists) {
-          _authService.setupUserListener(currentUser.email!, context);
+          _authService.setupUserListener(context, currentUser.email!);
+          _authService.setupAuthStateListener(context);
           return true;
         } else {
           await _authService.signOut();
@@ -60,11 +61,12 @@ class AuthCubit extends Cubit<AuthState> {
       if (!userExists) {
         emit(AuthError('هذا المستخدم غير مسجل في النظام'));
       } else {
-        _authService.setupUserListener(userCredential.user!.email!, context);
+        _authService.setupUserListener(context, userCredential.user!.email!);
+        _authService.setupAuthStateListener(context);
         emit(AuthSuccess());
       }
     } on FirebaseAuthException catch (e) {
-      log("FirebaseAuthException $signIn");
+      log("FirebaseAuthException signIn function authCubit : ${e.toString()}");
       emit(AuthError(FirebaseFailure.fromFirebaseAuthException(e).errMsg));
     } on FirebaseException catch (e) {
       log('Error fetching documents: ${e.message}');
