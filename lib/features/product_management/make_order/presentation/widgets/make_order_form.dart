@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/components/custom_text_form_field.dart';
 import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
-import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/product_management/make_order/data/make_order_cubit/make_order_cubit.dart';
 
 import 'custom_card.dart';
@@ -25,6 +24,15 @@ class _MakeOrderFormState extends State<MakeOrderForm> {
   final TextEditingController _priceController = TextEditingController();
 
   final List<String> barcodes = [];
+
+  @override
+  void dispose() {
+    _clientNameController.dispose();
+    _clientNumberController.dispose();
+    _qtyController.dispose();
+    _priceController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +85,6 @@ class _MakeOrderFormState extends State<MakeOrderForm> {
                       quantity: int.parse(_qtyController.text),
                       clientName: _clientNameController.text,
                       clientPhoneNumber: _clientNumberController.text,
-                      employee: Injector.userModel?.name ?? "",
                     ),
                   );
                 }

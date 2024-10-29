@@ -35,7 +35,7 @@ class FirebaseFailure extends Failure {
       case 'unauthenticated':
         return 'يرجى تسجيل الدخول للوصول إلى هذا المورد.';
       default:
-        return 'حدث خطأ غير متوقع: ${e.message}';
+        return ' خطأ: ${e.message}';
     }
   }
 
@@ -63,7 +63,7 @@ class FirebaseFailure extends Failure {
       case 'too-many-requests':
         return 'تم إرسال الكثير من الطلبات. يرجى الانتظار قليلاً والمحاولة مرة أخرى.';
       default:
-        return 'حدث خطأ غير متوقع: ${e.message}';
+        return 'حدث خطأ: ${e.message}';
     }
   }
 }

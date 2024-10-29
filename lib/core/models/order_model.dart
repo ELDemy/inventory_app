@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory_app/core/models/product_model.dart';
+import 'package:inventory_app/di/injector.dart';
 
 class OrderModel {
   final ProductModel product;
@@ -47,7 +48,7 @@ class OrderModel {
   Map<String, dynamic> toFirestore() {
     return {
       "creationTime": DateTime.now(),
-      "employee": "اسم الموظف",
+      "employee": Injector.userModel?.name ?? "",
       "product": product.toFirestore(),
       "serialNumbers": serialNumbers,
       "price": price,

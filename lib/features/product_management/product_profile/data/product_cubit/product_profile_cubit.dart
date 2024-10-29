@@ -44,8 +44,7 @@ class ProductProfileCubit extends Cubit<ProductProfileState> {
       );
     } catch (e) {
       print('An unexpected error occurred: $e');
-      return emit(
-          ProductProfileFailure("حدث خطأ غير متوقع برجاء المحاوله مره اخري!!"));
+      return emit(ProductProfileFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
     }
   }
 
@@ -66,8 +65,7 @@ class ProductProfileCubit extends Cubit<ProductProfileState> {
       );
     } catch (e) {
       print('An unexpected error occurred: $e');
-      return emit(
-          DeleteProductFailure("حدث خطأ غير متوقع برجاء المحاوله مره اخري!!"));
+      return emit(DeleteProductFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
     }
   }
 }

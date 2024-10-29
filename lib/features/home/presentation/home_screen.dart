@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
+import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/auth/presentation/signin.dart';
 import 'package:inventory_app/features/home/data/cubit/home_cubit.dart';
 import 'package:inventory_app/features/user_management/presentation/user_management_screen.dart';
+import 'package:inventory_app/super_admin.dart';
 
 import 'widgets/anim_search.dart';
 import 'widgets/my_expandable_fab.dart';
@@ -44,8 +46,8 @@ class HomeScreen extends StatelessWidget {
         MaterialPageRoute(builder: (context) => SignInScreen()),
         (route) => false,
       );
-    } else if (FirebaseAuth.instance.currentUser!.email ==
-        "mahmoudeldemerdash5@gmail.com") {
+    } else if (Injector.userModel?.role == "مدير" ||
+        SuperAdmin.isSuperAdmin()) {
       return InkWell(
         onTap: () {
           Navigator.push(

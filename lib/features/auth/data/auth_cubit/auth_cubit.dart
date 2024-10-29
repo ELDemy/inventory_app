@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/di/auth_service.dart';
+import 'package:inventory_app/super_admin.dart';
 
 part 'auth_state.dart';
 
@@ -25,6 +26,10 @@ class AuthCubit extends Cubit<AuthState> {
   Future<bool> checkInitialAuthState(BuildContext context) async {
     try {
       final User? currentUser = _auth.currentUser;
+
+      // Super Admin OverRide
+      if (SuperAdmin.isSuperAdmin()) return true;
+
       if (currentUser?.email == null) {
         return false;
       } else {
@@ -54,6 +59,11 @@ class AuthCubit extends Cubit<AuthState> {
 
       final UserCredential userCredential = await _auth
           .signInWithEmailAndPassword(email: email, password: password);
+
+      // Super Admin override
+      if (SuperAdmin.isSuperAdmin()) {
+        return emit(AuthSuccess());
+      }
 
       final bool userExists = await _authService.checkUserInFirestore(email);
 

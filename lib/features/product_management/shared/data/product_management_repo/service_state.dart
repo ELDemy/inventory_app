@@ -6,8 +6,7 @@ class ServiceState {
   ServiceState({required this.serviceStateMsg});
 
   factory ServiceState.exceptionError() {
-    return ServiceState(
-        serviceStateMsg: "حدث خطأ غير متوقع برجاء المحاوله مره اخري!!");
+    return ServiceState(serviceStateMsg: "حدث خطأ برجاء المحاوله مره اخري!!");
   }
   factory ServiceState.serviceError() {
     return ServiceState(serviceStateMsg: "حدث خطأ برجاء اعادة المحاوله!!");

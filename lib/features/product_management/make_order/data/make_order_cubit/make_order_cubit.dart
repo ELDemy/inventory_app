@@ -45,8 +45,7 @@ class MakeOrderCubit extends Cubit<MakeOrderState> {
       ));
     } catch (e) {
       print('An unexpected error occurred: $e');
-      return emit(
-          FetchProductFailure("حدث خطأ غير متوقع برجاء المحاوله مره اخري!!"));
+      return emit(FetchProductFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
     }
   }
 
@@ -76,8 +75,7 @@ class MakeOrderCubit extends Cubit<MakeOrderState> {
       ));
     } catch (e) {
       print('An unexpected error occurred: $e');
-      return emit(
-          MakeOrderFailure("حدث خطأ غير متوقع برجاء المحاوله مره اخري!!"));
+      return emit(MakeOrderFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
     }
   }
 }
