@@ -8,14 +8,26 @@ import 'package:inventory_app/features/auth/data/auth_cubit/auth_cubit.dart';
 import 'package:inventory_app/features/auth/presentation/signin.dart';
 import 'package:inventory_app/features/home/presentation/home_screen.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => AuthCubit(),
+      child: const _SplashScreen(),
+    );
+  }
+}
+
+class _SplashScreen extends StatefulWidget {
+  const _SplashScreen({super.key});
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<_SplashScreen> {
   @override
   void initState() {
     super.initState();
@@ -28,16 +40,26 @@ class _SplashScreenState extends State<SplashScreen> {
           .checkInitialAuthState(context);
 
       if (isLoggedIn) {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const HomeScreen()));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+        );
       } else {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const SignInScreen()));
+          context,
+          MaterialPageRoute(
+            builder: (_) => const SignInScreen(),
+          ),
+        );
       }
     } catch (e) {
       log('Error checking login status: $e');
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const SignInScreen()));
+        context,
+        MaterialPageRoute(
+          builder: (_) => const SignInScreen(),
+        ),
+      );
     }
   }
 
