@@ -40,7 +40,7 @@ class CustomTextFormField extends StatelessWidget {
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           label: _label(),
-          labelStyle: TextStyle(color: AppColors.labelColor),
+          labelStyle: const TextStyle(color: AppColors.labelColor),
           suffixIcon: suffixIcon,
         ),
       ),

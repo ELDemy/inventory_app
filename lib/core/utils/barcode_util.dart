@@ -8,7 +8,7 @@ import 'show_info_util.dart';
 class BarcodeUtil {
   static String parseIdentifierFromSN(String barcode) {
     if (barcode.length >= 20) {
-      return barcode.substring(0, 11);
+      return barcode.substring(0, 17);
     } else if (barcode.length >= 14) {
       return barcode.substring(0, 11);
     } else {
