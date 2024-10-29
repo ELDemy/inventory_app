@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget {
       return CustomIconContainer(
         child: const Icon(
           Icons.person,
-          color: AppColors.iconsColor,
+          color: AppColors.appBarIconsColor,
         ),
         onTap: () {
           Navigator.push(

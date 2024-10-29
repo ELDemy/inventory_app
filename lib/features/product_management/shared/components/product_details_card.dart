@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inventory_app/core/components/my_barcode_icon.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/features/product_management/make_order/presentation/widgets/custom_card.dart';
@@ -61,14 +60,6 @@ class ProductDetailsCard extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  SvgPicture barcodeIcon() {
-    return SvgPicture.asset(
-      height: 18,
-      "assets/icons/barcode-icon.svg",
-      colorFilter: const ColorFilter.mode(Colors.black, BlendMode.srcIn),
     );
   }
 }

@@ -87,8 +87,10 @@ class ProductProfileScreen extends StatelessWidget {
           },
         );
       },
-      child:
-          const Icon(Icons.delete_outline_rounded, color: AppColors.iconsColor),
+      child: const Icon(
+        Icons.delete_outline_rounded,
+        color: AppColors.appBarIconsColor,
+      ),
     );
   }
 

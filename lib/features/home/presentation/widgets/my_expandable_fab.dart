@@ -113,7 +113,7 @@ class _MyExpandableFABState extends State<MyExpandableFAB> {
         return IconButton(
             padding: const EdgeInsets.all(20),
             onPressed: onPressed,
-            icon: const Icon(Icons.close_rounded));
+            icon: const Icon(Icons.close_rounded, color: Colors.black45));
       },
     );
   }
