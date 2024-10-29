@@ -72,9 +72,6 @@ class HomeCubit extends Cubit<HomeState> {
             emit(HomeProductsState());
           }
         },
-        onError: (error) {
-          emit(HomeFailure(error.toString()));
-        },
       );
     } on FirebaseException catch (e) {
       log('Error fetching documents: ${e.message}');

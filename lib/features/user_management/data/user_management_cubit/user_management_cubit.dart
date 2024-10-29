@@ -47,7 +47,9 @@ class UserManagementCubit extends Cubit<UserManagementState> {
       print(email);
       await Injector.usersCollection.doc(email).delete();
       print("ELDEMY:: deleted doc");
+
       users.removeWhere((user) => user.email == email);
+
       await getUsers();
       emit(UserManagementSuccess());
     } on FirebaseException catch (firebaseException) {
@@ -75,6 +77,15 @@ class UserManagementCubit extends Cubit<UserManagementState> {
 
       await _addUserDoc(email, name, password);
 
+      users.add(
+        UserModel(
+          createdAt: DateTime.now(),
+          password: password,
+          role: "موظف",
+          name: name,
+          email: email,
+        ),
+      );
       emit(UserSignUpSuccess());
     } on FirebaseAuthException catch (e) {
       String errorMessage = 'حدث خطأ ما';

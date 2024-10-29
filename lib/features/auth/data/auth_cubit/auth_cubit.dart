@@ -1,8 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_app/di/injector.dart';
+import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/features/auth/data/auth_service.dart';
 
 part 'auth_state.dart';
@@ -59,71 +60,15 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthSuccess());
       }
     } on FirebaseAuthException catch (e) {
-      String errorMessage = 'حدث خطأ ما';
-
-      if (e.code == 'user-not-found') {
-        errorMessage = 'لم يتم العثور على مستخدم لهذا البريد الإلكتروني';
-      } else if (e.code == 'invalid-credential') {
-        errorMessage = 'اسم المستخدم او كلمة السر غير صحيحه';
-      } else if (e.code == 'wrong-password') {
-        errorMessage = 'كلمة المرور التي تم إدخالها غير صحيحة';
-      } else if (e.code == 'invalid-email') {
-        errorMessage = 'يرجى إدخال بريد إلكتروني صالح';
-      }
-
-      emit(AuthError(errorMessage));
+      log("FirebaseAuthException $signIn");
+      FirebaseFailure.fromFirebaseAuthException(e);
+      emit(AuthError(FirebaseFailure.fromFirebaseAuthException(e).errMsg));
+    } on FirebaseException catch (e) {
+      log('Error fetching documents: ${e.message}');
+      return emit(AuthError(FirebaseFailure.fromFirebaseException(e).errMsg));
     } catch (e) {
-      print(e);
-      emit(AuthError('حدث خطأ غير متوقع'));
-    }
-  }
-
-  Future<void> signUp({
-    required String email,
-    required String password,
-    required String name,
-  }) async {
-    try {
-      emit(AuthLoading());
-
-      await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-
-      await Injector.usersCollection.doc(email).set(
-        {
-          'name': name,
-          'email': email,
-          'password': password,
-          'role': "موظف",
-          'createdAt': Timestamp.now(),
-        },
-      );
-
-      emit(AuthSuccess());
-    } on FirebaseAuthException catch (e) {
-      String errorMessage = 'حدث خطأ ما';
-
-      if (e.code == 'weak-password') {
-        errorMessage = 'كلمة المرور ضعيفة جدًا';
-      } else if (e.code == 'email-already-in-use') {
-        await Injector.usersCollection.doc(email).set(
-          {
-            'name': name,
-            'email': email,
-            'password': password,
-            'role': "موظف",
-            'createdAt': Timestamp.now(),
-          },
-        );
-        errorMessage = 'يوجد حساب مسجل بالفعل بهذا البريد الإلكتروني';
-      } else if (e.code == 'invalid-email') {
-        errorMessage = 'يرجى إدخال بريد إلكتروني صحيح';
-      }
-      emit(AuthError(errorMessage));
-    } catch (e) {
-      emit(AuthError('حدث خطأ غير متوقع'));
+      log("Error at Home Cubit: ${e}");
+      return emit(AuthError("حدث خطأ!!"));
     }
   }
 

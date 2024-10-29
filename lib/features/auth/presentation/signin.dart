@@ -7,8 +7,6 @@ import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/features/auth/data/auth_cubit/auth_cubit.dart';
 import 'package:inventory_app/features/home/presentation/home_screen.dart';
 
-import '../../user_management/presentation/sign_up_screen.dart';
-
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
 
@@ -79,18 +77,6 @@ class SignInScreen extends StatelessWidget {
                           ? const CircularProgressIndicator()
                           : const Text('تسجيل الدخول'),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SignUpScreen(),
-                        ),
-                      );
-                    },
-                    child: const Text('Don\'t have an account? Sign Up'),
                   ),
                 ],
               ),

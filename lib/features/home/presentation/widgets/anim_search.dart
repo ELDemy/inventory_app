@@ -25,7 +25,7 @@ class _CustomAnimatedSearchBarState extends State<CustomAnimatedSearchBar> {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return AnimatedSearchBar(
-          width: MediaQuery.of(context).size.width * .6,
+          width: MediaQuery.of(context).size.width * .8,
           textController: _searchController,
           searchHintText: "اسم الموديل او الرقم التعريفي",
           onChanged: (value) {
