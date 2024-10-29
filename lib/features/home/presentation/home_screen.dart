@@ -1,7 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:inventory_app/core/utils/app_colors.dart';
+import 'package:inventory_app/features/auth/presentation/signin.dart';
 import 'package:inventory_app/features/home/data/cubit/home_cubit.dart';
+import 'package:inventory_app/features/user_management/presentation/user_management_screen.dart';
 
 import 'widgets/anim_search.dart';
 import 'widgets/my_expandable_fab.dart';
@@ -16,11 +20,14 @@ class HomeScreen extends StatelessWidget {
       create: (context) => HomeCubit(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("الصفحة الرئيسية"),
-          centerTitle: true,
-          actions: const [
-            CustomAnimatedSearchBar(),
-            SizedBox(width: 16),
+          title: const Padding(
+            padding: EdgeInsets.only(right: 15),
+            child: Text("الصفحة الرئيسية"),
+          ),
+          actions: [
+            const CustomAnimatedSearchBar(),
+            _usersIcons(context) ?? const SizedBox(),
+            const SizedBox(width: 5),
           ],
         ),
         floatingActionButtonLocation: ExpandableFab.location,
@@ -28,5 +35,41 @@ class HomeScreen extends StatelessWidget {
         body: const ProductsList(),
       ),
     );
+  }
+
+  InkWell? _usersIcons(BuildContext context) {
+    if (FirebaseAuth.instance.currentUser?.email == null) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => SignInScreen()),
+        (route) => false,
+      );
+    } else if (FirebaseAuth.instance.currentUser!.email ==
+        "mahmoudeldemerdash5@gmail.com") {
+      return InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const UserManagementScreen(),
+            ),
+          );
+        },
+        child: Container(
+          height: 35,
+          width: 48,
+          margin: const EdgeInsets.only(right: 5),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: const Icon(
+            Icons.person,
+            color: AppColors.primaryColor,
+          ),
+        ),
+      );
+    }
+    return null;
   }
 }

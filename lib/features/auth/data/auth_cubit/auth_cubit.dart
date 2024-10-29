@@ -86,13 +86,12 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       emit(AuthLoading());
 
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      await Injector.usersCollection.doc(userCredential.user!.email).set(
+      await Injector.usersCollection.doc(email).set(
         {
           'name': name,
           'email': email,
@@ -109,6 +108,15 @@ class AuthCubit extends Cubit<AuthState> {
       if (e.code == 'weak-password') {
         errorMessage = 'كلمة المرور ضعيفة جدًا';
       } else if (e.code == 'email-already-in-use') {
+        await Injector.usersCollection.doc(email).set(
+          {
+            'name': name,
+            'email': email,
+            'password': password,
+            'role': "موظف",
+            'createdAt': Timestamp.now(),
+          },
+        );
         errorMessage = 'يوجد حساب مسجل بالفعل بهذا البريد الإلكتروني';
       } else if (e.code == 'invalid-email') {
         errorMessage = 'يرجى إدخال بريد إلكتروني صحيح';

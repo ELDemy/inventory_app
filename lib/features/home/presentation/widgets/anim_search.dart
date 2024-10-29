@@ -13,6 +13,13 @@ class CustomAnimatedSearchBar extends StatefulWidget {
 
 class _CustomAnimatedSearchBarState extends State<CustomAnimatedSearchBar> {
   final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
@@ -29,8 +36,8 @@ class _CustomAnimatedSearchBarState extends State<CustomAnimatedSearchBar> {
             _searchController.clear();
             context.read<HomeCubit>().clearSearchedProducts();
           },
-          backgroundColor: Colors.grey[200], // Optional
-          textColor: Colors.black, // Optional
+
+          textColor: Colors.black,
           searchIconColor: AppColors.primaryColor, // Optional
           closeIconColor: AppColors.primaryColor, // Optional
         );
@@ -51,7 +58,7 @@ class AnimatedSearchBar extends StatefulWidget {
   final Color? closeIconColor;
 
   const AnimatedSearchBar({
-    Key? key,
+    super.key,
     required this.width,
     required this.textController,
     required this.onChanged,
@@ -61,7 +68,7 @@ class AnimatedSearchBar extends StatefulWidget {
     this.textColor,
     this.searchIconColor,
     this.closeIconColor,
-  }) : super(key: key);
+  });
 
   @override
   State<AnimatedSearchBar> createState() => _AnimatedSearchBarState();

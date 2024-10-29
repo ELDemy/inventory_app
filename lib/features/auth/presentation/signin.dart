@@ -7,7 +7,7 @@ import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/features/auth/data/auth_cubit/auth_cubit.dart';
 import 'package:inventory_app/features/home/presentation/home_screen.dart';
 
-import 'sign_up_screen.dart';
+import '../../user_management/presentation/sign_up_screen.dart';
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
@@ -83,7 +83,6 @@ class SignInScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   TextButton(
                     onPressed: () {
-                      // Navigate to sign up screen
                       Navigator.push(
                         context,
                         MaterialPageRoute(
