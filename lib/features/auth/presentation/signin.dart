@@ -46,7 +46,7 @@ class _SignInScreenState extends State<SignInScreen> {
           },
           builder: (context, state) {
             return Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Form(
                 key: _formKey,
                 child: Center(
