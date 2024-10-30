@@ -8,7 +8,7 @@ class FirebaseFailure extends Failure {
   factory FirebaseFailure.fromFirebaseException(FirebaseException e) {
     Failure.exception(e);
     FirebaseAnalytics.instance.logEvent(
-      name: "firebase_exception",
+      name: "fire_base_exception",
       parameters: {"error": e.toString()},
     );
     return FirebaseFailure(_handleFirebaseException(e));
@@ -43,7 +43,7 @@ class FirebaseFailure extends Failure {
 
   factory FirebaseFailure.fromFirebaseAuthException(FirebaseAuthException e) {
     FirebaseAnalytics.instance.logEvent(
-      name: "firebase_auth_exception",
+      name: "fire_base_auth_exception",
       parameters: {"error": e.toString()},
     );
     return FirebaseFailure(_handleAuthException(e));

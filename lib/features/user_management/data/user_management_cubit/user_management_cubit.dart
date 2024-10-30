@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:inventory_app/core/errors/abstract_failure_class.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/di/injector.dart';
@@ -66,18 +67,19 @@ class UserManagementCubit extends Cubit<UserManagementState> {
     try {
       emit(UserSignUpLoading());
 
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      // to not change the current user credentials
+      await Firebase.initializeApp(
+          name: 'admin-app', options: Firebase.app().options);
+      await FirebaseAuth.instanceFor(app: Firebase.app('admin-app'))
+          .createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-
       await _addUserDoc(email, name, password);
-      getUsers();
       emit(UserSignUpSuccess());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         await _addUserDoc(email, name, password);
-        getUsers();
         emit(UserSignUpSuccess());
         return emit(UserSignUpFailure(
             "البريد الالكتروني مسجل سابقا!! يجب استخدام الباسوورد القديم"));
