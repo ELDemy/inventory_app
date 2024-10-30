@@ -87,7 +87,7 @@ class UserManagementBody extends StatelessWidget {
         ),
         child: const Icon(
           Icons.add,
-          color: AppColors.primaryColor,
+          color: AppColors.appBarIconsColor,
         ),
       ),
     );

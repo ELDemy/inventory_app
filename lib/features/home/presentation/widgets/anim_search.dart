@@ -37,8 +37,8 @@ class _CustomAnimatedSearchBarState extends State<CustomAnimatedSearchBar> {
             context.read<HomeCubit>().clearSearchedProducts();
           },
           textColor: Colors.black,
-          searchIconColor: AppColors.iconsColor, // Optional
-          closeIconColor: AppColors.iconsColor, // Optional
+          searchIconColor: AppColors.appBarIconsColor, // Optional
+          closeIconColor: AppColors.appBarIconsColor, // Optional
         );
       },
     );
