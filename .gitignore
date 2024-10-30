@@ -1,4 +1,6 @@
 # Miscellaneous
+*.aab
+*.apk
 *.class
 *.log
 *.pyc

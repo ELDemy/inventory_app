@@ -28,11 +28,6 @@ class HomeScreen extends StatelessWidget {
             child: Text("الصفحة الرئيسية"),
           ),
           actions: [
-            IconButton(
-                onPressed: () {
-                  throw Exception();
-                },
-                icon: const Icon(Icons.error)),
             const CustomAnimatedSearchBar(),
             _usersIcons(context) ?? const SizedBox(),
             const SizedBox(width: 5),
