@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:inventory_app/core/errors/abstract_failure_class.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/core/models/product_model.dart';
@@ -39,12 +40,11 @@ class MakeOrderCubit extends Cubit<MakeOrderState> {
             "المنتج بمعرف رقم $identifierSN  غير موجود في قاعدة البيانات \n برجاء اضافة المنتج ثم اعادة المحاولة "));
       }
     } on FirebaseException catch (firebaseException) {
-      print('Error getting document: ${firebaseException.message}');
       return emit(FetchProductFailure(
         FirebaseFailure.fromFirebaseException(firebaseException).errMsg,
       ));
     } catch (e) {
-      print('An unexpected error occurred: $e');
+      Failure.exception(e);
       return emit(FetchProductFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
     }
   }
@@ -58,7 +58,6 @@ class MakeOrderCubit extends Cubit<MakeOrderState> {
 
       await productManagementRepo.makeOrder(orderModel).then(
         (value) {
-          print('Order Transaction has been created successfully.');
           return emit(MakeOrderSuccess());
         },
       ).onError(
@@ -69,12 +68,11 @@ class MakeOrderCubit extends Cubit<MakeOrderState> {
         },
       );
     } on FirebaseException catch (firebaseException) {
-      print('Error creating document: ${firebaseException.message}');
       return emit(MakeOrderFailure(
         FirebaseFailure.fromFirebaseException(firebaseException).errMsg,
       ));
     } catch (e) {
-      print('An unexpected error occurred: $e');
+      Failure.exception(e);
       return emit(MakeOrderFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
     }
   }

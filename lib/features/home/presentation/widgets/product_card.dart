@@ -92,7 +92,8 @@ class ProductCard extends StatelessWidget {
   InkWell _rightArrow(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(24),
-      onTap: () {
+      onTap: () async {
+        await product.logViewEvent();
         if (product.identifierSN == null) return;
         Navigator.push(
           context,

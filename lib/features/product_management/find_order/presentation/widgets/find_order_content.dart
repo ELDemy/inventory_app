@@ -75,7 +75,7 @@ class FindOrderContent extends StatelessWidget {
 
   CustomCard _clientCard(OrderModel orderModel) {
     return CustomCard(
-      title: "بينات العميل",
+      title: "بيانات العميل",
       iconData: Icons.person,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

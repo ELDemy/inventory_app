@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:inventory_app/core/errors/abstract_failure_class.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/di/injector.dart';
@@ -36,11 +35,10 @@ class AddEditProductCubit extends Cubit<AddEditProductState> {
 
       emit(AddEditProductSuccess());
     } on FirebaseException catch (firebaseException) {
-      log('Error creating document: ${firebaseException.message}');
       return emit(AddEditProductFailure(
           FirebaseFailure.fromFirebaseException(firebaseException).errMsg));
     } catch (e) {
-      log('An unexpected error occurred: $e');
+      Failure.exception(e);
       return emit(AddEditProductFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
     }
   }
@@ -55,11 +53,10 @@ class AddEditProductCubit extends Cubit<AddEditProductState> {
       await productManagementRepo.addProduct(productModel);
       emit(AddEditProductSuccess());
     } on FirebaseException catch (firebaseException) {
-      log('Error creating document: ${firebaseException.message}');
       return emit(AddEditProductFailure(
           FirebaseFailure.fromFirebaseException(firebaseException).errMsg));
     } catch (e) {
-      log('An unexpected error occurred: $e');
+      Failure.exception(e);
       return emit(AddEditProductFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
     }
   }

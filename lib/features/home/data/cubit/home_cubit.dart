@@ -1,11 +1,12 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get_it/get_it.dart';
+import 'package:inventory_app/core/errors/abstract_failure_class.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
@@ -16,9 +17,7 @@ import 'package:inventory_app/features/home/data/home_repo/home_repo.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit(BuildContext context) : super(HomeInitial()) {
-    getProductModelsStream(context);
-  }
+  HomeCubit() : super(HomeInitial());
 
   StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? _subscription;
   StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
@@ -58,11 +57,9 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       _connectivitySubscription = Connectivity().onConnectivityChanged.listen(
         (List<ConnectivityResult> result) {
-          print("Internet Connectivity has changed: $result");
           result.contains(ConnectivityResult.none)
               ? Injector.isOnline = false
               : Injector.isOnline = true;
-
           emit(InternetState());
         },
       );
@@ -75,17 +72,19 @@ class HomeCubit extends Cubit<HomeState> {
           }
         },
         onError: (error) {
-          print("Error in user document listener: $error");
+          FirebaseAnalytics.instance.logEvent(
+            name: "error_in_products_listener",
+            parameters: {"error": error.toString()},
+          );
           if (error.toString().toLowerCase().contains('permission-denied')) {
             GetIt.I.get<AuthService>().handleUserDeletion(context);
           }
         },
       );
     } on FirebaseException catch (e) {
-      log('Error fetching documents: ${e.message}');
       return emit(HomeFailure(FirebaseFailure.fromFirebaseException(e).errMsg));
     } catch (e) {
-      log("Error at Home Cubit: $e");
+      Failure.exception(e);
       return emit(HomeFailure("حدث خطأ!!"));
     }
   }

@@ -12,29 +12,32 @@ class ProductProfileContent extends StatelessWidget {
     final ProductProfileCubit productCubit =
         BlocProvider.of<ProductProfileCubit>(context);
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          const SizedBox(height: 50),
-          ProductDetailsCard(productModel: productCubit.productModel),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EditProductForm(
-                                productModel: productCubit.productModel)),
-                      );
-                    },
-                    child: const Text("تعديل", style: TextStyle(fontSize: 20))),
-              ),
-            ],
-          ),
-        ],
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 30),
+            ProductDetailsCard(productModel: productCubit.productModel),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EditProductForm(
+                                  productModel: productCubit.productModel)),
+                        );
+                      },
+                      child:
+                          const Text("تعديل", style: TextStyle(fontSize: 20))),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

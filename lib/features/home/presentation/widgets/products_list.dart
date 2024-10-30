@@ -23,7 +23,10 @@ class ProductsList extends StatelessWidget {
       },
       builder: (context, state) {
         List<ProductModel> products = context.watch<HomeCubit>().products;
-        if (state is HomeLoading) {
+        if (state is HomeInitial) {
+          context.read<HomeCubit>().getProductModelsStream(context);
+        }
+        if (state is HomeLoading || state is HomeInitial) {
           return const MyCircularLoading();
         } else if (state is HomeSearchedProducts &&
             state.searchedProducts != null) {

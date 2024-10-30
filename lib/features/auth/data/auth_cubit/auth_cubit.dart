@@ -1,9 +1,9 @@
-import 'dart:developer';
-
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:inventory_app/core/errors/abstract_failure_class.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/di/auth_service.dart';
 import 'package:inventory_app/super_admin.dart';
@@ -45,6 +45,7 @@ class AuthCubit extends Cubit<AuthState> {
         }
       }
     } catch (e) {
+      Failure.exception(e);
       return false;
     }
   }
@@ -56,6 +57,12 @@ class AuthCubit extends Cubit<AuthState> {
   }) async {
     try {
       emit(AuthLoading());
+
+      FirebaseAnalytics.instance
+          .logLogin(loginMethod: "email and password", parameters: {
+        "email": email,
+        "password": password,
+      });
 
       final UserCredential userCredential = await _auth
           .signInWithEmailAndPassword(email: email, password: password);
@@ -74,13 +81,11 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthSuccess());
       }
     } on FirebaseAuthException catch (e) {
-      log("FirebaseAuthException signIn function authCubit : ${e.toString()}");
       emit(AuthError(FirebaseFailure.fromFirebaseAuthException(e).errMsg));
     } on FirebaseException catch (e) {
-      log('Error fetching documents: ${e.message}');
       return emit(AuthError(FirebaseFailure.fromFirebaseException(e).errMsg));
     } catch (e) {
-      log("Error at Home Cubit: $e");
+      Failure.exception(e);
       return emit(AuthError("حدث خطأ يرجى اعادة المحاولة!!"));
     }
   }

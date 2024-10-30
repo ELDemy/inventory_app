@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:inventory_app/di/injector.dart';
@@ -48,15 +49,21 @@ class AuthService {
   }
 
   void handleUserDeletion(BuildContext context) {
-    print("handling UserDeletion");
+    FirebaseAnalytics.instance.logEvent(
+      name: "handleUserDeletion",
+      parameters: {
+        "user_name": Injector.userModel?.name ?? "null",
+        "user_email": Injector.userModel?.email ?? "null",
+        "user_role": Injector.userModel?.role ?? "null",
+      },
+    );
+
     // Cancel subscription first
     _userDocSubscription?.cancel();
     _userDocSubscription = null;
-    print("subscription canceled");
 
     signOut();
     if (context.mounted) {
-      print("start showing dialog");
       showDialog(
         context: context,
         barrierDismissible: false,

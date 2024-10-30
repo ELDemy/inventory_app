@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:inventory_app/core/errors/abstract_failure_class.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/di/injector.dart';
@@ -37,13 +38,12 @@ class ProductProfileCubit extends Cubit<ProductProfileState> {
             "المنتج بمعرف رقم $identifierSN  غير موجود في قاعدة البيانات \n برجاء اضافة المنتج ثم اعادة المحاولة "));
       }
     } on FirebaseException catch (firebaseException) {
-      print('Error getting document: ${firebaseException.message}');
       return emit(
         ProductProfileFailure(
             FirebaseFailure.fromFirebaseException(firebaseException).errMsg),
       );
     } catch (e) {
-      print('An unexpected error occurred: $e');
+      Failure.exception(e);
       return emit(ProductProfileFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
     }
   }
@@ -58,13 +58,12 @@ class ProductProfileCubit extends Cubit<ProductProfileState> {
       await productManagementRepo.deleteProduct(identifierSN);
       emit(DeleteProductSuccess());
     } on FirebaseException catch (firebaseException) {
-      print('Error getting document: ${firebaseException.message}');
       return emit(
         DeleteProductFailure(
             FirebaseFailure.fromFirebaseException(firebaseException).errMsg),
       );
     } catch (e) {
-      print('An unexpected error occurred: $e');
+      Failure.exception(e);
       return emit(DeleteProductFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
     }
   }

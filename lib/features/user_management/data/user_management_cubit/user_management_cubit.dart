@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:inventory_app/core/errors/abstract_failure_class.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/user_management/data/user_model.dart';
@@ -35,11 +34,10 @@ class UserManagementCubit extends Cubit<UserManagementState> {
       }
       emit(UserManagementSuccess());
     } on FirebaseException catch (firebaseException) {
-      log('Error creating document: ${firebaseException.message}');
       return emit(UserSignUpFailure(
           FirebaseFailure.fromFirebaseException(firebaseException).errMsg));
     } catch (e) {
-      log('An unexpected error occurred: $e');
+      Failure.exception(e);
       return emit(UserManagementFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
     }
   }
@@ -52,11 +50,10 @@ class UserManagementCubit extends Cubit<UserManagementState> {
       await getUsers();
       emit(UserManagementSuccess());
     } on FirebaseException catch (firebaseException) {
-      log('Error deleting user: ${firebaseException.message}');
       emit(UserManagementFailure(
           FirebaseFailure.fromFirebaseException(firebaseException).errMsg));
     } catch (e) {
-      log('An unexpected error occurred: $e');
+      Failure.exception(e);
       emit(UserManagementFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
     }
   }
@@ -92,6 +89,7 @@ class UserManagementCubit extends Cubit<UserManagementState> {
       emit(UserSignUpFailure(
           FirebaseFailure.fromFirebaseException(firebaseException).errMsg));
     } catch (e) {
+      Failure.exception(e);
       emit(UserSignUpFailure('حدث خطأ برجاء المحاوله مره اخري!!'));
     }
   }

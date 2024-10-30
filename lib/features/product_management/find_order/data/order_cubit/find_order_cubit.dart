@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:inventory_app/core/errors/abstract_failure_class.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/di/injector.dart';
@@ -41,11 +42,10 @@ class FindOrderCubit extends Cubit<FindOrderState> {
             "المنتج رقم $barcodeغير موجود في قاعدة البيانات "));
       }
     } on FirebaseException catch (firebaseException) {
-      print('Error getting document: ${firebaseException.message}');
       return emit(FindOrderFailure(
           FirebaseFailure.fromFirebaseException(firebaseException).errMsg));
     } catch (e) {
-      print('An unexpected error occurred: $e');
+      Failure.exception(e);
       return emit(FindOrderFailure("حدث خطأ !! برجاء المحاوله مره اخري!!"));
     }
   }
