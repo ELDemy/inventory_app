@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color primaryColor = Color(0xFF5390D4);
+  static const Color primaryColor = Color(0xFFDCA500);
   static const Color primaryBackgroundColor = Color(0xFFF5FCFB);
   static const Color cardBackgroundColor = Color(0xFFF5FCFB);
 
-  static const Color foregroundColor = Colors.white;
-  static const Color labelColor = primaryColor;
+  static const Color foregroundColor = Colors.black;
+  static const Color labelColor = Color(0xFFCC9900);
 
   static const Color iconsColor = Colors.black;
-  static const Color appBarIconsColor = primaryColor;
+  static const Color appBarIconsColor = Colors.black;
 
-  static const Color fabIconsColor = Colors.white;
+  static const Color fabIconsColor = Colors.black;
   static const Color fabBackgroundColor = primaryColor;
 
   static const Color lightRedColor = Color(0xFFD45353);

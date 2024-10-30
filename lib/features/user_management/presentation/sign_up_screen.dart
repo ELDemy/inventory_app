@@ -48,46 +48,49 @@ class _SignUpScreenState extends State<SignUpScreen> {
             padding: const EdgeInsets.all(16.0),
             child: Form(
               key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomTextFormField(
-                    controller: _nameController,
-                    labelText: 'اسم المسخدم',
-                    isRequired: true,
-                  ),
-                  CustomTextFormField(
-                    controller: _emailController,
-                    labelText: 'البريد الالكتروني',
-                    isRequired: true,
-                  ),
-                  CustomTextFormField(
-                    controller: _passwordController,
-                    labelText: 'كلمة السر',
-                    isRequired: true,
-                  ),
-                  const SizedBox(height: 24),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: state is UserSignUpLoading
-                          ? null
-                          : () {
-                              if (_formKey.currentState!.validate()) {
-                                context.read<UserManagementCubit>().signUp(
-                                      name: _nameController.text.trim(),
-                                      email: _emailController.text.trim(),
-                                      password: _passwordController.text,
-                                    );
-                              }
-                            },
-                      child: state is UserSignUpLoading
-                          ? const CircularProgressIndicator()
-                          : const Text('تسجيل المستخدم'),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 30),
+                    Image.asset("assets/logo.png", height: 200),
+                    CustomTextFormField(
+                      controller: _nameController,
+                      labelText: 'اسم المسخدم',
+                      isRequired: true,
                     ),
-                  ),
-                ],
+                    CustomTextFormField(
+                      controller: _emailController,
+                      labelText: 'البريد الالكتروني',
+                      isRequired: true,
+                    ),
+                    CustomTextFormField(
+                      controller: _passwordController,
+                      labelText: 'كلمة السر',
+                      isRequired: true,
+                    ),
+                    const SizedBox(height: 24),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: state is UserSignUpLoading
+                            ? null
+                            : () {
+                                if (_formKey.currentState!.validate()) {
+                                  context.read<UserManagementCubit>().signUp(
+                                        name: _nameController.text.trim(),
+                                        email: _emailController.text.trim(),
+                                        password: _passwordController.text,
+                                      );
+                                }
+                              },
+                        child: state is UserSignUpLoading
+                            ? const CircularProgressIndicator()
+                            : const Text('تسجيل المستخدم'),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

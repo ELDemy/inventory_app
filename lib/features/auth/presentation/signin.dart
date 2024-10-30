@@ -49,49 +49,54 @@ class _SignInScreenState extends State<SignInScreen> {
               padding: const EdgeInsets.all(16.0),
               child: Form(
                 key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "تسجيل الدخول",
-                      style: TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primaryColor,
-                      ),
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset("assets/logo.png", height: 200),
+                        const Text(
+                          "تسجيل الدخول",
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryColor,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        CustomTextFormField(
+                          controller: _emailController,
+                          labelText: 'البريد الالكتروني',
+                          isRequired: true,
+                        ),
+                        CustomTextFormField(
+                          controller: _passwordController,
+                          labelText: 'كلمة السر',
+                          isRequired: true,
+                        ),
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          width: double.infinity,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: state is AuthLoading
+                                ? null
+                                : () {
+                                    if (_formKey.currentState!.validate()) {
+                                      context.read<AuthCubit>().signIn(
+                                          email: _emailController.text.trim(),
+                                          password: _passwordController.text,
+                                          context: context);
+                                    }
+                                  },
+                            child: state is AuthLoading
+                                ? const CircularProgressIndicator()
+                                : const Text('تسجيل الدخول'),
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 20),
-                    CustomTextFormField(
-                      controller: _emailController,
-                      labelText: 'البريد الالكتروني',
-                      isRequired: true,
-                    ),
-                    CustomTextFormField(
-                      controller: _passwordController,
-                      labelText: 'كلمة السر',
-                      isRequired: true,
-                    ),
-                    const SizedBox(height: 16),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: state is AuthLoading
-                            ? null
-                            : () {
-                                if (_formKey.currentState!.validate()) {
-                                  context.read<AuthCubit>().signIn(
-                                      email: _emailController.text.trim(),
-                                      password: _passwordController.text,
-                                      context: context);
-                                }
-                              },
-                        child: state is AuthLoading
-                            ? const CircularProgressIndicator()
-                            : const Text('تسجيل الدخول'),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             );
