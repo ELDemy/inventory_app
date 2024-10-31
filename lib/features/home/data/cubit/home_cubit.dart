@@ -5,7 +5,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:get_it/get_it.dart';
 import 'package:inventory_app/core/errors/abstract_failure_class.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/core/models/product_model.dart';
@@ -77,7 +76,7 @@ class HomeCubit extends Cubit<HomeState> {
             parameters: {"error": error.toString()},
           );
           if (error.toString().toLowerCase().contains('permission-denied')) {
-            GetIt.I.get<AuthService>().handleUserDeletion(context);
+            Injector.get<AuthService>().handleUserDeletion(context);
           }
         },
       );

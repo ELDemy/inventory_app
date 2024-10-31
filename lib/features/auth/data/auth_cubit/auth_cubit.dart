@@ -2,10 +2,10 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:inventory_app/core/errors/abstract_failure_class.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/di/auth_service.dart';
+import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/super_admin.dart';
 
 part 'auth_state.dart';
@@ -20,7 +20,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final AuthService _authService = GetIt.I.get<AuthService>();
+  final AuthService _authService = Injector.get<AuthService>();
 
   // Check initial auth state
   Future<bool> checkInitialAuthState(BuildContext context) async {

@@ -4,9 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:inventory_app/core/models/user_model.dart';
 import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/auth/presentation/sign_out_alert_dialog.dart';
-import 'package:inventory_app/features/user_management/data/user_model.dart';
 
 class AuthService {
   StreamSubscription<DocumentSnapshot>? _userDocSubscription;
@@ -16,7 +16,7 @@ class AuthService {
     final DocumentSnapshot<Map<String, dynamic>> docSnapshot =
         await Injector.usersCollection.doc(email).get();
 
-    Injector.userModel = UserModel.fromFirestore(docSnapshot.data());
+    Injector.activeUser = UserModel.fromFirestore(docSnapshot.data());
 
     return docSnapshot.exists;
   }
@@ -52,9 +52,9 @@ class AuthService {
     FirebaseAnalytics.instance.logEvent(
       name: "handleUserDeletion",
       parameters: {
-        "user_name": Injector.userModel?.name ?? "null",
-        "user_email": Injector.userModel?.email ?? "null",
-        "user_role": Injector.userModel?.role ?? "null",
+        "user_name": Injector.activeUser?.name ?? "null",
+        "user_email": Injector.activeUser?.email ?? "null",
+        "user_role": Injector.activeUser?.role ?? "null",
       },
     );
 

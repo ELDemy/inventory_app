@@ -18,7 +18,7 @@ class ProductManagementRepo {
 
   Future<void> deleteProduct(String identifierSN) async {
     try {
-      Injector.get<FirebaseFirestore>().runTransaction(
+      FirebaseFirestore.instance.runTransaction(
         (transaction) async {
           transaction.delete(Injector.productsCollection.doc(identifierSN));
           transaction.update(
@@ -38,7 +38,7 @@ class ProductManagementRepo {
           Injector.productsCollection.doc(productModel.identifierSN);
       final DocumentReference<Map<String, dynamic>> allProductsDocRef =
           Injector.allProductsDoc;
-      return await Injector.get<FirebaseFirestore>().runTransaction(
+      return await FirebaseFirestore.instance.runTransaction(
         (transaction) async {
           transaction.set(docRef, productModel.toFirestore());
           transaction.update(
@@ -59,7 +59,7 @@ class ProductManagementRepo {
       final DocumentReference<Map<String, dynamic>> docRef =
           Injector.productsHistoryCollection.doc();
 
-      return await Injector.get<FirebaseFirestore>().runTransaction(
+      return await FirebaseFirestore.instance.runTransaction(
         (transaction) async {
           transaction.set(docRef, orderModel.toFirestore());
           transaction.update(

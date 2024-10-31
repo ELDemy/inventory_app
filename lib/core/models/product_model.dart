@@ -77,9 +77,9 @@ class ProductModel {
     await FirebaseAnalytics.instance.logEvent(
       name: 'view_product',
       parameters: {
-        'identifierSN': identifierSN ?? "null",
-        'serialNumber': serialNumber ?? "null",
-        'productName': productName ?? "null",
+        'identifier_sn': identifierSN ?? "null",
+        'serial_number': serialNumber ?? "null",
+        'product_name': productName ?? "null",
         'power': power ?? "null",
         'input': input ?? "null",
         'output': output ?? "null",
@@ -87,6 +87,6 @@ class ProductModel {
         'quantity': qty,
       },
     );
-    print("logged");
+    print("logViewEvent");
   }
 }

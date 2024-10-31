@@ -4,8 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:inventory_app/core/errors/abstract_failure_class.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
+import 'package:inventory_app/core/models/user_model.dart';
 import 'package:inventory_app/di/injector.dart';
-import 'package:inventory_app/features/user_management/data/user_model.dart';
 import 'package:meta/meta.dart';
 
 part 'user_management_state.dart';
@@ -68,6 +68,7 @@ class UserManagementCubit extends Cubit<UserManagementState> {
       emit(UserSignUpLoading());
 
       // to not change the current user credentials
+
       await Firebase.initializeApp(
           name: 'admin-app', options: Firebase.app().options);
       await FirebaseAuth.instanceFor(app: Firebase.app('admin-app'))
@@ -93,6 +94,14 @@ class UserManagementCubit extends Cubit<UserManagementState> {
     } catch (e) {
       Failure.exception(e);
       emit(UserSignUpFailure('حدث خطأ برجاء المحاوله مره اخري!!'));
+    } finally {
+      // Clean up by deleting the secondary app
+      try {
+        await Firebase.app('admin-app').delete();
+      } catch (e) {
+        // Silently handle any errors during cleanup
+        print('Error deleting admin app: $e');
+      }
     }
   }
 
