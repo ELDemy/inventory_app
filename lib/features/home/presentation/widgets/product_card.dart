@@ -42,7 +42,7 @@ class ProductCard extends StatelessWidget {
                             Text(
                               "${product.identifierSN}#",
                               style: const TextStyle(
-                                  fontSize: 12, color: Colors.grey),
+                                  fontSize: 6, color: Colors.grey),
                             ),
                           ],
                         ),
