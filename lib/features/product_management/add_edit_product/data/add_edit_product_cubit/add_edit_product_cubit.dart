@@ -22,6 +22,7 @@ class AddEditProductCubit extends Cubit<AddEditProductState> {
     }
     emit(AddEditProductLoading());
     try {
+      // check if the product is already exists
       DocumentSnapshot<Map<String, dynamic>> doc =
           await productManagementRepo.getProduct(productModel.identifierSN!);
 

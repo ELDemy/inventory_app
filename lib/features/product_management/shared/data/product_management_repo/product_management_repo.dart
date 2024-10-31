@@ -38,11 +38,15 @@ class ProductManagementRepo {
           Injector.productsCollection.doc(productModel.identifierSN);
       final DocumentReference<Map<String, dynamic>> allProductsDocRef =
           Injector.allProductsDoc;
+
       return await FirebaseFirestore.instance.runTransaction(
         (transaction) async {
           transaction.set(docRef, productModel.toFirestore());
-          transaction.update(
-              allProductsDocRef, productModel.toFirestoreBasicValues());
+          transaction.set(
+            allProductsDocRef,
+            productModel.toFirestoreBasicValues(),
+            SetOptions(merge: true),
+          );
         },
       );
     } on FirebaseException catch (firebaseException) {
