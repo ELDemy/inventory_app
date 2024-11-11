@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:inventory_app/core/errors/abstract_failure_class.dart';
 
@@ -5,6 +6,11 @@ class FirebaseFailure extends Failure {
   FirebaseFailure(super.errMsg);
 
   factory FirebaseFailure.fromFirebaseException(FirebaseException e) {
+    Failure.exception(e);
+    FirebaseAnalytics.instance.logEvent(
+      name: "fire_base_exception",
+      parameters: {"error": e.toString()},
+    );
     return FirebaseFailure(_handleFirebaseException(e));
   }
 
@@ -36,6 +42,10 @@ class FirebaseFailure extends Failure {
   }
 
   factory FirebaseFailure.fromFirebaseAuthException(FirebaseAuthException e) {
+    FirebaseAnalytics.instance.logEvent(
+      name: "fire_base_auth_exception",
+      parameters: {"error": e.toString()},
+    );
     return FirebaseFailure(_handleAuthException(e));
   }
   // Private static method to handle various FirebaseAuthException codes

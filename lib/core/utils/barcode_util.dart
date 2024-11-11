@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
@@ -12,6 +13,8 @@ class BarcodeUtil {
     } else if (barcode.length >= 14) {
       return barcode.substring(0, 11);
     } else {
+      FirebaseAnalytics.instance.logEvent(
+          name: "barcode_less_14_chs", parameters: {"barcode": barcode});
       log("unrecognized");
       return barcode;
     }

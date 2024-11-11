@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:inventory_app/core/components/custom_icon_container.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
+import 'package:inventory_app/di/auth_service.dart';
 import 'package:inventory_app/di/injector.dart';
-import 'package:inventory_app/features/auth/presentation/signin.dart';
 import 'package:inventory_app/features/home/data/cubit/home_cubit.dart';
 import 'package:inventory_app/features/user_management/presentation/user_management_screen.dart';
 import 'package:inventory_app/super_admin.dart';
@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit(context),
+      create: (context) => HomeCubit(),
       child: Scaffold(
         appBar: AppBar(
           title: const Padding(
@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
           ),
           actions: [
             const CustomAnimatedSearchBar(),
-            _usersIcons(context) ?? const SizedBox(),
+            _usersManagementIcon(context),
             const SizedBox(width: 5),
           ],
         ),
@@ -40,20 +40,13 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget? _usersIcons(BuildContext context) {
+  Widget _usersManagementIcon(BuildContext context) {
     if (FirebaseAuth.instance.currentUser?.email == null) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const SignInScreen()),
-        (route) => false,
-      );
-    } else if (Injector.userModel?.role == "المدير" ||
+      Injector.get<AuthService>().handleUserDeletion(context);
+    } else if (Injector.activeUser?.role == "المدير" ||
         SuperAdmin.isSuperAdmin()) {
       return CustomIconContainer(
-        child: const Icon(
-          Icons.person,
-          color: AppColors.appBarIconsColor,
-        ),
+        child: const Icon(Icons.person, color: AppColors.appBarIconsColor),
         onTap: () {
           Navigator.push(
             context,
@@ -63,6 +56,6 @@ class HomeScreen extends StatelessWidget {
         },
       );
     }
-    return null;
+    return const SizedBox();
   }
 }

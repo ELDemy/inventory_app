@@ -62,3 +62,6 @@ ios/Pods/
 ios/Flutter/Flutter.framework
 ios/Flutter/Generated.xcconfig
 ios/Flutter/flutter_export_environment.sh
+
+
+devtools_options.yaml

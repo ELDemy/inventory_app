@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:inventory_app/core/utils/barcode_util.dart';
 
 class ProductModel {
@@ -70,5 +71,22 @@ class ProductModel {
         "price": price,
       }
     };
+  }
+
+  Future<void> logViewEvent() async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'view_product',
+      parameters: {
+        'identifier_sn': identifierSN ?? "null",
+        'serial_number': serialNumber ?? "null",
+        'product_name': productName ?? "null",
+        'power': power ?? "null",
+        'input': input ?? "null",
+        'output': output ?? "null",
+        'price': price,
+        'quantity': qty,
+      },
+    );
+    print("logViewEvent");
   }
 }

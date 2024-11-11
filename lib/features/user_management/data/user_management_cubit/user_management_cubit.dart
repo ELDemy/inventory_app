@@ -1,11 +1,11 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:inventory_app/core/errors/abstract_failure_class.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
+import 'package:inventory_app/core/models/user_model.dart';
 import 'package:inventory_app/di/injector.dart';
-import 'package:inventory_app/features/user_management/data/user_model.dart';
 import 'package:meta/meta.dart';
 
 part 'user_management_state.dart';
@@ -35,11 +35,10 @@ class UserManagementCubit extends Cubit<UserManagementState> {
       }
       emit(UserManagementSuccess());
     } on FirebaseException catch (firebaseException) {
-      log('Error creating document: ${firebaseException.message}');
       return emit(UserSignUpFailure(
           FirebaseFailure.fromFirebaseException(firebaseException).errMsg));
     } catch (e) {
-      log('An unexpected error occurred: $e');
+      Failure.exception(e);
       return emit(UserManagementFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
     }
   }
@@ -52,11 +51,10 @@ class UserManagementCubit extends Cubit<UserManagementState> {
       await getUsers();
       emit(UserManagementSuccess());
     } on FirebaseException catch (firebaseException) {
-      log('Error deleting user: ${firebaseException.message}');
       emit(UserManagementFailure(
           FirebaseFailure.fromFirebaseException(firebaseException).errMsg));
     } catch (e) {
-      log('An unexpected error occurred: $e');
+      Failure.exception(e);
       emit(UserManagementFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
     }
   }
@@ -69,18 +67,20 @@ class UserManagementCubit extends Cubit<UserManagementState> {
     try {
       emit(UserSignUpLoading());
 
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      // to not change the current user credentials
+
+      await Firebase.initializeApp(
+          name: 'admin-app', options: Firebase.app().options);
+      await FirebaseAuth.instanceFor(app: Firebase.app('admin-app'))
+          .createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-
       await _addUserDoc(email, name, password);
-      getUsers();
       emit(UserSignUpSuccess());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         await _addUserDoc(email, name, password);
-        getUsers();
         emit(UserSignUpSuccess());
         return emit(UserSignUpFailure(
             "البريد الالكتروني مسجل سابقا!! يجب استخدام الباسوورد القديم"));
@@ -92,7 +92,16 @@ class UserManagementCubit extends Cubit<UserManagementState> {
       emit(UserSignUpFailure(
           FirebaseFailure.fromFirebaseException(firebaseException).errMsg));
     } catch (e) {
+      Failure.exception(e);
       emit(UserSignUpFailure('حدث خطأ برجاء المحاوله مره اخري!!'));
+    } finally {
+      // Clean up by deleting the secondary app
+      try {
+        await Firebase.app('admin-app').delete();
+      } catch (e) {
+        // Silently handle any errors during cleanup
+        print('Error deleting admin app: $e');
+      }
     }
   }
 

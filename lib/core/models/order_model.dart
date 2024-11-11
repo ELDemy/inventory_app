@@ -52,7 +52,7 @@ class OrderModel {
   Map<String, dynamic> toFirestore() {
     return {
       "creationTime": DateTime.now(),
-      "employee": Injector.userModel?.name ?? "",
+      "employee": Injector.activeUser?.name ?? "",
       "product": product.toFirestore(),
       "serialNumbers": serialNumbers,
       "price": price,
