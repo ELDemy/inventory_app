@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inventory_app/core/components/custom_dropdown_button_form_field.dart';
 import 'package:inventory_app/core/components/custom_serial_text_form_field.dart';
 import 'package:inventory_app/core/components/custom_text_form_field.dart';
 import 'package:inventory_app/core/models/product_model.dart';
@@ -9,9 +10,12 @@ class ProductForm extends StatefulWidget {
     this.productModel,
     required this.onSubmit,
     required this.buttonText,
+    required this.categories,
     this.isUpdate = false,
   });
+
   final bool isUpdate;
+  final List<String> categories;
 
   final ProductModel? productModel;
   final void Function({
@@ -23,6 +27,7 @@ class ProductForm extends StatefulWidget {
     required TextEditingController powerController,
     required TextEditingController inputController,
     required TextEditingController outputController,
+    required String? selectedCategory,
   }) onSubmit;
   final String buttonText;
 
@@ -41,9 +46,14 @@ class _ProductFormState extends State<ProductForm> {
   final TextEditingController outputController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
 
+  String? selectedCategory;
+
   @override
   void initState() {
     super.initState();
+    widget.categories.isNotEmpty
+        ? selectedCategory = widget.categories.first
+        : selectedCategory;
 
     if (widget.productModel != null) {
       productNameController.text = widget.productModel!.productName ?? "";
@@ -85,9 +95,21 @@ class _ProductFormState extends State<ProductForm> {
                 suffixIcon: const Icon(Icons.abc),
               ),
               if (!widget.isUpdate)
-                CustomSerialTextFormField(
-                  controller: serialNumberController,
-                ),
+                CustomSerialTextFormField(controller: serialNumberController),
+              CategorySelectionField(
+                categories: widget.categories,
+                selectedCategory: selectedCategory,
+                onCategorySelected: (category) {
+                  selectedCategory = category;
+                  setState(() {});
+                },
+                onNewCategoryAdded: (newCategory) {
+                  widget.categories.add(newCategory);
+                  selectedCategory = newCategory;
+                  setState(() {});
+                  // Here you would typically also save the new category to your database
+                },
+              ),
               CustomTextFormField(
                 labelText: "السعر",
                 controller: priceController,
@@ -129,6 +151,7 @@ class _ProductFormState extends State<ProductForm> {
                   powerController: powerController,
                   inputController: inputController,
                   outputController: outputController,
+                  selectedCategory: selectedCategory,
                 ),
                 child: Text(
                   widget.buttonText,

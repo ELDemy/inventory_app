@@ -11,6 +11,8 @@ class CustomTextFormField extends StatelessWidget {
     this.isRequired = false,
     this.isNumbersOnly = false,
     this.onChanged,
+    this.contentPadding =
+        const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
   });
 
   final bool isRequired;
@@ -19,6 +21,8 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final bool isNumbersOnly;
   final Function(String value)? onChanged;
+  final EdgeInsets contentPadding;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -34,11 +38,8 @@ class CustomTextFormField extends StatelessWidget {
             FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*')),
         ],
         decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(24),
-          ),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(24)),
+          contentPadding: contentPadding,
           label: _label(),
           labelStyle: const TextStyle(color: AppColors.labelColor),
           suffixIcon: suffixIcon,

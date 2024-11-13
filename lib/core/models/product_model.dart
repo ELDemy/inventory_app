@@ -11,6 +11,7 @@ class ProductModel {
   final String? output;
   final double price;
   final int qty;
+  final String? category;
 
   ProductModel({
     this.serialNumber,
@@ -21,6 +22,7 @@ class ProductModel {
     this.power,
     this.input,
     this.output,
+    this.category,
   }) {
     parseIdentifierSN();
   }
@@ -40,6 +42,7 @@ class ProductModel {
       identifierSN: data?['identifierSN'],
       serialNumber: data?['serialNumber'],
       productName: data?['modelName'],
+      category: data?['category'],
       power: data?['power'] != null ? (data?['power'] as num) : null,
       input: data?['input'],
       output: data?['output'],
@@ -54,6 +57,7 @@ class ProductModel {
       "identifierSN": identifierSN,
       "serialNumber": serialNumber,
       "modelName": productName,
+      "category": category,
       if (power != null) "power": power,
       if (input != null) "input": input,
       if (output != null) "output": output,
@@ -67,6 +71,7 @@ class ProductModel {
     return {
       identifierSN!: {
         "modelName": productName,
+        "category": category,
         "quantity": qty,
         "price": price,
       }
@@ -80,6 +85,7 @@ class ProductModel {
         'identifier_sn': identifierSN ?? "null",
         'serial_number': serialNumber ?? "null",
         'product_name': productName ?? "null",
+        "category": category ?? "null",
         'power': power ?? "null",
         'input': input ?? "null",
         'output': output ?? "null",
@@ -87,6 +93,5 @@ class ProductModel {
         'quantity': qty,
       },
     );
-    print("logViewEvent");
   }
 }

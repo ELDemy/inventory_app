@@ -26,10 +26,12 @@ class AddNewProductForm extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(title: const Text("إضافة منتج جديد")),
         body: ProductForm(
+          categories: [],
           onSubmit: ({
             required formKey,
             required productNameController,
             required serialNumberController,
+            required selectedCategory,
             required priceController,
             required quantityController,
             required powerController,
