@@ -17,8 +17,11 @@ class Injector {
     _getIt.registerSingleton<AuthService>(AuthService());
   }
 
-  final projectDocName = 'inverters';
+  static List<String> productsCategories = [];
+
   // fireStore database
+  final projectDocName = 'inverters';
+
   static final DocumentReference<Map<String, dynamic>> projectDoc =
       FirebaseFirestore.instance.doc('projects/test');
 
@@ -35,6 +38,12 @@ class Injector {
       projectDoc.collection('users');
 
   static DocumentReference<Map<String, dynamic>>? userDoc;
+
+  static final CollectionReference<Map<String, dynamic>> constantsCollection =
+      projectDoc.collection('constants');
+
+  static final DocumentReference<Map<String, dynamic>> productsCategoriesDoc =
+      constantsCollection.doc('categories');
 
   // Generic method to get instances
   static T get<T extends Object>() => _getIt<T>();

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/components/custom_dropdown_button_form_field.dart';
 import 'package:inventory_app/core/components/custom_serial_text_form_field.dart';
 import 'package:inventory_app/core/components/custom_text_form_field.dart';
 import 'package:inventory_app/core/models/product_model.dart';
+import 'package:inventory_app/features/product_management/add_edit_product/data/add_edit_product_cubit/add_edit_product_cubit.dart';
 
 class ProductForm extends StatefulWidget {
   const ProductForm({
@@ -16,20 +18,11 @@ class ProductForm extends StatefulWidget {
 
   final bool isUpdate;
   final List<String> categories;
-
-  final ProductModel? productModel;
-  final void Function({
-    required GlobalKey<FormState> formKey,
-    required TextEditingController productNameController,
-    required TextEditingController serialNumberController,
-    required TextEditingController priceController,
-    required TextEditingController quantityController,
-    required TextEditingController powerController,
-    required TextEditingController inputController,
-    required TextEditingController outputController,
-    required String? selectedCategory,
-  }) onSubmit;
   final String buttonText;
+  final ProductModel? productModel;
+
+  final void Function(GlobalKey<FormState> formKey, ProductModel productModel)
+      onSubmit;
 
   @override
   State<ProductForm> createState() => _ProductFormState();
@@ -46,13 +39,13 @@ class _ProductFormState extends State<ProductForm> {
   final TextEditingController outputController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
 
-  String? selectedCategory;
+  ValueNotifier<String?> selectedCategory = ValueNotifier<String?>(null);
 
   @override
   void initState() {
     super.initState();
     widget.categories.isNotEmpty
-        ? selectedCategory = widget.categories.first
+        ? selectedCategory.value = widget.categories[0]
         : selectedCategory;
 
     if (widget.productModel != null) {
@@ -96,18 +89,22 @@ class _ProductFormState extends State<ProductForm> {
               ),
               if (!widget.isUpdate)
                 CustomSerialTextFormField(controller: serialNumberController),
-              CategorySelectionField(
-                categories: widget.categories,
-                selectedCategory: selectedCategory,
-                onCategorySelected: (category) {
-                  selectedCategory = category;
-                  setState(() {});
-                },
-                onNewCategoryAdded: (newCategory) {
-                  widget.categories.add(newCategory);
-                  selectedCategory = newCategory;
-                  setState(() {});
-                  // Here you would typically also save the new category to your database
+              ValueListenableBuilder<String?>(
+                valueListenable: selectedCategory,
+                builder: (context, category, child) {
+                  return CategorySelectionField(
+                    categories: widget.categories,
+                    selectedCategory: category,
+                    onCategorySelected: (category) {
+                      selectedCategory.value = category;
+                    },
+                    onNewCategoryAdded: (newCategory) {
+                      BlocProvider.of<AddEditProductCubit>(context)
+                          .addNewCategory(newCategory);
+                      widget.categories.add(newCategory);
+                      selectedCategory.value = newCategory;
+                    },
+                  );
                 },
               ),
               CustomTextFormField(
@@ -127,7 +124,6 @@ class _ProductFormState extends State<ProductForm> {
               CustomTextFormField(
                 labelText: "Power",
                 controller: powerController,
-                isNumbersOnly: true,
                 suffixIcon: const Icon(Icons.bolt),
               ),
               CustomTextFormField(
@@ -143,20 +139,20 @@ class _ProductFormState extends State<ProductForm> {
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () => widget.onSubmit(
-                  formKey: formKey,
-                  productNameController: productNameController,
-                  serialNumberController: serialNumberController,
-                  priceController: priceController,
-                  quantityController: quantityController,
-                  powerController: powerController,
-                  inputController: inputController,
-                  outputController: outputController,
-                  selectedCategory: selectedCategory,
+                  formKey,
+                  ProductModel(
+                    serialNumber: serialNumberController.text,
+                    productName: productNameController.text,
+                    category: selectedCategory.value,
+                    price: double.parse(priceController.text),
+                    qty: int.parse(quantityController.text),
+                    power: powerController.text,
+                    input: inputController.text,
+                    output: outputController.text,
+                  ),
                 ),
-                child: Text(
-                  widget.buttonText,
-                  style: const TextStyle(fontSize: 20),
-                ),
+                child: Text(widget.buttonText,
+                    style: const TextStyle(fontSize: 20)),
               ),
             ],
           ),

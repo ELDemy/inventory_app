@@ -3,7 +3,7 @@ import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:inventory_app/core/components/my_barcode_icon.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
 import 'package:inventory_app/core/utils/barcode_util.dart';
-import 'package:inventory_app/features/product_management/add_edit_product/presentation/add_new_product/add_new_product_screen.dart';
+import 'package:inventory_app/features/product_management/add_edit_product/presentation/add_new_product_screen.dart';
 import 'package:inventory_app/features/product_management/find_order/presentation/find_order_screen.dart';
 import 'package:inventory_app/features/product_management/make_order/presentation/make_order_screen.dart';
 

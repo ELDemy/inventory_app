@@ -61,4 +61,12 @@ class AddEditProductCubit extends Cubit<AddEditProductState> {
       return emit(AddEditProductFailure("حدث خطأ برجاء المحاوله مره اخري!!"));
     }
   }
+
+  Future<void> addNewCategory(String category) async {
+    try {
+      await productManagementRepo.addCategory(category);
+    } catch (e) {
+      Failure.exception(e);
+    }
+  }
 }

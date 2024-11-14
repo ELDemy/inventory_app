@@ -18,11 +18,73 @@ part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
 
+  HomeRepo homeRepo = HomeRepo();
   StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? _subscription;
   StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
 
   List<ProductModel> products = [];
   List<ProductModel>? searchedProducts;
+
+  getProductModelsStream(BuildContext context) async {
+    emit(HomeLoading());
+    try {
+      _connectivitySubscription = Connectivity().onConnectivityChanged.listen(
+        (List<ConnectivityResult> result) {
+          result.contains(ConnectivityResult.none)
+              ? Injector.isOnline = false
+              : Injector.isOnline = true;
+          emit(InternetState());
+        },
+      );
+      await getCategories();
+      _subscription = homeRepo.getProductsStream().listen(
+        (snapshot) {
+          final Map<String, dynamic>? data = snapshot.data();
+          if (data != null) {
+            products = _parseProducts(data);
+            emit(HomeProductsState());
+          }
+        },
+        onError: (error) {
+          FirebaseAnalytics.instance.logEvent(
+            name: "error_in_products_listener",
+            parameters: {"error": error.toString()},
+          );
+          if (error.toString().toLowerCase().contains('permission-denied')) {
+            Injector.get<AuthService>().handleUserDeletion(context);
+          }
+        },
+      );
+    } on FirebaseException catch (e) {
+      return emit(HomeFailure(FirebaseFailure.fromFirebaseException(e).errMsg));
+    } catch (e) {
+      Failure.exception(e);
+      return emit(HomeFailure("حدث خطأ!!"));
+    }
+  }
+
+  Future<void> getCategories() async {
+    DocumentSnapshot<Map<String, dynamic>> categories =
+        await homeRepo.getProductsCategories();
+    if (categories.data() != null) {
+      Injector.productsCategories = categories.data()!.keys.toList();
+    }
+    return;
+  }
+
+  List<ProductModel> _parseProducts(Map<String, dynamic> data) {
+    List<ProductModel> allProducts = [];
+    for (var key in data.keys) {
+      final fields = data[key];
+      allProducts.add(ProductModel(
+        identifierSN: key,
+        productName: fields['modelName'],
+        price: fields['price'] ?? 0,
+        qty: fields['quantity'] ?? 0,
+      ));
+    }
+    return allProducts;
+  }
 
   void setSearchedProducts(String searchText) {
     searchText = searchText.toLowerCase();
@@ -49,56 +111,5 @@ class HomeCubit extends Cubit<HomeState> {
     _subscription?.cancel();
     _connectivitySubscription?.cancel();
     return super.close();
-  }
-
-  getProductModelsStream(BuildContext context) {
-    emit(HomeLoading());
-    try {
-      _connectivitySubscription = Connectivity().onConnectivityChanged.listen(
-        (List<ConnectivityResult> result) {
-          result.contains(ConnectivityResult.none)
-              ? Injector.isOnline = false
-              : Injector.isOnline = true;
-          emit(InternetState());
-        },
-      );
-      _subscription = HomeRepo().getProductsStream().listen(
-        (snapshot) {
-          final Map<String, dynamic>? data = snapshot.data();
-          if (data != null) {
-            products = _parseProducts(data);
-            emit(HomeProductsState());
-          }
-        },
-        onError: (error) {
-          FirebaseAnalytics.instance.logEvent(
-            name: "error_in_products_listener",
-            parameters: {"error": error.toString()},
-          );
-          if (error.toString().toLowerCase().contains('permission-denied')) {
-            Injector.get<AuthService>().handleUserDeletion(context);
-          }
-        },
-      );
-    } on FirebaseException catch (e) {
-      return emit(HomeFailure(FirebaseFailure.fromFirebaseException(e).errMsg));
-    } catch (e) {
-      Failure.exception(e);
-      return emit(HomeFailure("حدث خطأ!!"));
-    }
-  }
-
-  List<ProductModel> _parseProducts(Map<String, dynamic> data) {
-    List<ProductModel> allProducts = [];
-    for (var key in data.keys) {
-      final fields = data[key];
-      allProducts.add(ProductModel(
-        identifierSN: key,
-        productName: fields['modelName'],
-        price: fields['price'] ?? 0,
-        qty: fields['quantity'] ?? 0,
-      ));
-    }
-    return allProducts;
   }
 }

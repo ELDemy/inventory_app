@@ -11,4 +11,12 @@ class HomeRepo {
       rethrow;
     }
   }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getProductsCategories() async {
+    try {
+      return await Injector.productsCategoriesDoc.get();
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
 }

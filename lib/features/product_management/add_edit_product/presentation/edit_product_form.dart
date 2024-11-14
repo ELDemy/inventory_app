@@ -30,33 +30,14 @@ class EditProductForm extends StatelessWidget {
             }
           },
           builder: (context, state) => ProductForm(
+            buttonText: "تعديل المنتج",
             isUpdate: true,
             productModel: productModel,
-            buttonText: "تعديل المنتج",
             categories: [],
-            onSubmit: ({
-              required formKey,
-              required productNameController,
-              required serialNumberController,
-              required selectedCategory,
-              required priceController,
-              required quantityController,
-              required powerController,
-              required inputController,
-              required outputController,
-            }) {
+            onSubmit: (formKey, productModel) {
               if (formKey.currentState!.validate()) {
                 BlocProvider.of<AddEditProductCubit>(context)
-                    .updateProduct(ProductModel(
-                  serialNumber: serialNumberController.text,
-                  productName: productNameController.text,
-                  price: double.parse(priceController.text),
-                  qty: int.parse(quantityController.text),
-                  power: num.parse(powerController.text),
-                  input: inputController.text,
-                  output: outputController.text,
-                ));
-                print(productModel.identifierSN);
+                    .updateProduct(productModel);
               }
             },
           ),

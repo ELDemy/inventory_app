@@ -6,12 +6,12 @@ class ProductModel {
   String? identifierSN;
   String? serialNumber;
   final String? productName;
-  final num? power;
-  final String? input;
-  final String? output;
   final double price;
   final int qty;
   final String? category;
+  final String? power;
+  final String? input;
+  final String? output;
 
   ProductModel({
     this.serialNumber,
@@ -43,7 +43,7 @@ class ProductModel {
       serialNumber: data?['serialNumber'],
       productName: data?['modelName'],
       category: data?['category'],
-      power: data?['power'] != null ? (data?['power'] as num) : null,
+      power: data?['power'],
       input: data?['input'],
       output: data?['output'],
       price: data?['price'] != null ? (data?['price'] as double) : 0,
@@ -58,11 +58,11 @@ class ProductModel {
       "serialNumber": serialNumber,
       "modelName": productName,
       "category": category,
+      "price": price,
+      "quantity": qty,
       if (power != null) "power": power,
       if (input != null) "input": input,
       if (output != null) "output": output,
-      "price": price,
-      "quantity": qty,
     };
   } // Convert ProductModel to a Map for Firestore
 

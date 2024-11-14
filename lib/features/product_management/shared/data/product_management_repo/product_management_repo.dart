@@ -16,22 +16,6 @@ class ProductManagementRepo {
     }
   }
 
-  Future<void> deleteProduct(String identifierSN) async {
-    try {
-      FirebaseFirestore.instance.runTransaction(
-        (transaction) async {
-          transaction.delete(Injector.productsCollection.doc(identifierSN));
-          transaction.update(
-              Injector.allProductsDoc, {identifierSN: FieldValue.delete()});
-        },
-      );
-      return await Injector.productsCollection.doc(identifierSN).delete();
-    } on Exception catch (e) {
-      log("Error getting Product $identifierSN  : ${e.toString()}");
-      rethrow;
-    }
-  }
-
   Future<void> addProduct(ProductModel productModel) async {
     try {
       final DocumentReference<Map<String, dynamic>> docRef =
@@ -50,10 +34,46 @@ class ProductManagementRepo {
         },
       );
     } on FirebaseException catch (firebaseException) {
-      print('Error creating document: ${firebaseException.message}');
       rethrow;
     } catch (e) {
-      print('An unexpected error occurred: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> addCategory(String category) async {
+    try {
+      Injector.productsCategoriesDoc.update({category: null});
+    } on Exception catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> deleteProduct(String identifierSN) async {
+    try {
+      FirebaseFirestore.instance.runTransaction(
+        (transaction) async {
+          transaction.delete(Injector.productsCollection.doc(identifierSN));
+          transaction.update(
+              Injector.allProductsDoc, {identifierSN: FieldValue.delete()});
+        },
+      );
+      return await Injector.productsCollection.doc(identifierSN).delete();
+    } on Exception catch (e) {
+      log("Error getting Product $identifierSN  : ${e.toString()}");
+      rethrow;
+    }
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getOrder(String barcode) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> x = await Injector
+          .productsHistoryCollection
+          .where("serialNumbers", arrayContains: barcode)
+          .limit(1)
+          .get();
+      return x;
+    } on Exception catch (e) {
+      log("Error getting Product $barcode  : ${e.toString()}");
       rethrow;
     }
   }
@@ -80,24 +100,8 @@ class ProductManagementRepo {
         },
       );
     } on FirebaseException catch (firebaseException) {
-      print('Error creating document: ${firebaseException.message}');
       rethrow;
     } catch (e) {
-      print('An unexpected error occurred: $e');
-      rethrow;
-    }
-  }
-
-  Future<QuerySnapshot<Map<String, dynamic>>> getOrder(String barcode) async {
-    try {
-      QuerySnapshot<Map<String, dynamic>> x = await Injector
-          .productsHistoryCollection
-          .where("serialNumbers", arrayContains: barcode)
-          .limit(1)
-          .get();
-      return x;
-    } on Exception catch (e) {
-      log("Error getting Product $barcode  : ${e.toString()}");
       rethrow;
     }
   }
