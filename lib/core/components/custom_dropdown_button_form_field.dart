@@ -132,6 +132,8 @@ class CategorySelectionField extends StatefulWidget {
   final String? selectedCategory;
   final Function(String) onCategorySelected;
   final Function(String) onNewCategoryAdded;
+  final bool isSearchable;
+  final bool isEditable;
 
   const CategorySelectionField({
     super.key,
@@ -139,6 +141,8 @@ class CategorySelectionField extends StatefulWidget {
     this.selectedCategory,
     required this.onCategorySelected,
     required this.onNewCategoryAdded,
+    this.isSearchable = true,
+    this.isEditable = true,
   });
 
   @override
@@ -260,24 +264,25 @@ class _CategorySelectionFieldState extends State<CategorySelectionField> {
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: Colors.grey.shade300),
               ),
-              constraints: const BoxConstraints(maxHeight: 250),
+              constraints: const BoxConstraints(maxHeight: 170),
               child: Column(
                 children: [
                   // Search Field
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      controller: _searchController,
-                      decoration: InputDecoration(
-                          hintText: 'بحث ...',
-                          prefixIcon: const Icon(Icons.search),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          contentPadding:
-                              const EdgeInsets.symmetric(horizontal: 16)),
-                      onChanged: _filterCategories,
+                  if (widget.isSearchable)
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                            hintText: 'بحث ...',
+                            prefixIcon: const Icon(Icons.search),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 16)),
+                        onChanged: _filterCategories,
+                      ),
                     ),
-                  ),
                   // Categories List
                   Expanded(
                     child: ListView.builder(
@@ -286,6 +291,7 @@ class _CategorySelectionFieldState extends State<CategorySelectionField> {
                       itemCount: _filteredCategories.length + 1,
                       itemBuilder: (context, index) {
                         if (index == _filteredCategories.length) {
+                          if (!widget.isEditable) return const SizedBox();
                           return ListTile(
                             leading: const Icon(Icons.add),
                             title: const Text('اضافة نوع جديد'),

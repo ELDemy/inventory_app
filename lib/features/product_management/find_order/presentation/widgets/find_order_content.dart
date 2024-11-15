@@ -90,6 +90,11 @@ class FindOrderContent extends StatelessWidget {
             content: orderModel.clientPhoneNumber ?? "--",
             iconData: Icons.numbers_sharp,
           ),
+          CardDetailRow(
+            label: "نوع العميل :",
+            content: orderModel.clientType ?? "--",
+            iconData: Icons.person,
+          ),
         ],
       ),
     );

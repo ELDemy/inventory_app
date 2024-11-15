@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_app/core/components/custom_dropdown_button_form_field.dart';
 import 'package:inventory_app/core/components/custom_text_form_field.dart';
 import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
@@ -22,6 +23,7 @@ class _MakeOrderFormState extends State<MakeOrderForm> {
   final TextEditingController _clientNumberController = TextEditingController();
   final TextEditingController _qtyController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
+  ValueNotifier<String> clientType = ValueNotifier('تاجر');
 
   final List<String> barcodes = [];
 
@@ -57,6 +59,21 @@ class _MakeOrderFormState extends State<MakeOrderForm> {
                   controller: _clientNumberController,
                   isNumbersOnly: true,
                 ),
+                ValueListenableBuilder<String>(
+                  valueListenable: clientType,
+                  builder: (context, category, child) {
+                    return CategorySelectionField(
+                      categories: const ['تاجر', 'مصنع', 'مورد'],
+                      isSearchable: false,
+                      isEditable: false,
+                      selectedCategory: category,
+                      onCategorySelected: (category) {
+                        clientType.value = category;
+                      },
+                      onNewCategoryAdded: (newCategory) {},
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -85,6 +102,7 @@ class _MakeOrderFormState extends State<MakeOrderForm> {
                       quantity: int.parse(_qtyController.text),
                       clientName: _clientNameController.text,
                       clientPhoneNumber: _clientNumberController.text,
+                      clientType: clientType.value,
                     ),
                   );
                 }
