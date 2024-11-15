@@ -233,6 +233,7 @@ class _CategorySelectionFieldState extends State<CategorySelectionField> {
               if (controller.text.isNotEmpty) {
                 widget.onNewCategoryAdded(controller.text.trim());
                 Navigator.pop(context);
+                setState(() {});
               }
             },
             child: const Text('اضافة'),
@@ -301,6 +302,7 @@ class _CategorySelectionFieldState extends State<CategorySelectionField> {
                             _searchController.clear();
                             _filterCategories('');
                             _removeOverlay();
+                            setState(() {});
                           },
                         );
                       },

@@ -23,11 +23,12 @@ class HomeCubit extends Cubit<HomeState> {
   StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
 
   List<ProductModel> _allProducts = [];
+
   List<ProductModel> get products {
     if (selectedCategory == null) return _allProducts;
-    return _allProducts.where((product) {
-      return product.category == selectedCategory;
-    }).toList();
+    return _allProducts
+        .where((product) => product.category == selectedCategory)
+        .toList();
   }
 
   List<ProductModel>? searchedProducts;
@@ -76,7 +77,8 @@ class HomeCubit extends Cubit<HomeState> {
     DocumentSnapshot<Map<String, dynamic>> categories =
         await homeRepo.getProductsCategories();
     if (categories.data() != null) {
-      Injector.productsCategories = categories.data()!.keys.toList();
+      Injector.productsCategories = categories.data()!.keys.toList()
+        ..sort((a, b) => a.compareTo(b));
     }
     return;
   }
