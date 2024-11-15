@@ -42,7 +42,8 @@ class ProductManagementRepo {
 
   Future<void> addCategory(String category) async {
     try {
-      Injector.productsCategoriesDoc.update({category: null});
+      Injector.productsCategoriesDoc
+          .set({category: null}, SetOptions(merge: true));
     } on Exception catch (e) {
       rethrow;
     }

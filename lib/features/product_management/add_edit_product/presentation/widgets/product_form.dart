@@ -21,8 +21,7 @@ class ProductForm extends StatefulWidget {
   final String buttonText;
   final ProductModel? productModel;
 
-  final void Function(GlobalKey<FormState> formKey, ProductModel productModel)
-      onSubmit;
+  final void Function(ProductModel productModel) onSubmit;
 
   @override
   State<ProductForm> createState() => _ProductFormState();
@@ -93,6 +92,7 @@ class _ProductFormState extends State<ProductForm> {
                 valueListenable: selectedCategory,
                 builder: (context, category, child) {
                   return CategorySelectionField(
+                    height: 250,
                     categories: Injector.productsCategories,
                     selectedCategory: category,
                     onCategorySelected: (category) {
@@ -138,19 +138,22 @@ class _ProductFormState extends State<ProductForm> {
               ),
               const SizedBox(height: 10),
               ElevatedButton(
-                onPressed: () => widget.onSubmit(
-                  formKey,
-                  ProductModel(
-                    serialNumber: serialNumberController.text,
-                    productName: productNameController.text,
-                    category: selectedCategory.value,
-                    price: double.parse(priceController.text),
-                    qty: int.parse(quantityController.text),
-                    power: powerController.text,
-                    input: inputController.text,
-                    output: outputController.text,
-                  ),
-                ),
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    widget.onSubmit(
+                      ProductModel(
+                        serialNumber: serialNumberController.text,
+                        productName: productNameController.text,
+                        category: selectedCategory.value,
+                        price: double.parse(priceController.text),
+                        qty: int.parse(quantityController.text),
+                        power: powerController.text,
+                        input: inputController.text,
+                        output: outputController.text,
+                      ),
+                    );
+                  }
+                },
                 child: Text(widget.buttonText,
                     style: const TextStyle(fontSize: 20)),
               ),

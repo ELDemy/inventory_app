@@ -10,7 +10,13 @@ class SerialSearchScreen extends StatefulWidget {
 }
 
 class _SerialSearchScreenState extends State<SerialSearchScreen> {
-  final TextEditingController controller = TextEditingController();
+  final TextEditingController serialController = TextEditingController();
+
+  @override
+  void dispose() {
+    serialController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,27 +24,30 @@ class _SerialSearchScreenState extends State<SerialSearchScreen> {
       appBar: AppBar(title: const Text("ادخل الرقم التسلسلي للمنتج")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Image.asset("assets/logo.png", height: 200),
-            CustomSerialTextFormField(controller: controller),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                      onPressed: () {
-                        if (controller.text.isEmpty ||
-                            controller.text == "-1") {
-                          return;
-                        }
-                        widget.onSubmit(controller.text);
-                      },
-                      child: const Text("بحث", style: TextStyle(fontSize: 20))),
-                ),
-              ],
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Image.asset("assets/logo.png", height: 200),
+              CustomSerialTextFormField(controller: serialController),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                        onPressed: () {
+                          if (serialController.text.isEmpty ||
+                              serialController.text == "-1") {
+                            return;
+                          }
+                          widget.onSubmit(serialController.text);
+                        },
+                        child:
+                            const Text("بحث", style: TextStyle(fontSize: 20))),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -44,9 +44,9 @@ class ProductModel {
       serialNumber: data?['serialNumber'],
       productName: data?['modelName'],
       category: data?['category'],
-      power: data?['power'],
-      input: data?['input'],
-      output: data?['output'],
+      power: data?['power'].toString(),
+      input: data?['input'].toString(),
+      output: data?['output'].toString(),
       price: data?['price'] != null ? (data?['price'] as double) : 0,
       qty: data?['quantity'] != null ? (data?['quantity'] as int) : 0,
     );

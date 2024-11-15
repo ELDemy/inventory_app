@@ -23,7 +23,7 @@ class Injector {
   final projectDocName = 'inverters';
 
   static final DocumentReference<Map<String, dynamic>> projectDoc =
-      FirebaseFirestore.instance.doc('projects/test');
+      FirebaseFirestore.instance.doc('projects/inverters');
 
   static final CollectionReference<Map<String, dynamic>> productsCollection =
       projectDoc.collection('products');

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inventory_app/core/utils/app_colors.dart';
 
 // class CustomDropdownButtonFormField extends StatefulWidget {
 //   const CustomDropdownButtonFormField({
@@ -134,6 +135,7 @@ class CategorySelectionField extends StatefulWidget {
   final Function(String) onNewCategoryAdded;
   final bool isSearchable;
   final bool isEditable;
+  final double height;
 
   const CategorySelectionField({
     super.key,
@@ -143,6 +145,7 @@ class CategorySelectionField extends StatefulWidget {
     required this.onNewCategoryAdded,
     this.isSearchable = true,
     this.isEditable = true,
+    this.height = 170,
   });
 
   @override
@@ -254,7 +257,7 @@ class _CategorySelectionFieldState extends State<CategorySelectionField> {
         child: CompositedTransformFollower(
           link: _layerLink,
           showWhenUnlinked: false,
-          offset: const Offset(0, 55),
+          offset: const Offset(0, 65),
           child: Material(
             elevation: 8,
             color: Colors.white,
@@ -264,7 +267,7 @@ class _CategorySelectionFieldState extends State<CategorySelectionField> {
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: Colors.grey.shade300),
               ),
-              constraints: const BoxConstraints(maxHeight: 170),
+              constraints: BoxConstraints(maxHeight: widget.height),
               child: Column(
                 children: [
                   // Search Field
@@ -302,7 +305,11 @@ class _CategorySelectionFieldState extends State<CategorySelectionField> {
                         final category = _filteredCategories[index];
                         return ListTile(
                           title: Text(category),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100)),
                           selected: widget.selectedCategory == category,
+                          selectedTileColor: AppColors.primaryColor,
+                          selectedColor: Colors.black,
                           onTap: () {
                             widget.onCategorySelected(category);
                             _searchController.clear();

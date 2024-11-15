@@ -33,11 +33,9 @@ class EditProductForm extends StatelessWidget {
             buttonText: "تعديل المنتج",
             isUpdate: true,
             productModel: productModel,
-            onSubmit: (formKey, productModel) {
-              if (formKey.currentState!.validate()) {
-                BlocProvider.of<AddEditProductCubit>(context)
-                    .updateProduct(productModel);
-              }
+            onSubmit: (productModel) {
+              BlocProvider.of<AddEditProductCubit>(context)
+                  .updateProduct(productModel);
             },
           ),
         ),
