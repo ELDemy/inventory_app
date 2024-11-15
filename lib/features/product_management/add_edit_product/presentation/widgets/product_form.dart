@@ -4,6 +4,7 @@ import 'package:inventory_app/core/components/custom_dropdown_button_form_field.
 import 'package:inventory_app/core/components/custom_serial_text_form_field.dart';
 import 'package:inventory_app/core/components/custom_text_form_field.dart';
 import 'package:inventory_app/core/models/product_model.dart';
+import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/product_management/add_edit_product/data/add_edit_product_cubit/add_edit_product_cubit.dart';
 
 class ProductForm extends StatefulWidget {
@@ -12,12 +13,11 @@ class ProductForm extends StatefulWidget {
     this.productModel,
     required this.onSubmit,
     required this.buttonText,
-    required this.categories,
     this.isUpdate = false,
   });
 
   final bool isUpdate;
-  final List<String> categories;
+
   final String buttonText;
   final ProductModel? productModel;
 
@@ -44,8 +44,8 @@ class _ProductFormState extends State<ProductForm> {
   @override
   void initState() {
     super.initState();
-    widget.categories.isNotEmpty
-        ? selectedCategory.value = widget.categories[0]
+    Injector.productsCategories.isNotEmpty
+        ? selectedCategory.value = Injector.productsCategories[0]
         : selectedCategory;
 
     if (widget.productModel != null) {
@@ -93,7 +93,7 @@ class _ProductFormState extends State<ProductForm> {
                 valueListenable: selectedCategory,
                 builder: (context, category, child) {
                   return CategorySelectionField(
-                    categories: widget.categories,
+                    categories: Injector.productsCategories,
                     selectedCategory: category,
                     onCategorySelected: (category) {
                       selectedCategory.value = category;
@@ -101,7 +101,7 @@ class _ProductFormState extends State<ProductForm> {
                     onNewCategoryAdded: (newCategory) {
                       BlocProvider.of<AddEditProductCubit>(context)
                           .addNewCategory(newCategory);
-                      widget.categories.add(newCategory);
+                      Injector.productsCategories.add(newCategory);
                       selectedCategory.value = newCategory;
                     },
                   );

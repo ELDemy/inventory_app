@@ -36,10 +36,11 @@ class ProductModel {
   // Factory constructor to create ProductModel from Firestore
   factory ProductModel.fromFirestore(
     Map<String, dynamic>? data,
-    SnapshotOptions? options,
-  ) {
+    SnapshotOptions? options, {
+    String? identifierSN,
+  }) {
     return ProductModel(
-      identifierSN: data?['identifierSN'],
+      identifierSN: identifierSN ?? data?['identifierSN'],
       serialNumber: data?['serialNumber'],
       productName: data?['modelName'],
       category: data?['category'],

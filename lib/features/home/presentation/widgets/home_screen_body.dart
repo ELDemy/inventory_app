@@ -5,10 +5,11 @@ import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/features/home/data/cubit/home_cubit.dart';
 
+import 'categories_list.dart';
 import 'product_card.dart';
 
-class ProductsList extends StatelessWidget {
-  const ProductsList({super.key});
+class HomeScreenBody extends StatelessWidget {
+  const HomeScreenBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +34,22 @@ class ProductsList extends StatelessWidget {
           products = state.searchedProducts!;
         }
 
-        return products.isNotEmpty
-            ? ListView.builder(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  return ProductCard(product: products[index]);
-                },
-              )
-            : const Center(child: Text("لا يوجد منتجات"));
+        return Column(
+          children: [
+            CategoriesList(),
+            products.isNotEmpty
+                ? Expanded(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      itemCount: products.length,
+                      itemBuilder: (context, index) {
+                        return ProductCard(product: products[index]);
+                      },
+                    ),
+                  )
+                : const Center(child: Text("لا يوجد منتجات"))
+          ],
+        );
       },
     );
   }

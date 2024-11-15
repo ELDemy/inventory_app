@@ -11,8 +11,8 @@ import 'package:inventory_app/features/user_management/presentation/user_managem
 import 'package:inventory_app/super_admin.dart';
 
 import 'widgets/anim_search.dart';
+import 'widgets/home_screen_body.dart';
 import 'widgets/my_expandable_fab.dart';
-import 'widgets/products_list.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
         ),
         floatingActionButtonLocation: ExpandableFab.location,
         floatingActionButton: const MyExpandableFAB(),
-        body: const ProductsList(),
+        body: const HomeScreenBody(),
       ),
     );
   }

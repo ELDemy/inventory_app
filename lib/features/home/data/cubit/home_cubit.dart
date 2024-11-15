@@ -22,8 +22,16 @@ class HomeCubit extends Cubit<HomeState> {
   StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? _subscription;
   StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
 
-  List<ProductModel> products = [];
+  List<ProductModel> _allProducts = [];
+  List<ProductModel> get products {
+    if (selectedCategory == null) return _allProducts;
+    return _allProducts.where((product) {
+      return product.category == selectedCategory;
+    }).toList();
+  }
+
   List<ProductModel>? searchedProducts;
+  String? selectedCategory;
 
   getProductModelsStream(BuildContext context) async {
     emit(HomeLoading());
@@ -41,7 +49,8 @@ class HomeCubit extends Cubit<HomeState> {
         (snapshot) {
           final Map<String, dynamic>? data = snapshot.data();
           if (data != null) {
-            products = _parseProducts(data);
+            _allProducts = _parseProducts(data);
+            products;
             emit(HomeProductsState());
           }
         },
@@ -75,13 +84,8 @@ class HomeCubit extends Cubit<HomeState> {
   List<ProductModel> _parseProducts(Map<String, dynamic> data) {
     List<ProductModel> allProducts = [];
     for (var key in data.keys) {
-      final fields = data[key];
-      allProducts.add(ProductModel(
-        identifierSN: key,
-        productName: fields['modelName'],
-        price: fields['price'] ?? 0,
-        qty: fields['quantity'] ?? 0,
-      ));
+      allProducts
+          .add(ProductModel.fromFirestore(data[key], null, identifierSN: key));
     }
     return allProducts;
   }
@@ -103,6 +107,12 @@ class HomeCubit extends Cubit<HomeState> {
 
   void clearSearchedProducts() {
     searchedProducts = null;
+    emit(HomeProductsState());
+  }
+
+  void changeCategory(String? category) {
+    selectedCategory = category;
+    products;
     emit(HomeProductsState());
   }
 

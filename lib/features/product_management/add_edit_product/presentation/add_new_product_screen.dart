@@ -38,7 +38,6 @@ class AddNewProductForm extends StatelessWidget {
         appBar: AppBar(title: const Text("إضافة منتج جديد")),
         body: ProductForm(
           buttonText: "إضافة المنتج",
-          categories: [],
           onSubmit: (formKey, productModel) {
             if (formKey.currentState!.validate()) {
               BlocProvider.of<AddEditProductCubit>(context)
