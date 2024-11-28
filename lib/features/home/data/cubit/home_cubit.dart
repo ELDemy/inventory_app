@@ -45,7 +45,7 @@ class HomeCubit extends Cubit<HomeState> {
           emit(InternetState());
         },
       );
-      await getCategories();
+      await _getCategories();
       _subscription = homeRepo.getProductsStream().listen(
         (snapshot) {
           final Map<String, dynamic>? data = snapshot.data();
@@ -73,7 +73,7 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
-  Future<void> getCategories() async {
+  Future<void> _getCategories() async {
     DocumentSnapshot<Map<String, dynamic>> categories =
         await homeRepo.getProductsCategories();
     if (categories.data() != null) {
