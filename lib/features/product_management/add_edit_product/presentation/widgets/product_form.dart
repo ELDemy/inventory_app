@@ -121,21 +121,21 @@ class _ProductFormState extends State<ProductForm> {
                 isNumbersOnly: true,
                 suffixIcon: const Icon(Icons.inventory_2_outlined),
               ),
-              CustomTextFormField(
-                labelText: "Power",
-                controller: powerController,
-                suffixIcon: const Icon(Icons.bolt),
-              ),
-              CustomTextFormField(
-                labelText: "Input",
-                controller: inputController,
-                suffixIcon: const Icon(Icons.south_east_rounded),
-              ),
-              CustomTextFormField(
-                labelText: "Output",
-                controller: outputController,
-                suffixIcon: const Icon(Icons.north_west_rounded),
-              ),
+              // CustomTextFormField(
+              //   labelText: "Power",
+              //   controller: powerController,
+              //   suffixIcon: const Icon(Icons.bolt),
+              // ),
+              // CustomTextFormField(
+              //   labelText: "Input",
+              //   controller: inputController,
+              //   suffixIcon: const Icon(Icons.south_east_rounded),
+              // ),
+              // CustomTextFormField(
+              //   labelText: "Output",
+              //   controller: outputController,
+              //   suffixIcon: const Icon(Icons.north_west_rounded),
+              // ),
               const SizedBox(height: 10),
               ElevatedButton(
                 onPressed: () {
@@ -147,9 +147,9 @@ class _ProductFormState extends State<ProductForm> {
                         category: selectedCategory.value,
                         price: double.parse(priceController.text),
                         qty: int.parse(quantityController.text),
-                        power: powerController.text,
-                        input: inputController.text,
-                        output: outputController.text,
+                        // power: powerController.text,
+                        // input: inputController.text,
+                        // output: outputController.text,
                       ),
                     );
                   }

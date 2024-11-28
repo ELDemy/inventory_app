@@ -53,12 +53,12 @@ class _MakeOrderFormState extends State<MakeOrderForm> {
                   suffixIcon: const Icon(Icons.person),
                   controller: _clientNameController,
                 ),
-                CustomTextFormField(
-                  labelText: "رقم الموبايل",
-                  suffixIcon: const Icon(Icons.numbers),
-                  controller: _clientNumberController,
-                  isNumbersOnly: true,
-                ),
+                // CustomTextFormField(
+                //   labelText: "رقم الموبايل",
+                //   suffixIcon: const Icon(Icons.numbers),
+                //   controller: _clientNumberController,
+                //   isNumbersOnly: true,
+                // ),
                 ValueListenableBuilder<String>(
                   valueListenable: clientType,
                   builder: (context, category, child) {

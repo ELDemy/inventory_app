@@ -118,9 +118,9 @@ class ProductCard extends StatelessWidget {
 
   Color get _cardColor {
     switch (product.qty) {
-      case >= 3:
+      case >= 6:
         return AppColors.primaryColor;
-      case < 3:
+      case < 6:
         return AppColors.lightRedColor;
       default:
         return AppColors.primaryColor;

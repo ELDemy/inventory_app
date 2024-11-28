@@ -47,7 +47,7 @@ class HomeCubit extends Cubit<HomeState> {
       );
       await getCategories();
       _subscription = homeRepo.getProductsStream().listen(
-        (snapshot) {
+        (DocumentSnapshot<Map<String, dynamic>> snapshot) {
           final Map<String, dynamic>? data = snapshot.data();
           if (data != null) {
             _allProducts = _parseProducts(data);
