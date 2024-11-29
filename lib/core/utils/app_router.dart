@@ -1,4 +1,6 @@
 import 'package:go_router/go_router.dart';
+import 'package:inventory_app/features/admin/features/user_management/presentation/sign_up_screen.dart';
+import 'package:inventory_app/features/admin/features/user_management/presentation/user_management_screen.dart';
 import 'package:inventory_app/features/auth/presentation/signin.dart';
 import 'package:inventory_app/features/home/presentation/home_screen.dart';
 import 'package:inventory_app/features/home/presentation/widgets/serial_search_screen.dart';
@@ -6,8 +8,6 @@ import 'package:inventory_app/features/product_management/add_edit_product/prese
 import 'package:inventory_app/features/product_management/make_order/presentation/make_order_screen.dart';
 import 'package:inventory_app/features/product_management/product_profile/presentation/product_profile_screen.dart';
 import 'package:inventory_app/features/splash_screen/splash_screen.dart';
-import 'package:inventory_app/features/user_management/presentation/sign_up_screen.dart';
-import 'package:inventory_app/features/user_management/presentation/user_management_screen.dart';
 
 abstract class AppRouter {
   static const String kHomeScreen = "/HomeScreen";

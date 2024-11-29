@@ -6,8 +6,8 @@ import 'package:inventory_app/core/components/custom_icon_container.dart';
 import 'package:inventory_app/core/utils/app_colors.dart';
 import 'package:inventory_app/di/auth_service.dart';
 import 'package:inventory_app/di/injector.dart';
+import 'package:inventory_app/features/admin/admin_home_screen/admin_home_screen.dart';
 import 'package:inventory_app/features/home/data/cubit/home_cubit.dart';
-import 'package:inventory_app/features/user_management/presentation/user_management_screen.dart';
 import 'package:inventory_app/super_admin.dart';
 
 import 'widgets/anim_search.dart';
@@ -50,8 +50,7 @@ class HomeScreen extends StatelessWidget {
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-                builder: (context) => const UserManagementScreen()),
+            MaterialPageRoute(builder: (context) => const AdminHomeScreen()),
           );
         },
       );

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/components/custom_text_form_field.dart';
+import 'package:inventory_app/core/utils/app_icons.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
-import 'package:inventory_app/features/user_management/data/user_management_cubit/user_management_cubit.dart';
+import 'package:inventory_app/features/admin/features/user_management/data/user_management_cubit/user_management_cubit.dart';
 
 // sign_up_screen.dart
 class SignUpScreen extends StatefulWidget {
@@ -52,7 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Column(
                   children: [
                     const SizedBox(height: 30),
-                    Image.asset("assets/logo.png", height: 200),
+                    AppIcons().appLogo(height: 200),
                     CustomTextFormField(
                       controller: _nameController,
                       labelText: 'اسم المسخدم',

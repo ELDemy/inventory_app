@@ -98,7 +98,7 @@ class _MakeOrderDetailsFormState extends State<MakeOrderDetailsForm> {
         widget.barcodes.add(barcode);
         setState(() {});
       },
-      child: AppIcons.barcodeIcon(
+      child: AppIcons().barcodeIcon(
         height: 40,
         color: AppColors.primaryColor,
       ),
