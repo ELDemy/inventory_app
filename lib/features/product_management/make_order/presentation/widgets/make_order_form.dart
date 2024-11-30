@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/components/custom_dropdown_button_form_field.dart';
 import 'package:inventory_app/core/components/custom_text_form_field.dart';
 import 'package:inventory_app/core/models/order_model.dart';
-import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/features/product_management/make_order/data/make_order_cubit/make_order_cubit.dart';
 
 import 'custom_card.dart';
@@ -44,21 +43,21 @@ class _MakeOrderFormState extends State<MakeOrderForm> {
       child: Column(
         children: [
           CustomCard(
-            title: "بيانات العميل",
+            title: "بيانات المستلم",
             iconData: Icons.person,
             child: Column(
               children: [
                 CustomTextFormField(
-                  labelText: "اسم العميل",
+                  labelText: "اسم المستلم",
                   suffixIcon: const Icon(Icons.person),
                   controller: _clientNameController,
                 ),
-                // CustomTextFormField(
-                //   labelText: "رقم الموبايل",
-                //   suffixIcon: const Icon(Icons.numbers),
-                //   controller: _clientNumberController,
-                //   isNumbersOnly: true,
-                // ),
+                CustomTextFormField(
+                  labelText: "رقم الموبايل",
+                  suffixIcon: const Icon(Icons.numbers),
+                  controller: _clientNumberController,
+                  isNumbersOnly: true,
+                ),
                 ValueListenableBuilder<String>(
                   valueListenable: clientType,
                   builder: (context, category, child) {
@@ -87,17 +86,19 @@ class _MakeOrderFormState extends State<MakeOrderForm> {
             padding: const EdgeInsets.symmetric(vertical: 40),
             child: ElevatedButton(
               onPressed: () {
-                if (_qtyController.text.isNotEmpty &&
-                    barcodes.length != double.parse(_qtyController.text)) {
-                  ShowInfoUtil.showSnackBar(context,
-                      "يجب ادخال الباركود الخاص بجميع الوحدات\n عدد الوحدات لا يساوي عدد الباركود");
-                  return;
-                }
+                // if (_qtyController.text.isNotEmpty &&
+                //     barcodes.length != double.parse(_qtyController.text)) {
+                //   ShowInfoUtil.showSnackBar(context,
+                //       "يجب ادخال الباركود الخاص بجميع الوحدات\n عدد الوحدات لا يساوي عدد الباركود");
+                //   return;
+                // }
                 if (_formKey.currentState!.validate()) {
                   orderCubit.makeOrder(
                     OrderModel(
                       product: orderCubit.productModel,
-                      serialNumbers: barcodes,
+                      serialNumbers: [
+                        "${orderCubit.productModel.identifierSN ?? 123456}${int.parse(_qtyController.text)}"
+                      ],
                       price: double.parse(_priceController.text),
                       quantity: int.parse(_qtyController.text),
                       clientName: _clientNameController.text,
