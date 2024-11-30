@@ -6,7 +6,7 @@ class ProductModel {
   String? identifierSN;
   String? serialNumber;
   final String? productName;
-  final double price;
+  final num price;
   final int qty;
   final String? category;
   final String? power;
@@ -47,7 +47,7 @@ class ProductModel {
       power: data?['power'].toString(),
       input: data?['input'].toString(),
       output: data?['output'].toString(),
-      price: data?['price'] != null ? (data?['price'] as double) : 0,
+      price: data?['price'] != null ? (data?['price'] as num) : 0,
       qty: data?['quantity'] != null ? (data?['quantity'] as int) : 0,
     );
   }

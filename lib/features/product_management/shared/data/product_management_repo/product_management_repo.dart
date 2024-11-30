@@ -68,7 +68,7 @@ class ProductManagementRepo {
   Future<QuerySnapshot<Map<String, dynamic>>> getOrder(String barcode) async {
     try {
       QuerySnapshot<Map<String, dynamic>> x = await Injector
-          .productsHistoryCollection
+          .ordersHistoryCollection
           .where("serialNumbers", arrayContains: barcode)
           .limit(1)
           .get();
@@ -82,7 +82,7 @@ class ProductManagementRepo {
   Future<void> makeOrder(OrderModel orderModel) async {
     try {
       final DocumentReference<Map<String, dynamic>> docRef =
-          Injector.productsHistoryCollection.doc();
+          Injector.ordersHistoryCollection.doc();
 
       return await FirebaseFirestore.instance.runTransaction(
         (transaction) async {

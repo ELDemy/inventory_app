@@ -33,7 +33,6 @@ class FindOrderCubit extends Cubit<FindOrderState> {
         orderModel = OrderModel.fromFirestore(
           docSnapshot.data(),
           docSnapshot.id,
-          null,
         );
 
         return emit(FindOrderSuccess());

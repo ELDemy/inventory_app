@@ -8,7 +8,7 @@ class OrderModel {
   final List<String> serialNumbers;
   final String? employee;
   final int quantity;
-  final double price;
+  final num price;
   final String? clientName;
   final String? clientPhoneNumber;
   final String? clientType;
@@ -29,9 +29,9 @@ class OrderModel {
   // Factory constructor to create OrderModel from Firestore
   factory OrderModel.fromFirestore(
     Map<String, dynamic>? data,
-    String docId,
+    String docId, {
     SnapshotOptions? options,
-  ) {
+  }) {
     return OrderModel(
       docId: docId,
       product: ProductModel.fromFirestore(data?['product'], null),

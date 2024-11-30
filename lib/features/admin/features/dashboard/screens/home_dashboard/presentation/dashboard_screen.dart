@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_app/core/components/failure_screen.dart';
+import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/data/report_cubit/report_cubit.dart';
 import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/presentation/widgets/order_history/order_history.dart';
 
 import 'widgets/top_sellers/top_sellers.dart';
@@ -10,24 +13,39 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('تقارير العمل'),
-      ),
-      body: const Padding(
-        padding: EdgeInsets.symmetric(vertical: 16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TotalRevenueCard(),
-              SizedBox(height: 14),
-              TopSoldProducts(),
-              TopSellers(),
-              OrderHistory(),
-            ],
-          ),
+    return BlocProvider(
+      create: (context) => ReportCubit()
+        ..getAllOrders(
+          DateTime.now().subtract(const Duration(days: 30)),
+          DateTime.now(),
         ),
+      child: BlocBuilder<ReportCubit, ReportState>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('تقارير العمل'),
+            ),
+            body: BlocBuilder<ReportCubit, ReportState>(
+              builder: (context, state) {
+                if (state is ReportLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is ReportFailure) {
+                  return FailureScreen(
+                    errMsg: state.errMsg,
+                    onTap: () => context.read<ReportCubit>().getAllOrders(
+                          DateTime.now().subtract(const Duration(days: 10)),
+                          DateTime.now(),
+                        ),
+                  );
+                } else if (state is ReportSuccess) {
+                  return const DashboardContent();
+                } else {
+                  return const SizedBox();
+                }
+              },
+            ),
+          );
+        },
       ),
     );
   }
@@ -232,6 +250,31 @@ class DashboardScreen extends StatelessWidget {
           const SizedBox(height: 8),
           content,
         ],
+      ),
+    );
+  }
+}
+
+class DashboardContent extends StatelessWidget {
+  const DashboardContent({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TotalRevenueCard(),
+            SizedBox(height: 14),
+            TopSoldProducts(),
+            TopSellers(),
+            OrderHistory(),
+          ],
+        ),
       ),
     );
   }

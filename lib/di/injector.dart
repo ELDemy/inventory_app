@@ -32,7 +32,7 @@ class Injector {
       productsCollection.doc('all');
 
   static final CollectionReference<Map<String, dynamic>>
-      productsHistoryCollection = projectDoc.collection('products_history');
+      ordersHistoryCollection = projectDoc.collection('orders_history');
 
   static final CollectionReference<Map<String, dynamic>> usersCollection =
       projectDoc.collection('users');
