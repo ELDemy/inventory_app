@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
 
+import 'widgets/top_sold_products/top_sold_products.dart';
+import 'widgets/total_revenue_card.dart';
+
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.rtl, // Set to right-to-left for Arabic
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('تقارير العمل'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildDateSelector(context),
-                const SizedBox(height: 16),
-                const TotalRevenueCard(),
-                _buildKeyMetrics(context),
-                const SizedBox(height: 16),
-                _buildTopProducts(context),
-                const SizedBox(height: 16),
-                _buildSellerPerformance(context),
-                const SizedBox(height: 16),
-                _buildOrderHistory(context),
-              ],
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('تقارير العمل'),
+      ),
+      body: const Padding(
+        padding: EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TotalRevenueCard(),
+              SizedBox(height: 28),
+              TopSoldProducts(),
+              // _buildKeyMetrics(context),
+              // const SizedBox(height: 16),
+              // _buildTopProducts(context),
+              // const SizedBox(height: 16),
+              // _buildSellerPerformance(context),
+              // const SizedBox(height: 16),
+              // _buildOrderHistory(context),
+            ],
           ),
         ),
       ),
@@ -235,44 +235,6 @@ class DashboardScreen extends StatelessWidget {
           const SizedBox(height: 8),
           content,
         ],
-      ),
-    );
-  }
-}
-
-class TotalRevenueCard extends StatelessWidget {
-  const TotalRevenueCard({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'إجمالي الإيرادات',
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  '+5000 جنيه',
-                  style: TextStyle(color: Colors.green),
-                ),
-                const SizedBox(height: 16),
-                // _buildMetricRow(context, 'الوحدات المباعة', '20 +20%'),
-                const SizedBox(height: 8),
-                // _buildMetricRow(context, 'عملاء جدد', '20 +20%'),
-                const SizedBox(height: 8),
-                // _buildMetricRow(context, 'متوسط إيرادات الطلب', '20 +20%')
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }

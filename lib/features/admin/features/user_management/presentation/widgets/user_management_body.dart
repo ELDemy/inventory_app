@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/components/failure_screen.dart';
 import 'package:inventory_app/core/components/my_citcular_loading.dart';
 import 'package:inventory_app/core/models/user_model.dart';
-import 'package:inventory_app/core/utils/app_colors.dart';
+import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
 import 'package:inventory_app/features/admin/features/user_management/data/user_management_cubit/user_management_cubit.dart';
 import 'package:inventory_app/features/admin/features/user_management/presentation/sign_up_screen.dart';
 

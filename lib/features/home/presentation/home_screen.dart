@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:inventory_app/core/components/custom_icon_container.dart';
-import 'package:inventory_app/core/utils/app_colors.dart';
+import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
 import 'package:inventory_app/di/auth_service.dart';
 import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/admin/admin_home_screen/admin_home_screen.dart';

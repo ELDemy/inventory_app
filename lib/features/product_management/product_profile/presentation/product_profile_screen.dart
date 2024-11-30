@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/components/custom_icon_container.dart';
 import 'package:inventory_app/core/components/failure_screen.dart';
 import 'package:inventory_app/core/components/my_citcular_loading.dart';
-import 'package:inventory_app/core/utils/app_colors.dart';
+import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/features/product_management/product_profile/data/product_cubit/product_profile_cubit.dart';
 

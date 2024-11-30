@@ -7,6 +7,7 @@ abstract class AppColors {
 
   static const Color foregroundColor = Colors.black;
   static const Color labelColor = Color(0xFFCC9900);
+  static const Color greyColor = Color(0xff999999);
 
   static const Color iconsColor = Colors.black;
   static const Color appBarIconsColor = Colors.black;
