@@ -30,5 +30,6 @@ class AppTheme {
         borderRadius: BorderRadius.circular(16),
       ),
     ),
+    splashColor: AppColors.primaryColor,
   );
 }

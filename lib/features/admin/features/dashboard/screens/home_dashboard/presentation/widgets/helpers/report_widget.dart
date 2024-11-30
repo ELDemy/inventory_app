@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
+import 'package:inventory_app/core/utils/app_themes/app_text_styles.dart';
 
 import 'show_all_arrow.dart';
-import 'title_row.dart';
 
 class ReportWidget extends StatelessWidget {
   const ReportWidget({
@@ -21,36 +22,70 @@ class ReportWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TitleRow(title: title, showAllOnTap: showAllOnTap),
-        const SizedBox(height: 8),
-        SizedBox(
-          height: height,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: itemCount,
-            itemBuilder: (context, index) {
-              if (index == itemCount - 1) {
-                return ShowAllArrow(onTap: showAllOnTap);
-              }
-              return ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 160),
-                child: Card(
-                  elevation: 5,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12.0, vertical: 10),
-                    child: childBuilder(index),
-                  ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 14.0),
+      child: Column(
+        children: [
+          _titleRow(),
+          // const SizedBox(height: 4),
+          _cardsListView(),
+        ],
+      ),
+    );
+  }
+
+  Widget _titleRow() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(title, style: AppTextStyles.headLine24),
+          InkWell(
+            onTap: showAllOnTap,
+            borderRadius: BorderRadius.circular(50),
+            child: Text(
+              "عرض الكل",
+              style: AppTextStyles.textStyle16.copyWith(
+                color: AppColors.greyColor,
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  SizedBox _cardsListView() {
+    return SizedBox(
+      height: height,
+      child: ListView.builder(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        scrollDirection: Axis.horizontal,
+        itemCount: itemCount,
+        itemBuilder: (context, index) {
+          if (index == itemCount - 1) {
+            return ShowAllArrow(onTap: showAllOnTap);
+          }
+          return ConstrainedBox(
+            constraints: const BoxConstraints(minWidth: 160),
+            child: Card(
+              elevation: 5,
+              margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(16),
+                splashColor: AppColors.primaryColor,
+                onTap: () {},
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 12.0, vertical: 10),
+                  child: childBuilder(index),
                 ),
-              );
-            },
-          ),
-        )
-      ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

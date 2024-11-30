@@ -8,7 +8,8 @@ class TotalRevenueCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: const Color(0x56FFD456),
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+      color: AppColors.cardYellowBackgroundColor,
       elevation: 0,
       shape: const RoundedRectangleBorder(
         side: BorderSide(color: AppColors.primaryColor),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/presentation/widgets/order_history/order_history.dart';
 
+import 'widgets/top_sellers/top_sellers.dart';
 import 'widgets/top_sold_products/top_sold_products.dart';
 import 'widgets/total_revenue_card.dart';
 
@@ -13,21 +15,16 @@ class DashboardScreen extends StatelessWidget {
         title: const Text('تقارير العمل'),
       ),
       body: const Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.symmetric(vertical: 16.0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TotalRevenueCard(),
-              SizedBox(height: 28),
+              SizedBox(height: 14),
               TopSoldProducts(),
-              // _buildKeyMetrics(context),
-              // const SizedBox(height: 16),
-              // _buildTopProducts(context),
-              // const SizedBox(height: 16),
-              // _buildSellerPerformance(context),
-              // const SizedBox(height: 16),
-              // _buildOrderHistory(context),
+              TopSellers(),
+              OrderHistory(),
             ],
           ),
         ),

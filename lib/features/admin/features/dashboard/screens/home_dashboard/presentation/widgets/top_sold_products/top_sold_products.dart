@@ -11,7 +11,7 @@ class TopSoldProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ReportWidget(
-      title: "الأكثر مبيعا",
+      title: "افضل المنتجات",
       showAllOnTap: () {},
       childBuilder: (index) => TopSoldProductCardData(index: index),
     );
