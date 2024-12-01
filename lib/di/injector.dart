@@ -5,7 +5,7 @@ import 'package:inventory_app/core/models/user_model.dart';
 import 'package:inventory_app/di/auth_service.dart';
 import 'package:inventory_app/features/product_management/shared/data/product_management_repo/product_management_repo.dart';
 
-class Injector {
+abstract class Injector {
   static bool isOnline = true; // checker if the user is online or not
 
   static final GetIt _getIt = GetIt.instance;
@@ -47,4 +47,17 @@ class Injector {
 
   // Generic method to get instances
   static T get<T extends Object>() => _getIt<T>();
+
+  static T register<T extends Object>(T instance) {
+    if (!_getIt.isRegistered<T>()) {
+      return _getIt.registerSingleton<T>(instance);
+    }
+    return _getIt.get<T>();
+  }
+
+  static unregister<T extends Object>() {
+    if (_getIt.isRegistered<T>()) {
+      _getIt.unregister<T>();
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/components/failure_screen.dart';
+import 'package:inventory_app/di/injector.dart';
 
 import '../../data/report_cubit/dashboard_cubit.dart';
 import 'dashboard_content.dart';
@@ -11,9 +12,9 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DashboardCubit()
+      create: (context) => Injector.register<DashboardCubit>(DashboardCubit())
         ..getAllOrders(
-          DateTime.now().subtract(const Duration(days: 10)),
+          DateTime.now().subtract(const Duration(days: 70)),
           DateTime.now(),
         ),
       child: BlocBuilder<DashboardCubit, DashboardState>(

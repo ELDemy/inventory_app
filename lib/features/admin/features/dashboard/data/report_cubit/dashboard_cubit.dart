@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/core/models/product_model.dart';
+import 'package:inventory_app/di/injector.dart';
 import 'package:meta/meta.dart';
 
 import '../dashboard_repo/dashboard_repo.dart';
@@ -49,5 +50,12 @@ class DashboardCubit extends Cubit<DashboardState> {
     statistics = mainStatsContainer.toReportMainStats();
     productStats = productStatsContainer.toSortedProductStats();
     employeeStats = employeeStatsContainer.toSortedEmployeeStats();
+  }
+
+  @override
+  Future<void> close() {
+    // TODO: implement close
+    Injector.unregister<DashboardCubit>();
+    return super.close();
   }
 }

@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
 
-class DetailedInfoCard extends StatelessWidget {
-  const DetailedInfoCard({
-    super.key,
-    required this.onTap,
-    required this.child,
-  });
+class ReportDetailsCard extends StatelessWidget {
+  const ReportDetailsCard(
+      {super.key, required this.onCardTap, required this.child});
 
-  final VoidCallback onTap;
+  final VoidCallback onCardTap;
   final Widget child;
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -18,9 +16,7 @@ class DetailedInfoCard extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         splashColor: AppColors.primaryColor,
-        onTap: () {
-          onTap();
-        },
+        onTap: onCardTap,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10),
           child: child,

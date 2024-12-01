@@ -2,15 +2,17 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_app/core/components/custome_responsive_row.dart';
 import 'package:inventory_app/core/models/order_model.dart';
+import 'package:inventory_app/core/utils/app_themes/app_text_styles.dart';
 import 'package:inventory_app/di/injector.dart';
+import 'package:inventory_app/features/admin/features/dashboard/screens/widgets/top_widget.dart';
 import 'package:inventory_app/features/product_management/find_order/presentation/find_order_screen.dart';
 
-import '../../../data/report_cubit/dashboard_cubit.dart';
-import '../../order_history/all_orders_report_details_screen.dart';
-import '../../order_history/order_details_report_card.dart';
-import '../../order_history/order_history_short_report_data.dart';
-import '../../widgets/report_widget.dart';
+import '../../../../data/report_cubit/dashboard_cubit.dart';
+import '../../../order_history/all_orders_report_details_screen.dart';
+import '../../../widgets/report_widget.dart';
+import 'order_history_short_report_data.dart';
 
 class OrdersHistoryShortReport extends StatelessWidget {
   const OrdersHistoryShortReport({super.key});
@@ -27,21 +29,7 @@ class OrdersHistoryShortReport extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => BlocProvider.value(
-              value: context.read<DashboardCubit>(),
-              child: AllOrdersReportDetailsScreen(
-                title: 'الطلبات',
-                data1:
-                    "${context.read<DashboardCubit>().statistics.totalUnits} وحدة",
-                data2: "${orders.length} طلب",
-                itemCount: orders.length,
-                onCardTap: (index) {
-                  _onCardTap(context, index, orders[index].serialNumbers.first);
-                },
-                childBuilder: (index) =>
-                    OrderDetailsReportCard(orderModel: orders[index - 1]),
-              ),
-            ),
+            builder: (_) => const AllOrdersReportDetailsScreen(),
           ),
         );
       },
@@ -52,35 +40,38 @@ class OrdersHistoryShortReport extends StatelessWidget {
     );
   }
 
+  Padding _topWidget(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: CustomResponsiveRow(
+        children: [
+          const Text('الطلبات', style: AppTextStyles.headLine24),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Wrap(
+                alignment: WrapAlignment.end,
+                crossAxisAlignment: WrapCrossAlignment.end,
+                children: [
+                  TopInfoCard(
+                      content:
+                          "${context.read<DashboardCubit>().statistics.totalUnits} وحدة"),
+                  TopInfoCard(
+                      content:
+                          "${context.watch<DashboardCubit>().allOrders.length} طلب"),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   _onCardTap(BuildContext context, index, String barcode) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (context) => FindOrderScreen(barcode: barcode)));
-  }
-}
-
-class AllOrdersHistoryList extends StatelessWidget {
-  const AllOrdersHistoryList({super.key, required this.orders});
-
-  final List<OrderModel> orders;
-  @override
-  Widget build(BuildContext context) {
-    return AllOrdersReportDetailsScreen(
-      title: 'الطلبات',
-      data1: "${context.read<DashboardCubit>().statistics.totalUnits} وحدة",
-      data2: "${orders.length} طلب",
-      itemCount: orders.length,
-      onCardTap: (index) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>
-                FindOrderScreen(barcode: orders[index - 1].serialNumbers.first),
-          ),
-        );
-      },
-      childBuilder: (index) =>
-          OrderDetailsReportCard(orderModel: orders[index - 1]),
-    );
   }
 }
 

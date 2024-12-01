@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/di/injector.dart';
+import 'package:inventory_app/features/admin/features/dashboard/screens/order_history/order_details_report_card.dart';
 import 'package:inventory_app/features/product_management/find_order/presentation/find_order_screen.dart';
 
 import '../../data/report_cubit/dashboard_cubit.dart';
 import '../widgets/orders_report_list.dart';
 import '../widgets/top_widget.dart';
-import 'order_details_report_card.dart';
 
-class AllOrdersReportDetailsScreen extends StatelessWidget {
-  const AllOrdersReportDetailsScreen({super.key});
+class EmployeeOrdersReportDetailsScreen extends StatelessWidget {
+  const EmployeeOrdersReportDetailsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
