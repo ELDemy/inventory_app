@@ -9,7 +9,7 @@ class TotalRevenueCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ReportStatistics reportStatistics = context.watch<ReportCubit>().statistics;
+    ReportMainStats reportStatistics = context.watch<ReportCubit>().statistics;
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 8),
       color: AppColors.cardYellowBackgroundColor,

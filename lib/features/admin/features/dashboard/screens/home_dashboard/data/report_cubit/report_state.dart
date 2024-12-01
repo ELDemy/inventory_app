@@ -15,18 +15,42 @@ final class ReportFailure extends ReportState {
   ReportFailure(this.errMsg);
 }
 
-class ReportStatistics {
+class ReportMainStats {
   final int totalOrders;
   final int totalProducts;
   final double totalRevenue;
   final int totalUnits;
   final int uniqueCustomers;
 
-  ReportStatistics({
+  ReportMainStats({
     this.totalOrders = 0,
     this.totalProducts = 0,
     this.totalRevenue = 0,
     this.totalUnits = 0,
     this.uniqueCustomers = 0,
+  });
+}
+
+class ProductStats {
+  final ProductModel productModel;
+  int totalUnits;
+  num totalRevenue;
+
+  ProductStats({
+    required this.productModel,
+    required this.totalUnits,
+    required this.totalRevenue,
+  });
+}
+
+class EmployeeStats {
+  final String employeeName;
+  int totalUnits;
+  num totalRevenue;
+
+  EmployeeStats({
+    required this.employeeName,
+    required this.totalUnits,
+    required this.totalRevenue,
   });
 }

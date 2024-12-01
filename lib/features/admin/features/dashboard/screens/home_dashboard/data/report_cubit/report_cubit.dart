@@ -13,8 +13,9 @@ class ReportCubit extends Cubit<ReportState> {
   ReportCubit() : super(ReportInitial());
 
   List<OrderModel> allOrders = [];
-  ReportStatistics statistics = ReportStatistics();
+  ReportMainStats statistics = ReportMainStats();
   List<ProductStats> productStats = [];
+  List<EmployeeStats> employeeStats = [];
 
   Future<void> getAllOrders(DateTime startDate, DateTime endDate) async {
     try {
@@ -22,7 +23,7 @@ class ReportCubit extends Cubit<ReportState> {
       allOrders = await orderRepository.getOrdersByDateRange(
           startDate: startDate, endDate: endDate);
 
-      calculateMainStatistics();
+      _calculateAllStats();
 
       emit(ReportSuccess());
     } catch (e) {
@@ -30,59 +31,96 @@ class ReportCubit extends Cubit<ReportState> {
     }
   }
 
-  void calculateMainStatistics() {
-    int totalOrders = allOrders.length;
-    Set<String> totalProducts =
-        allOrders.map((order) => order.product.identifierSN ?? "").toSet();
-    Set<String> uniqueCustomers =
-        allOrders.map((order) => order.clientName ?? "").toSet();
+  void _calculateAllStats() {
+    // Create containers
+    final mainStatsContainer = _MainStatsContainer();
+    final productStatsContainer = _ProductStatsContainer();
+    final employeeStatsContainer = _EmployeeStatsContainer();
 
-    double totalRevenue =
-        allOrders.fold<double>(0, (sum, order) => sum + (order.price));
-    int totalUnits =
-        allOrders.fold<int>(0, (sum, order) => sum + order.quantity);
-
-    statistics = ReportStatistics(
-      totalOrders: totalOrders,
-      totalProducts: totalProducts.length,
-      totalRevenue: totalRevenue,
-      totalUnits: totalUnits,
-      uniqueCustomers: uniqueCustomers.length,
-    );
-  }
-
-  void calculateProductStatistics() {
-    Map<String, ProductStats> productStatsMap = {};
-
+    // Single pass through all orders
     for (OrderModel order in allOrders) {
-      String productIdentifier = order.product.identifierSN ?? "غير معرف";
-
-      if (!productStatsMap.containsKey(productIdentifier)) {
-        productStatsMap[productIdentifier] = ProductStats(
-          productModel: order.product,
-          totalUnits: order.quantity,
-          totalRevenue: order.price,
-        );
-      } else {
-        productStatsMap[productIdentifier]!.totalUnits += order.quantity;
-        productStatsMap[productIdentifier]!.totalRevenue += order.price;
-      }
+      mainStatsContainer.processOrder(order);
+      productStatsContainer.processOrder(order);
+      employeeStatsContainer.processOrder(order);
     }
 
-    // Convert map to list and sort by total revenue in descending order
-    productStats = productStatsMap.values.toList()
+    // Set final statistics
+    statistics = mainStatsContainer.toReportMainStats();
+    productStats = productStatsContainer.toSortedProductStats();
+    employeeStats = employeeStatsContainer.toSortedEmployeeStats();
+  }
+}
+
+class _MainStatsContainer {
+  final Set<String> _totalProducts = {};
+  final Set<String> _uniqueCustomers = {};
+  int _totalOrders = 0;
+  double _totalRevenue = 0;
+  int _totalUnits = 0;
+
+  void processOrder(OrderModel order) {
+    _totalOrders++;
+    _totalProducts.add(order.product.identifierSN ?? "");
+    _uniqueCustomers.add(order.clientName ?? "");
+    _totalRevenue += order.price;
+    _totalUnits += order.quantity;
+  }
+
+  ReportMainStats toReportMainStats() {
+    return ReportMainStats(
+      totalOrders: _totalOrders,
+      totalProducts: _totalProducts.length,
+      totalRevenue: _totalRevenue,
+      totalUnits: _totalUnits,
+      uniqueCustomers: _uniqueCustomers.length,
+    );
+  }
+}
+
+class _ProductStatsContainer {
+  final Map<String, ProductStats> _productStatsMap = {};
+
+  void processOrder(OrderModel order) {
+    String productIdentifier = order.product.identifierSN ?? "غير معرف";
+
+    if (!_productStatsMap.containsKey(productIdentifier)) {
+      _productStatsMap[productIdentifier] = ProductStats(
+        productModel: order.product,
+        totalUnits: order.quantity,
+        totalRevenue: order.price,
+      );
+    } else {
+      _productStatsMap[productIdentifier]!.totalUnits += order.quantity;
+      _productStatsMap[productIdentifier]!.totalRevenue += order.price;
+    }
+  }
+
+  List<ProductStats> toSortedProductStats() {
+    return _productStatsMap.values.toList()
       ..sort((a, b) => b.totalRevenue.compareTo(a.totalRevenue));
   }
 }
 
-class ProductStats {
-  final ProductModel productModel;
-  int totalUnits;
-  num totalRevenue;
+class _EmployeeStatsContainer {
+  final Map<String, EmployeeStats> _employeeStatsMap = {};
 
-  ProductStats({
-    required this.productModel,
-    required this.totalUnits,
-    required this.totalRevenue,
-  });
+  void processOrder(OrderModel order) {
+    String employeeName = order.employee ?? "غير معرف";
+
+    if (!_employeeStatsMap.containsKey(employeeName)) {
+      _employeeStatsMap[employeeName] = EmployeeStats(
+        employeeName: employeeName,
+        totalUnits: order.quantity,
+        totalRevenue: order.price,
+      );
+    } else {
+      _employeeStatsMap[employeeName]!.totalUnits += order.quantity;
+      _employeeStatsMap[employeeName]!.totalRevenue += order.price;
+    }
+  }
+
+  List<EmployeeStats> toSortedEmployeeStats() {
+    return _employeeStatsMap.values.toList()
+      ..sort((a, b) => b.totalRevenue.compareTo(a.totalRevenue));
+  }
 }

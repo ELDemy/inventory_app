@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/components/failure_screen.dart';
 import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/data/report_cubit/report_cubit.dart';
-import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/presentation/widgets/order_history/order_history.dart';
 
-import 'widgets/top_sellers/top_sellers.dart';
-import 'widgets/top_sold_products/top_sold_products.dart';
-import 'widgets/total_revenue_card.dart';
+import 'widgets/dashboard_content.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -16,7 +13,7 @@ class DashboardScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => ReportCubit()
         ..getAllOrders(
-          DateTime.now().subtract(const Duration(days: 30)),
+          DateTime.now().subtract(const Duration(days: 10)),
           DateTime.now(),
         ),
       child: BlocBuilder<ReportCubit, ReportState>(
@@ -30,13 +27,7 @@ class DashboardScreen extends StatelessWidget {
                 if (state is ReportLoading) {
                   return const Center(child: CircularProgressIndicator());
                 } else if (state is ReportFailure) {
-                  return FailureScreen(
-                    errMsg: state.errMsg,
-                    onTap: () => context.read<ReportCubit>().getAllOrders(
-                          DateTime.now().subtract(const Duration(days: 10)),
-                          DateTime.now(),
-                        ),
-                  );
+                  return _failureScreen(state, context);
                 } else if (state is ReportSuccess) {
                   return const DashboardContent();
                 } else {
@@ -47,6 +38,16 @@ class DashboardScreen extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  FailureScreen _failureScreen(ReportFailure state, BuildContext context) {
+    return FailureScreen(
+      errMsg: state.errMsg,
+      onTap: () => context.read<ReportCubit>().getAllOrders(
+            DateTime.now().subtract(const Duration(days: 10)),
+            DateTime.now(),
+          ),
     );
   }
 
@@ -250,31 +251,6 @@ class DashboardScreen extends StatelessWidget {
           const SizedBox(height: 8),
           content,
         ],
-      ),
-    );
-  }
-}
-
-class DashboardContent extends StatelessWidget {
-  const DashboardContent({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TotalRevenueCard(),
-            SizedBox(height: 14),
-            TopSoldProducts(),
-            TopSellers(),
-            OrderHistory(),
-          ],
-        ),
       ),
     );
   }

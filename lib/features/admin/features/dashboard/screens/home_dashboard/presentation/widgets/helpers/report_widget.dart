@@ -10,6 +10,7 @@ class ReportWidget extends StatelessWidget {
     required this.title,
     required this.showAllOnTap,
     required this.childBuilder,
+    required this.onCardTap,
     this.height = 140,
     this.itemCount = 6,
   });
@@ -19,6 +20,7 @@ class ReportWidget extends StatelessWidget {
   final double height;
   final int itemCount;
   final Widget Function(int index) childBuilder;
+  final Function(int index) onCardTap;
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +64,9 @@ class ReportWidget extends StatelessWidget {
       child: ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         scrollDirection: Axis.horizontal,
-        itemCount: itemCount,
+        itemCount: itemCount + 1,
         itemBuilder: (context, index) {
-          if (index == itemCount - 1) {
+          if (index == itemCount) {
             return ShowAllArrow(onTap: showAllOnTap);
           }
           return ConstrainedBox(
@@ -75,7 +77,9 @@ class ReportWidget extends StatelessWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(16),
                 splashColor: AppColors.primaryColor,
-                onTap: () {},
+                onTap: () {
+                  onCardTap(index);
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 12.0, vertical: 10),

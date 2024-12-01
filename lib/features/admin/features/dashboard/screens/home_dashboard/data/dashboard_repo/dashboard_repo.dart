@@ -15,6 +15,7 @@ class FirebaseOrderRepository implements OrderRepository {
     QuerySnapshot querySnapshot = await Injector.ordersHistoryCollection
         .where('creationTime', isGreaterThanOrEqualTo: startDate)
         .where('creationTime', isLessThanOrEqualTo: endDate)
+        .orderBy('creationTime', descending: true)
         .get();
 
     return querySnapshot.docs

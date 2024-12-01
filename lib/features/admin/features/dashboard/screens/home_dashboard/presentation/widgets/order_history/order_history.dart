@@ -1,9 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/presentation/widgets/order_history/order_history_data.dart';
+import 'package:inventory_app/features/product_management/find_order/presentation/find_order_screen.dart';
 
+import '../../../data/report_cubit/report_cubit.dart';
 import '../helpers/report_widget.dart';
 
 class OrderHistory extends StatelessWidget {
@@ -11,13 +15,22 @@ class OrderHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<OrderModel> orders = context.watch<ReportCubit>().allOrders;
     return ReportWidget(
       height: 160,
       title: "الطلبات",
+      itemCount: orders.length,
       showAllOnTap: () {
         // generateFakeOrders(200);
       },
-      childBuilder: (index) => OrderHistoryData(index: index),
+      onCardTap: (index) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (context) =>
+                  FindOrderScreen(barcode: orders[index].serialNumbers.first)),
+        );
+      },
+      childBuilder: (index) => OrderHistoryData(orderModel: orders[index]),
     );
   }
 }

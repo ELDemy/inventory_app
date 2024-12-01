@@ -1,0 +1,29 @@
+import 'package:flutter/material.dart';
+
+import 'order_history/order_history.dart';
+import 'top_sellers/top_sellers.dart';
+import 'top_sold_products/top_sold_products.dart';
+import 'total_revenue_card.dart';
+
+class DashboardContent extends StatelessWidget {
+  const DashboardContent({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TotalRevenueCard(),
+            SizedBox(height: 14),
+            TopSoldProducts(),
+            TopSellers(),
+            OrderHistory(),
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
 import 'package:inventory_app/core/utils/app_themes/app_text_styles.dart';
+import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/data/report_cubit/report_cubit.dart';
 
 class TopSellersData extends StatelessWidget {
   const TopSellersData({
     super.key,
-    required this.index,
+    required this.employeeStats,
   });
-  final int index;
+  final EmployeeStats employeeStats;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "محمود محمد احمد",
+        Text(
+          employeeStats.employeeName,
           style: AppTextStyles.textStyle18,
         ),
         const SizedBox(height: 10),
@@ -28,14 +29,14 @@ class TopSellersData extends StatelessWidget {
                     .copyWith(color: AppColors.greyColor),
               ),
               TextSpan(
-                text: "+ E£ 75", // The colored part
+                text: "+ E£ ${employeeStats.totalRevenue}", // The colored part
                 style: AppTextStyles.textStyle14.copyWith(color: Colors.green),
               ),
             ],
           ),
         ),
         Text(
-          "المنتجات المباعة: 75",
+          "المنتجات المباعة: ${employeeStats.totalUnits}",
           style: AppTextStyles.textStyle14.copyWith(color: AppColors.greyColor),
         ),
       ],
