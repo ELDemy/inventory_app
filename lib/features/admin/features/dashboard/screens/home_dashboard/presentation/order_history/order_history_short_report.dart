@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/di/injector.dart';
-import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/presentation/widgets/order_history/order_history_short_report_data.dart';
-import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/presentation/widgets/order_history/report_details_screen.dart';
 import 'package:inventory_app/features/product_management/find_order/presentation/find_order_screen.dart';
 
-import '../../../data/report_cubit/report_cubit.dart';
+import '../../data/report_cubit/report_cubit.dart';
 import '../helpers/report_widget.dart';
-import '../report_details_screen.dart';
+import '../widgets/report_details_screen.dart';
+import 'order_history_short_report_data.dart';
+import 'report_details_screen.dart';
 
 class OrdersHistoryShortReport extends StatelessWidget {
   const OrdersHistoryShortReport({super.key});

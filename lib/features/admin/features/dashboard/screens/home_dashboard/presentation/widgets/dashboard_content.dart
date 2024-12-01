@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'order_history/order_history_short_report.dart';
-import 'top_sellers/top_sellers.dart';
-import 'top_sold_products/top_sold_products_short_report.dart';
+import '../order_history/order_history_short_report.dart';
+import '../top_sellers/top_sellers.dart';
+import '../top_sold_products/top_sold_products_short_report.dart';
 import 'total_revenue_card.dart';
 
 class DashboardContent extends StatelessWidget {
