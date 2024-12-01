@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/components/custome_responsive_row.dart';
-import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
 import 'package:inventory_app/core/utils/app_themes/app_text_styles.dart';
-import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/data/report_cubit/report_cubit.dart';
-import 'package:inventory_app/helpers/date_extension.dart';
 
 class ReportDetailsScreen extends StatelessWidget {
   const ReportDetailsScreen({
@@ -15,6 +11,7 @@ class ReportDetailsScreen extends StatelessWidget {
     required this.data2,
     required this.onCardTap,
     required this.childBuilder,
+    required this.itemCount,
   });
 
   final String title;
@@ -22,9 +19,9 @@ class ReportDetailsScreen extends StatelessWidget {
   final String data2;
   final Widget Function(int index) childBuilder;
   final Function(int index) onCardTap;
+  final int itemCount;
   @override
   Widget build(BuildContext context) {
-    List<OrderModel> allOrders = context.read<ReportCubit>().allOrders;
     return Scaffold(
       appBar: AppBar(title: const Text('تقارير العمل')),
       body: Padding(
@@ -33,9 +30,9 @@ class ReportDetailsScreen extends StatelessWidget {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: allOrders.length + 1,
+                itemCount: itemCount + 1,
                 itemBuilder: (context, index) {
-                  if (index == 0) return _topWidget(context, allOrders);
+                  if (index == 0) return _topWidget(context);
 
                   return Card(
                     elevation: 5,
@@ -44,7 +41,7 @@ class ReportDetailsScreen extends StatelessWidget {
                     child: InkWell(
                       borderRadius: BorderRadius.circular(16),
                       splashColor: AppColors.primaryColor,
-                      onTap: onCardTap(index),
+                      onTap: () => onCardTap(index),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 12.0, vertical: 10),
@@ -61,7 +58,7 @@ class ReportDetailsScreen extends StatelessWidget {
     );
   }
 
-  Padding _topWidget(BuildContext context, List<OrderModel> allOrders) {
+  Padding _topWidget(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: CustomResponsiveRow(
@@ -96,66 +93,6 @@ class ReportDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class OrderDetailsCard extends StatelessWidget {
-  const OrderDetailsCard({super.key, required this.orderModel});
-
-  final OrderModel orderModel;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomResponsiveRow(
-          children: [
-            Text(
-              orderModel.product.productName ?? 'غير معرف',
-              style: AppTextStyles.textStyle18,
-            ),
-            Text(
-              "${orderModel.creationTime?.DayDate}",
-              style: AppTextStyles.textStyle16
-                  .copyWith(color: AppColors.greyColor),
-            ),
-          ],
-        ),
-        Text(
-          orderModel.product.identifierSN ?? 'غير معرف',
-          style: AppTextStyles.textStyle12.copyWith(color: AppColors.greyColor),
-        ),
-        const SizedBox(height: 5),
-        CustomResponsiveRow(
-          children: [
-            Text(
-              "السعر: ${orderModel.price} £E",
-              style: AppTextStyles.textStyle18.copyWith(color: Colors.green),
-            ),
-            Text(
-              "عدد الوحدات: ${orderModel.quantity}",
-              style: AppTextStyles.textStyle16
-                  .copyWith(color: AppColors.greyColor),
-            ),
-          ],
-        ),
-        CustomResponsiveRow(
-          children: [
-            Text(
-              "العميل: ${orderModel.clientName}",
-              style: AppTextStyles.textStyle14
-                  .copyWith(color: AppColors.greyColor),
-            ),
-            Text(
-              "البائع: ${orderModel.employee}",
-              style: AppTextStyles.textStyle14
-                  .copyWith(color: AppColors.greyColor),
-            ),
-          ],
-        )
-      ],
     );
   }
 }

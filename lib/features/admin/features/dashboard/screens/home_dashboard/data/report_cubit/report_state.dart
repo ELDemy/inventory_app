@@ -35,11 +35,13 @@ class ProductStats {
   final ProductModel productModel;
   int totalUnits;
   num totalRevenue;
+  List<OrderModel> orders;
 
   ProductStats({
     required this.productModel,
     required this.totalUnits,
     required this.totalRevenue,
+    required this.orders,
   });
 }
 

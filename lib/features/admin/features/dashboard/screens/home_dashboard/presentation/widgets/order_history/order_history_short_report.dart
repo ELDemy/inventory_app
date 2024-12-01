@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/di/injector.dart';
-import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/presentation/widgets/order_history/all_orders_history.dart';
 import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/presentation/widgets/order_history/order_history_short_report_data.dart';
+import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/presentation/widgets/order_history/report_details_screen.dart';
 import 'package:inventory_app/features/product_management/find_order/presentation/find_order_screen.dart';
 
 import '../../../data/report_cubit/report_cubit.dart';
 import '../helpers/report_widget.dart';
+import '../report_details_screen.dart';
 
 class OrdersHistoryShortReport extends StatelessWidget {
   const OrdersHistoryShortReport({super.key});
@@ -28,7 +29,7 @@ class OrdersHistoryShortReport extends StatelessWidget {
           MaterialPageRoute(
             builder: (_) => BlocProvider.value(
               value: context.read<ReportCubit>(),
-              child: _buildAllOrdersHistory(context, orders),
+              child: AllOrdersHistoryList(orders: orders),
             ),
           ),
         );
@@ -41,13 +42,19 @@ class OrdersHistoryShortReport extends StatelessWidget {
       childBuilder: (index) => ShortOrderHistoryData(orderModel: orders[index]),
     );
   }
+}
 
-  ReportDetailsScreen _buildAllOrdersHistory(
-      BuildContext context, List<OrderModel> orders) {
+class AllOrdersHistoryList extends StatelessWidget {
+  const AllOrdersHistoryList({super.key, required this.orders});
+
+  final List<OrderModel> orders;
+  @override
+  Widget build(BuildContext context) {
     return ReportDetailsScreen(
-      title: 'كل الطلبات',
+      title: 'الطلبات',
       data1: "${context.read<ReportCubit>().statistics.totalRevenue} £E",
       data2: "${orders.length}",
+      itemCount: orders.length,
       onCardTap: (index) {
         Navigator.push(
           context,
@@ -57,7 +64,8 @@ class OrdersHistoryShortReport extends StatelessWidget {
           ),
         );
       },
-      childBuilder: (index) => OrderDetailsCard(orderModel: orders[index - 1]),
+      childBuilder: (index) =>
+          OrderDetailsReportCard(orderModel: orders[index - 1]),
     );
   }
 }

@@ -20,9 +20,9 @@ class DashboardContent extends StatelessWidget {
             children: [
               TotalRevenueCard(),
               SizedBox(height: 10),
-              OrdersHistoryShortReport(),
               TopSoldProductsShortReport(),
               TopSellers(),
+              OrdersHistoryShortReport(),
             ],
           ),
         ),

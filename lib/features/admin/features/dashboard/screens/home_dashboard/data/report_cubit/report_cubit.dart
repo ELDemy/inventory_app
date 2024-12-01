@@ -88,8 +88,10 @@ class _ProductStatsContainer {
         productModel: order.product,
         totalUnits: order.quantity,
         totalRevenue: order.price,
+        orders: [order],
       );
     } else {
+      _productStatsMap[productIdentifier]!.orders.add(order);
       _productStatsMap[productIdentifier]!.totalUnits += order.quantity;
       _productStatsMap[productIdentifier]!.totalRevenue += order.price;
     }
