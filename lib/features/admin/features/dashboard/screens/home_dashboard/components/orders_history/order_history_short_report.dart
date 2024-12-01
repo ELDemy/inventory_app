@@ -2,11 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_app/core/components/custome_responsive_row.dart';
 import 'package:inventory_app/core/models/order_model.dart';
-import 'package:inventory_app/core/utils/app_themes/app_text_styles.dart';
 import 'package:inventory_app/di/injector.dart';
-import 'package:inventory_app/features/admin/features/dashboard/screens/widgets/top_widget.dart';
 import 'package:inventory_app/features/product_management/find_order/presentation/find_order_screen.dart';
 
 import '../../../../data/report_cubit/dashboard_cubit.dart';
@@ -37,35 +34,6 @@ class OrdersHistoryShortReport extends StatelessWidget {
         _onCardTap(context, index, orders[index].serialNumbers.first);
       },
       childBuilder: (index) => ShortOrderHistoryData(orderModel: orders[index]),
-    );
-  }
-
-  Padding _topWidget(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: CustomResponsiveRow(
-        children: [
-          const Text('الطلبات', style: AppTextStyles.headLine24),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Wrap(
-                alignment: WrapAlignment.end,
-                crossAxisAlignment: WrapCrossAlignment.end,
-                children: [
-                  TopInfoCard(
-                      content:
-                          "${context.read<DashboardCubit>().statistics.totalUnits} وحدة"),
-                  TopInfoCard(
-                      content:
-                          "${context.watch<DashboardCubit>().allOrders.length} طلب"),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 

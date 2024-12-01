@@ -17,7 +17,7 @@ class DashboardCubit extends Cubit<DashboardState> {
   List<OrderModel> allOrders = [];
   ReportMainStats statistics = ReportMainStats();
   List<ProductStats> productStats = [];
-  List<EmployeeStats> employeeStats = [];
+  List<EmployeeStats> employeesStats = [];
 
   Future<void> getAllOrders(DateTime startDate, DateTime endDate) async {
     try {
@@ -49,7 +49,7 @@ class DashboardCubit extends Cubit<DashboardState> {
     // Set final statistics
     statistics = mainStatsContainer.toReportMainStats();
     productStats = productStatsContainer.toSortedProductStats();
-    employeeStats = employeeStatsContainer.toSortedEmployeeStats();
+    employeesStats = employeeStatsContainer.toSortedEmployeeStats();
   }
 
   @override

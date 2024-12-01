@@ -31,9 +31,9 @@ class OrdersReportList extends StatelessWidget {
 
                 return ReportDetailsCard(
                   onCardTap: () {
-                    onCardTap(index);
+                    onCardTap(index - 1);
                   },
-                  child: childBuilder(index),
+                  child: childBuilder(index - 1),
                 );
               },
             ),

@@ -21,18 +21,18 @@ class ProductOrdersReportList extends StatelessWidget {
     return BlocProvider.value(
       value: Injector.get<DashboardCubit>(),
       child: Scaffold(
-        appBar: AppBar(title: const Text('تقارير العمل')),
+        appBar: AppBar(title: const Text('تقرير منتج')),
         body: Column(
           children: [
             Expanded(
               child: OrdersReportList(
-                itemCount: productStats.orders.length,
                 topWidget: _topWidget(dashboardCubit),
+                itemCount: productStats.orders.length,
                 onCardTap: (index) {
                   _onCardTap(context, index, orders[index].serialNumbers.first);
                 },
                 childBuilder: (index) => OrderDetailsReportCard(
-                    orderModel: productStats.orders[index - 1]),
+                    orderModel: productStats.orders[index]),
               ),
             ),
           ],

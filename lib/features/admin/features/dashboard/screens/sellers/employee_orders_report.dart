@@ -9,34 +9,34 @@ import '../../data/report_cubit/dashboard_cubit.dart';
 import '../widgets/orders_report_list.dart';
 import '../widgets/top_widget.dart';
 
-class EmployeeOrdersReportDetailsScreen extends StatelessWidget {
-  const EmployeeOrdersReportDetailsScreen({super.key});
+class EmployeeOrdersReport extends StatelessWidget {
+  const EmployeeOrdersReport({super.key, required this.employeeStats});
+  final EmployeeStats employeeStats;
 
   @override
   Widget build(BuildContext context) {
-    DashboardCubit dashboardCubit = Injector.get<DashboardCubit>();
-    List<OrderModel> orders = dashboardCubit.allOrders;
+    List<OrderModel> orders = employeeStats.orders;
     return BlocProvider.value(
       value: Injector.get<DashboardCubit>(),
       child: Scaffold(
-        appBar: AppBar(title: const Text('تقارير العمل')),
+        appBar: AppBar(title: Text(employeeStats.employeeName)),
         body: OrdersReportList(
           itemCount: orders.length,
-          topWidget: _topWidget(dashboardCubit, orders),
+          topWidget: _topWidget(orders),
           onCardTap: (index) {
             _onCardTap(context, index, orders[index].serialNumbers.first);
           },
           childBuilder: (index) =>
-              OrderDetailsReportCard(orderModel: orders[index - 1]),
+              OrderDetailsReportCard(orderModel: orders[index]),
         ),
       ),
     );
   }
 
-  TopWidget _topWidget(DashboardCubit dashboardCubit, List<OrderModel> orders) {
+  TopWidget _topWidget(List<OrderModel> orders) {
     return TopWidget(
       children: [
-        "${dashboardCubit.statistics.totalUnits} وحدة",
+        "${employeeStats.totalUnits} وحدة",
         "${orders.length} طلبات",
       ],
       title: 'الطلبات',

@@ -19,7 +19,7 @@ class AllOrdersReportDetailsScreen extends StatelessWidget {
     return BlocProvider.value(
       value: Injector.get<DashboardCubit>(),
       child: Scaffold(
-        appBar: AppBar(title: const Text('تقارير العمل')),
+        appBar: AppBar(title: const Text('تقارير الطلبات')),
         body: OrdersReportList(
           itemCount: orders.length,
           topWidget: _topWidget(dashboardCubit, orders),
@@ -27,7 +27,7 @@ class AllOrdersReportDetailsScreen extends StatelessWidget {
             _onCardTap(context, index, orders[index].serialNumbers.first);
           },
           childBuilder: (index) =>
-              OrderDetailsReportCard(orderModel: orders[index - 1]),
+              OrderDetailsReportCard(orderModel: orders[index]),
         ),
       ),
     );

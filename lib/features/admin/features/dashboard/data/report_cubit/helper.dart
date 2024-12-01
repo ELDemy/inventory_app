@@ -67,10 +67,18 @@ class _EmployeeStatsContainer {
         employeeName: employeeName,
         totalUnits: order.quantity,
         totalRevenue: order.price,
+        uniqueClients: {order.clientName ?? ""},
+        uniqueProducts: {order.product},
+        orders: [order],
       );
     } else {
       _employeeStatsMap[employeeName]!.totalUnits += order.quantity;
       _employeeStatsMap[employeeName]!.totalRevenue += order.price;
+      _employeeStatsMap[employeeName]!
+          .uniqueClients
+          .add(order.clientName ?? "");
+      _employeeStatsMap[employeeName]!.uniqueProducts.add(order.product);
+      _employeeStatsMap[employeeName]!.orders.add(order);
     }
   }
 

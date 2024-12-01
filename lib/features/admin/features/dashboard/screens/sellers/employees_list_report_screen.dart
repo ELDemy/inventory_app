@@ -4,10 +4,10 @@ import 'package:inventory_app/di/injector.dart';
 
 import '../../data/report_cubit/dashboard_cubit.dart';
 import '../widgets/top_widget.dart';
-import 'product_details_report_card.dart';
+import 'employee_details_card_report_card.dart';
 
-class AllProductsReportListScreen extends StatelessWidget {
-  const AllProductsReportListScreen({super.key});
+class EmployeesListReportScreen extends StatelessWidget {
+  const EmployeesListReportScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,20 +15,19 @@ class AllProductsReportListScreen extends StatelessWidget {
     return BlocProvider.value(
       value: dashboardCubit,
       child: Scaffold(
-        appBar: AppBar(title: const Text('تقارير المنتجات')),
+        appBar: AppBar(title: const Text('تقرير الموظفين')),
         body: Padding(
           padding: const EdgeInsets.only(bottom: 10, top: 8),
           child: Column(
             children: [
               Expanded(
                 child: ListView.builder(
-                  itemCount: dashboardCubit.productStats.length + 1,
+                  itemCount: dashboardCubit.employeesStats.length + 1,
                   itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return _topWidget(dashboardCubit);
-                    }
-                    return ProductDetailsReportCard(
-                      productStats: dashboardCubit.productStats[index - 1],
+                    if (index == 0) return _topWidget(dashboardCubit);
+
+                    return EmployeeDetailsCardReportCard(
+                      employeeStats: dashboardCubit.employeesStats[index - 1],
                     );
                   },
                 ),
@@ -42,10 +41,11 @@ class AllProductsReportListScreen extends StatelessWidget {
 
   Widget _topWidget(DashboardCubit dashboardCubit) {
     return TopWidget(
-      title: 'كل المنتجات',
+      title: 'البائعون',
       children: [
-        '${dashboardCubit.statistics.uniqueCustomers} عملاء',
-        "${dashboardCubit.productStats.length} منتجات"
+        '${dashboardCubit.statistics.uniqueCustomers} عميل',
+        '${dashboardCubit.statistics.totalUnits} وحدة',
+        "${dashboardCubit.employeesStats.length} بائعين"
       ],
     );
   }

@@ -37,7 +37,7 @@ class TopSellersData extends StatelessWidget {
           ),
         ),
         Text(
-          "المنتجات المباعة: ${employeeStats.totalUnits}",
+          "الوحدات المباعة: ${employeeStats.totalUnits}",
           style: AppTextStyles.textStyle14.copyWith(color: AppColors.greyColor),
         ),
       ],

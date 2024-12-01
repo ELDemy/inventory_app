@@ -16,6 +16,7 @@ class TopSoldProductsShortReport extends StatelessWidget {
         context.watch<DashboardCubit>().productStats;
     return ReportWidget(
       title: "افضل المنتجات",
+      itemCount: productsStats.length,
       showAllOnTap: () {
         Navigator.push(
           context,
@@ -24,7 +25,6 @@ class TopSoldProductsShortReport extends StatelessWidget {
           ),
         );
       },
-      itemCount: productsStats.length,
       onCardTap: (index) {
         Navigator.push(
           context,

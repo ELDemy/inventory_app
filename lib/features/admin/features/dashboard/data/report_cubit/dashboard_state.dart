@@ -51,10 +51,15 @@ class EmployeeStats {
   final String employeeName;
   int totalUnits;
   num totalRevenue;
+  Set<String> uniqueClients;
+  Set<ProductModel> uniqueProducts;
+  List<OrderModel> orders;
 
-  EmployeeStats({
-    required this.employeeName,
-    required this.totalUnits,
-    required this.totalRevenue,
-  });
+  EmployeeStats(
+      {required this.employeeName,
+      required this.totalUnits,
+      required this.totalRevenue,
+      required this.uniqueClients,
+      required this.uniqueProducts,
+      required this.orders});
 }
