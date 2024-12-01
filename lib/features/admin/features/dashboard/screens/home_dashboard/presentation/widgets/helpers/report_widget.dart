@@ -25,7 +25,7 @@ class ReportWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 14.0),
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Column(
         children: [
           _titleRow(),
@@ -64,11 +64,10 @@ class ReportWidget extends StatelessWidget {
       child: ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 8),
         scrollDirection: Axis.horizontal,
-        itemCount: itemCount + 1,
+        itemCount: itemCount <= 5 ? itemCount : 6,
         itemBuilder: (context, index) {
-          if (index == itemCount) {
-            return ShowAllArrow(onTap: showAllOnTap);
-          }
+          if (index == 5) return ShowAllArrow(onTap: showAllOnTap);
+
           return ConstrainedBox(
             constraints: const BoxConstraints(minWidth: 160),
             child: Card(

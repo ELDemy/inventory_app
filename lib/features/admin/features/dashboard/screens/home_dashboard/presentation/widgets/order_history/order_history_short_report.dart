@@ -4,14 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/di/injector.dart';
-import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/presentation/widgets/order_history/order_history_data.dart';
+import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/presentation/widgets/order_history/all_orders_history.dart';
+import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/presentation/widgets/order_history/order_history_short_report_data.dart';
 import 'package:inventory_app/features/product_management/find_order/presentation/find_order_screen.dart';
 
 import '../../../data/report_cubit/report_cubit.dart';
 import '../helpers/report_widget.dart';
 
-class OrderHistory extends StatelessWidget {
-  const OrderHistory({super.key});
+class OrdersHistoryShortReport extends StatelessWidget {
+  const OrdersHistoryShortReport({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,15 +23,41 @@ class OrderHistory extends StatelessWidget {
       itemCount: orders.length,
       showAllOnTap: () {
         // generateFakeOrders(200);
-      },
-      onCardTap: (index) {
-        Navigator.of(context).push(
+        Navigator.push(
+          context,
           MaterialPageRoute(
-              builder: (context) =>
-                  FindOrderScreen(barcode: orders[index].serialNumbers.first)),
+            builder: (_) => BlocProvider.value(
+              value: context.read<ReportCubit>(),
+              child: _buildAllOrdersHistory(context, orders),
+            ),
+          ),
         );
       },
-      childBuilder: (index) => OrderHistoryData(orderModel: orders[index]),
+      onCardTap: (index) {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) =>
+                FindOrderScreen(barcode: orders[index].serialNumbers.first)));
+      },
+      childBuilder: (index) => ShortOrderHistoryData(orderModel: orders[index]),
+    );
+  }
+
+  ReportDetailsScreen _buildAllOrdersHistory(
+      BuildContext context, List<OrderModel> orders) {
+    return ReportDetailsScreen(
+      title: 'كل الطلبات',
+      data1: "${context.read<ReportCubit>().statistics.totalRevenue} £E",
+      data2: "${orders.length}",
+      onCardTap: (index) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                FindOrderScreen(barcode: orders[index - 1].serialNumbers.first),
+          ),
+        );
+      },
+      childBuilder: (index) => OrderDetailsCard(orderModel: orders[index - 1]),
     );
   }
 }

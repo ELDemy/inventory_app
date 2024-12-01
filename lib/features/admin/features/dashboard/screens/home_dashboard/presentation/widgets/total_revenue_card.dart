@@ -58,12 +58,19 @@ class TotalRevenueCard extends StatelessWidget {
     );
   }
 
-  Row _dataRow(String title, String value) {
+  Widget _dataRow(String title, String value) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: AppTextStyles.textStyle22),
-        Text(value, style: AppTextStyles.textStyle18),
+        Expanded(
+          child: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            alignment: WrapAlignment.spaceBetween,
+            children: [
+              Text(title, style: AppTextStyles.textStyle22),
+              Text(value, style: AppTextStyles.textStyle18),
+            ],
+          ),
+        ),
       ],
     );
   }

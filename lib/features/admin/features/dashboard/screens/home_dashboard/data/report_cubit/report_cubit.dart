@@ -97,7 +97,7 @@ class _ProductStatsContainer {
 
   List<ProductStats> toSortedProductStats() {
     return _productStatsMap.values.toList()
-      ..sort((a, b) => b.totalRevenue.compareTo(a.totalRevenue));
+      ..sort((a, b) => b.totalUnits.compareTo(a.totalUnits));
   }
 }
 
@@ -121,6 +121,6 @@ class _EmployeeStatsContainer {
 
   List<EmployeeStats> toSortedEmployeeStats() {
     return _employeeStatsMap.values.toList()
-      ..sort((a, b) => b.totalRevenue.compareTo(a.totalRevenue));
+      ..sort((a, b) => b.totalUnits.compareTo(a.totalUnits));
   }
 }
