@@ -1,59 +1,8 @@
-import 'package:bloc/bloc.dart';
-import 'package:inventory_app/core/models/order_model.dart';
-import 'package:inventory_app/core/models/product_model.dart';
-import 'package:meta/meta.dart';
-
-import '../dashboard_repo/dashboard_repo.dart';
-
-part 'report_state.dart';
-
-class ReportCubit extends Cubit<ReportState> {
-  final OrderRepository orderRepository = FirebaseOrderRepository();
-
-  ReportCubit() : super(ReportInitial());
-
-  List<OrderModel> allOrders = [];
-  ReportMainStats statistics = ReportMainStats();
-  List<ProductStats> productStats = [];
-  List<EmployeeStats> employeeStats = [];
-
-  Future<void> getAllOrders(DateTime startDate, DateTime endDate) async {
-    try {
-      emit(ReportLoading());
-      allOrders = await orderRepository.getOrdersByDateRange(
-          startDate: startDate, endDate: endDate);
-
-      _calculateAllStats();
-
-      emit(ReportSuccess());
-    } catch (e) {
-      emit(ReportFailure(e.toString()));
-    }
-  }
-
-  void _calculateAllStats() {
-    // Create containers
-    final mainStatsContainer = _MainStatsContainer();
-    final productStatsContainer = _ProductStatsContainer();
-    final employeeStatsContainer = _EmployeeStatsContainer();
-
-    // Single pass through all orders
-    for (OrderModel order in allOrders) {
-      mainStatsContainer.processOrder(order);
-      productStatsContainer.processOrder(order);
-      employeeStatsContainer.processOrder(order);
-    }
-
-    // Set final statistics
-    statistics = mainStatsContainer.toReportMainStats();
-    productStats = productStatsContainer.toSortedProductStats();
-    employeeStats = employeeStatsContainer.toSortedEmployeeStats();
-  }
-}
+part of 'dashboard_cubit.dart';
 
 class _MainStatsContainer {
   final Set<String> _totalProducts = {};
-  final Set<String> _uniqueCustomers = {};
+  final Set<String> _uniqueclients = {};
   int _totalOrders = 0;
   double _totalRevenue = 0;
   int _totalUnits = 0;
@@ -61,7 +10,7 @@ class _MainStatsContainer {
   void processOrder(OrderModel order) {
     _totalOrders++;
     _totalProducts.add(order.product.identifierSN ?? "");
-    _uniqueCustomers.add(order.clientName ?? "");
+    _uniqueclients.add(order.clientName ?? "");
     _totalRevenue += order.price;
     _totalUnits += order.quantity;
   }
@@ -72,7 +21,7 @@ class _MainStatsContainer {
       totalProducts: _totalProducts.length,
       totalRevenue: _totalRevenue,
       totalUnits: _totalUnits,
-      uniqueCustomers: _uniqueCustomers.length,
+      uniqueCustomers: _uniqueclients.length,
     );
   }
 }
@@ -89,11 +38,15 @@ class _ProductStatsContainer {
         totalUnits: order.quantity,
         totalRevenue: order.price,
         orders: [order],
+        uniqueClients: {order.clientName ?? ""},
       );
     } else {
       _productStatsMap[productIdentifier]!.orders.add(order);
       _productStatsMap[productIdentifier]!.totalUnits += order.quantity;
       _productStatsMap[productIdentifier]!.totalRevenue += order.price;
+      _productStatsMap[productIdentifier]!
+          .uniqueClients
+          .add(order.clientName ?? "");
     }
   }
 

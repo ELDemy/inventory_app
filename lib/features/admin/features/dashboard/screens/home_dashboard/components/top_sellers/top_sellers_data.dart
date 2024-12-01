@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
 import 'package:inventory_app/core/utils/app_themes/app_text_styles.dart';
-import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/data/report_cubit/report_cubit.dart';
 
-class TopSoldProductCardData extends StatelessWidget {
-  const TopSoldProductCardData({
+import '../../../../data/report_cubit/dashboard_cubit.dart';
+
+class TopSellersData extends StatelessWidget {
+  const TopSellersData({
     super.key,
-    required this.productStats,
+    required this.employeeStats,
   });
-  final ProductStats productStats;
+  final EmployeeStats employeeStats;
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +17,8 @@ class TopSoldProductCardData extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          productStats.productModel.productName ?? 'غير معرف',
+          employeeStats.employeeName,
           style: AppTextStyles.textStyle18,
-        ),
-        Text(
-          productStats.productModel.identifierSN ?? 'غير معرف',
-          style: AppTextStyles.textStyle12.copyWith(color: AppColors.greyColor),
         ),
         const SizedBox(height: 10),
         RichText(
@@ -33,14 +30,14 @@ class TopSoldProductCardData extends StatelessWidget {
                     .copyWith(color: AppColors.greyColor),
               ),
               TextSpan(
-                text: "E£ ${productStats.totalRevenue}", // The colored part
+                text: "+ E£ ${employeeStats.totalRevenue}", // The colored part
                 style: AppTextStyles.textStyle14.copyWith(color: Colors.green),
               ),
             ],
           ),
         ),
         Text(
-          "الوحدات المباعة: ${productStats.totalUnits}",
+          "المنتجات المباعة: ${employeeStats.totalUnits}",
           style: AppTextStyles.textStyle14.copyWith(color: AppColors.greyColor),
         ),
       ],

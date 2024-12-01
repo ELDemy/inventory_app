@@ -1,18 +1,18 @@
-part of 'report_cubit.dart';
+part of 'dashboard_cubit.dart';
 
 @immutable
-sealed class ReportState {}
+sealed class DashboardState {}
 
-final class ReportInitial extends ReportState {}
+final class DashboardInitial extends DashboardState {}
 
-final class ReportLoading extends ReportState {}
+final class DashboardLoading extends DashboardState {}
 
-final class ReportSuccess extends ReportState {}
+final class DashboardSuccess extends DashboardState {}
 
-final class ReportFailure extends ReportState {
+final class DashboardFailure extends DashboardState {
   final String errMsg;
 
-  ReportFailure(this.errMsg);
+  DashboardFailure(this.errMsg);
 }
 
 class ReportMainStats {
@@ -36,12 +36,14 @@ class ProductStats {
   int totalUnits;
   num totalRevenue;
   List<OrderModel> orders;
+  Set<String> uniqueClients;
 
   ProductStats({
     required this.productModel,
     required this.totalUnits,
     required this.totalRevenue,
     required this.orders,
+    required this.uniqueClients,
   });
 }
 

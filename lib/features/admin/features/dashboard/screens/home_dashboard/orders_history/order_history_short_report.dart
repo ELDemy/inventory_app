@@ -6,18 +6,18 @@ import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/product_management/find_order/presentation/find_order_screen.dart';
 
-import '../../data/report_cubit/report_cubit.dart';
-import '../helpers/report_widget.dart';
-import '../widgets/report_details_screen.dart';
-import 'order_history_short_report_data.dart';
-import 'report_details_screen.dart';
+import '../../../data/report_cubit/dashboard_cubit.dart';
+import '../../order_history/all_orders_report_details_screen.dart';
+import '../../order_history/order_details_report_card.dart';
+import '../../order_history/order_history_short_report_data.dart';
+import '../../widgets/report_widget.dart';
 
 class OrdersHistoryShortReport extends StatelessWidget {
   const OrdersHistoryShortReport({super.key});
 
   @override
   Widget build(BuildContext context) {
-    List<OrderModel> orders = context.watch<ReportCubit>().allOrders;
+    List<OrderModel> orders = context.watch<DashboardCubit>().allOrders;
     return ReportWidget(
       height: 160,
       title: "الطلبات",
@@ -28,19 +28,33 @@ class OrdersHistoryShortReport extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (_) => BlocProvider.value(
-              value: context.read<ReportCubit>(),
-              child: AllOrdersHistoryList(orders: orders),
+              value: context.read<DashboardCubit>(),
+              child: AllOrdersReportDetailsScreen(
+                title: 'الطلبات',
+                data1:
+                    "${context.read<DashboardCubit>().statistics.totalUnits} وحدة",
+                data2: "${orders.length} طلب",
+                itemCount: orders.length,
+                onCardTap: (index) {
+                  _onCardTap(context, index, orders[index].serialNumbers.first);
+                },
+                childBuilder: (index) =>
+                    OrderDetailsReportCard(orderModel: orders[index - 1]),
+              ),
             ),
           ),
         );
       },
       onCardTap: (index) {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>
-                FindOrderScreen(barcode: orders[index].serialNumbers.first)));
+        _onCardTap(context, index, orders[index].serialNumbers.first);
       },
       childBuilder: (index) => ShortOrderHistoryData(orderModel: orders[index]),
     );
+  }
+
+  _onCardTap(BuildContext context, index, String barcode) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => FindOrderScreen(barcode: barcode)));
   }
 }
 
@@ -50,10 +64,10 @@ class AllOrdersHistoryList extends StatelessWidget {
   final List<OrderModel> orders;
   @override
   Widget build(BuildContext context) {
-    return ReportDetailsScreen(
+    return AllOrdersReportDetailsScreen(
       title: 'الطلبات',
-      data1: "${context.read<ReportCubit>().statistics.totalRevenue} £E",
-      data2: "${orders.length}",
+      data1: "${context.read<DashboardCubit>().statistics.totalUnits} وحدة",
+      data2: "${orders.length} طلب",
       itemCount: orders.length,
       onCardTap: (index) {
         Navigator.push(

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inventory_app/core/utils/app_icons.dart';
 import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
-import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/presentation/dashboard_screen.dart';
 import 'package:inventory_app/features/admin/features/user_management/presentation/user_management_screen.dart';
+
+import '../features/dashboard/screens/home_dashboard/dashboard_screen.dart';
 
 class AdminHomeScreen extends StatelessWidget {
   const AdminHomeScreen({super.key});

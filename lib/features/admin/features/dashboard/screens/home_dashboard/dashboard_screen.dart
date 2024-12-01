@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/components/failure_screen.dart';
-import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/data/report_cubit/report_cubit.dart';
 
-import 'widgets/dashboard_content.dart';
+import '../../data/report_cubit/dashboard_cubit.dart';
+import 'dashboard_content.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -11,24 +11,24 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ReportCubit()
+      create: (context) => DashboardCubit()
         ..getAllOrders(
           DateTime.now().subtract(const Duration(days: 10)),
           DateTime.now(),
         ),
-      child: BlocBuilder<ReportCubit, ReportState>(
+      child: BlocBuilder<DashboardCubit, DashboardState>(
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
               title: const Text('تقارير العمل'),
             ),
-            body: BlocBuilder<ReportCubit, ReportState>(
+            body: BlocBuilder<DashboardCubit, DashboardState>(
               builder: (context, state) {
-                if (state is ReportLoading) {
+                if (state is DashboardLoading) {
                   return const Center(child: CircularProgressIndicator());
-                } else if (state is ReportFailure) {
+                } else if (state is DashboardFailure) {
                   return _failureScreen(state, context);
-                } else if (state is ReportSuccess) {
+                } else if (state is DashboardSuccess) {
                   return const DashboardContent();
                 } else {
                   return const SizedBox();
@@ -41,10 +41,10 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  FailureScreen _failureScreen(ReportFailure state, BuildContext context) {
+  FailureScreen _failureScreen(DashboardFailure state, BuildContext context) {
     return FailureScreen(
       errMsg: state.errMsg,
-      onTap: () => context.read<ReportCubit>().getAllOrders(
+      onTap: () => context.read<DashboardCubit>().getAllOrders(
             DateTime.now().subtract(const Duration(days: 10)),
             DateTime.now(),
           ),

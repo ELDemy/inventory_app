@@ -3,8 +3,8 @@ import 'package:inventory_app/core/components/custome_responsive_row.dart';
 import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
 import 'package:inventory_app/core/utils/app_themes/app_text_styles.dart';
 
-class ReportDetailsScreen extends StatelessWidget {
-  const ReportDetailsScreen({
+class AllOrdersReportDetailsScreen extends StatelessWidget {
+  const AllOrdersReportDetailsScreen({
     super.key,
     required this.title,
     required this.data1,

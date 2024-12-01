@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
 import 'package:inventory_app/core/utils/app_themes/app_text_styles.dart';
-import 'package:inventory_app/features/admin/features/dashboard/screens/home_dashboard/data/report_cubit/report_cubit.dart';
+
+import '../../../data/report_cubit/dashboard_cubit.dart';
 
 class TotalRevenueCard extends StatelessWidget {
   const TotalRevenueCard({super.key});
 
   @override
   Widget build(BuildContext context) {
-    ReportMainStats reportStatistics = context.watch<ReportCubit>().statistics;
+    ReportMainStats reportStatistics =
+        context.watch<DashboardCubit>().statistics;
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 8),
       color: AppColors.cardYellowBackgroundColor,

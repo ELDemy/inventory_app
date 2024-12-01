@@ -3,12 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/di/injector.dart';
 
-abstract class OrderRepository {
+abstract class DashboardRepository {
   Future<List<OrderModel>> getOrdersByDateRange(
       {required DateTime startDate, required DateTime endDate});
 }
 
-class FirebaseOrderRepository implements OrderRepository {
+class FirebaseOrderRepository implements DashboardRepository {
   @override
   Future<List<OrderModel>> getOrdersByDateRange(
       {required DateTime startDate, required DateTime endDate}) async {
