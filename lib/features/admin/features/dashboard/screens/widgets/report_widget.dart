@@ -29,8 +29,17 @@ class ReportWidget extends StatelessWidget {
       child: Column(
         children: [
           _titleRow(),
-          // const SizedBox(height: 4),
-          _cardsListView(),
+          itemCount > 0
+              ? _cardsListView()
+              : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    "لا يوجد بيانات",
+                    style: AppTextStyles.textStyle16.copyWith(
+                      color: AppColors.greyColor,
+                    ),
+                  ),
+                ),
         ],
       ),
     );
@@ -43,16 +52,17 @@ class ReportWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(title, style: AppTextStyles.headLine24),
-          InkWell(
-            onTap: showAllOnTap,
-            borderRadius: BorderRadius.circular(50),
-            child: Text(
-              "عرض الكل",
-              style: AppTextStyles.textStyle16.copyWith(
-                color: AppColors.greyColor,
+          if (itemCount > 4)
+            InkWell(
+              onTap: showAllOnTap,
+              borderRadius: BorderRadius.circular(50),
+              child: Text(
+                "عرض الكل",
+                style: AppTextStyles.textStyle16.copyWith(
+                  color: AppColors.greyColor,
+                ),
               ),
-            ),
-          )
+            )
         ],
       ),
     );

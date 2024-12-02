@@ -22,7 +22,7 @@ class OrderDetailsReportCard extends StatelessWidget {
               style: AppTextStyles.textStyle18,
             ),
             Text(
-              "${orderModel.creationTime?.DayDate}",
+              "${orderModel.creationTime?.dayDate}",
               style: AppTextStyles.textStyle16
                   .copyWith(color: AppColors.greyColor),
             ),

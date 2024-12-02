@@ -34,7 +34,7 @@ class ShortOrderHistoryData extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "${orderModel.creationTime?.DayDate}",
+                  "${orderModel.creationTime?.dayDate}",
                   style: AppTextStyles.textStyle16
                       .copyWith(color: AppColors.greyColor),
                 ),
