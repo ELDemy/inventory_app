@@ -17,7 +17,8 @@ class DashboardCubit extends Cubit<DashboardState> {
   final DashboardRepository orderRepository = FirebaseOrderRepository();
 
   DashboardCubit() : super(DashboardInitial()) {
-    _startDate = DateTime.now().startOfDay;
+    var now = DateTime.now();
+    _startDate = DateTime(now.year, now.month, 1).startOfDay;
     _endDate = DateTime.now().endOfDay;
 
     getAllOrders();
@@ -83,7 +84,6 @@ class DashboardCubit extends Cubit<DashboardState> {
 
   @override
   Future<void> close() {
-    // TODO: implement close
     Injector.unregister<DashboardCubit>();
     return super.close();
   }
