@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_app/core/models/order_model.dart';
 import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/admin/features/dashboard/screens/order_history/order_details_report_card.dart';
 import 'package:inventory_app/features/admin/features/dashboard/screens/widgets/orders_report_list.dart';
@@ -17,7 +16,6 @@ class ProductOrdersReportList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DashboardCubit dashboardCubit = Injector.get<DashboardCubit>();
-    List<OrderModel> orders = dashboardCubit.allOrders;
     return BlocProvider.value(
       value: Injector.get<DashboardCubit>(),
       child: Scaffold(
@@ -29,7 +27,8 @@ class ProductOrdersReportList extends StatelessWidget {
                 topWidget: _topWidget(dashboardCubit),
                 itemCount: productStats.orders.length,
                 onCardTap: (index) {
-                  _onCardTap(context, index, orders[index].serialNumbers.first);
+                  _onCardTap(context, index,
+                      productStats.orders[index].serialNumbers.first);
                 },
                 childBuilder: (index) => OrderDetailsReportCard(
                     orderModel: productStats.orders[index]),

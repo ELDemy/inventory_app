@@ -37,11 +37,7 @@ class CustomCard extends StatelessWidget {
                 ],
               ),
               const Divider(color: AppColors.primaryColor, thickness: 1),
-              Row(
-                children: [
-                  Expanded(child: child),
-                ],
-              ),
+              Row(children: [Expanded(child: child)]),
             ],
           ),
         ),

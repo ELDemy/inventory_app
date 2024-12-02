@@ -49,7 +49,11 @@ class UserManagementBody extends StatelessWidget {
   Card userCard(UserModel user, BuildContext context) {
     return Card(
       child: ListTile(
-        leading: const CircleAvatar(child: Icon(Icons.person)),
+        leading: CircleAvatar(
+          backgroundColor:
+              user.role == 'مدير' ? AppColors.lightGreenColor : null,
+          child: const Icon(Icons.person),
+        ),
         title: Text(user.name),
         subtitle: Text("${user.email}\n${user.password}"),
         contentPadding: const EdgeInsets.symmetric(horizontal: 8),

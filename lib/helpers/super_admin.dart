@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'di/injector.dart';
+import '../di/injector.dart';
 
 abstract class SuperAdmin {
   static bool isSuperAdmin() {

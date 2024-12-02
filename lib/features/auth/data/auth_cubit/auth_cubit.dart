@@ -6,7 +6,7 @@ import 'package:inventory_app/core/errors/abstract_failure_class.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/di/auth_service.dart';
 import 'package:inventory_app/di/injector.dart';
-import 'package:inventory_app/super_admin.dart';
+import 'package:inventory_app/helpers/super_admin.dart';
 
 part 'auth_state.dart';
 

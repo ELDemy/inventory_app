@@ -8,7 +8,7 @@ import 'package:inventory_app/di/auth_service.dart';
 import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/admin/admin_home_screen/admin_home_screen.dart';
 import 'package:inventory_app/features/home/data/cubit/home_cubit.dart';
-import 'package:inventory_app/super_admin.dart';
+import 'package:inventory_app/helpers/super_admin.dart';
 
 import 'widgets/anim_search.dart';
 import 'widgets/home_screen_body.dart';

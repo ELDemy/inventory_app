@@ -16,7 +16,7 @@ class DashboardDateRangePicker extends StatelessWidget {
       builder: (context, state) {
         final DashboardCubit dashboardCubit = context.watch<DashboardCubit>();
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
           child: CustomResponsiveRow(
             children: [
               Wrap(

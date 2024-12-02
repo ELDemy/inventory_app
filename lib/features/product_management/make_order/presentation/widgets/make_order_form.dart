@@ -87,6 +87,12 @@ class _MakeOrderFormState extends State<MakeOrderForm> {
             padding: const EdgeInsets.symmetric(vertical: 40),
             child: ElevatedButton(
               onPressed: () {
+                if (int.parse(_qtyController.text) >=
+                    BlocProvider.of<MakeOrderCubit>(context).productModel.qty) {
+                  ShowInfoUtil.showSnackBar(
+                      context, "الكمية المطلوبة اكبر من الكمية المتاحة");
+                  return;
+                }
                 if (_qtyController.text.isNotEmpty &&
                     barcodes.length != double.parse(_qtyController.text)) {
                   ShowInfoUtil.showSnackBar(context,

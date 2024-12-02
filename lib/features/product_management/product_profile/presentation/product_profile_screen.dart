@@ -6,7 +6,7 @@ import 'package:inventory_app/core/components/my_citcular_loading.dart';
 import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/features/product_management/product_profile/data/product_cubit/product_profile_cubit.dart';
-import 'package:inventory_app/super_admin.dart';
+import 'package:inventory_app/helpers/super_admin.dart';
 
 import 'widgets/product_profile_content.dart';
 

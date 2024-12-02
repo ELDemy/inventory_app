@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_app/core/components/custom_dropdown_button_form_field.dart';
 import 'package:inventory_app/core/components/custom_text_form_field.dart';
 import 'package:inventory_app/core/utils/app_icons.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
@@ -17,6 +18,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  ValueNotifier<String> selectedRole = ValueNotifier<String>("مستخدم عادي");
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -59,6 +61,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       labelText: 'اسم المسخدم',
                       isRequired: true,
                     ),
+                    ValueListenableBuilder<String?>(
+                      valueListenable: selectedRole,
+                      builder: (context, category, child) {
+                        return CategorySelectionField(
+                          height: 250,
+                          categories: ['مستخدم عادي', 'مدير'],
+                          selectedCategory: category,
+                          onCategorySelected: (role) {
+                            selectedRole.value = role;
+                          },
+                          isEditable: false,
+                          onNewCategoryAdded: (newCategory) {},
+                        );
+                      },
+                    ),
                     CustomTextFormField(
                       controller: _emailController,
                       labelText: 'البريد الالكتروني',
@@ -80,6 +97,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 if (_formKey.currentState!.validate()) {
                                   context.read<UserManagementCubit>().signUp(
                                         name: _nameController.text.trim(),
+                                        role: selectedRole.value,
                                         email: _emailController.text.trim(),
                                         password: _passwordController.text,
                                       );
