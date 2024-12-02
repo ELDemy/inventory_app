@@ -16,15 +16,7 @@ class DashboardScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => Injector.register<DashboardCubit>(DashboardCubit()),
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('تقارير العمل'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.repeat_on),
-              onPressed: () => generateFakeOrders(200),
-            ),
-          ],
-        ),
+        appBar: AppBar(title: const Text('تقارير العمل')),
         body: BlocBuilder<DashboardCubit, DashboardState>(
           builder: (context, state) {
             if (state is DashboardLoading) {

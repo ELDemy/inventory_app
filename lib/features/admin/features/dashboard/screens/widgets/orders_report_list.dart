@@ -19,26 +19,20 @@ class OrdersReportList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10, top: 8),
-      child: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: itemCount + 1,
-              itemBuilder: (context, index) {
-                if (index == 0) {
-                  return topWidget;
-                }
+      child: ListView.builder(
+        itemCount: itemCount + 1,
+        itemBuilder: (context, index) {
+          if (index == 0) {
+            return topWidget;
+          }
 
-                return ReportDetailsCard(
-                  onCardTap: () {
-                    onCardTap(index - 1);
-                  },
-                  child: childBuilder(index - 1),
-                );
-              },
-            ),
-          ),
-        ],
+          return ReportDetailsCard(
+            onCardTap: () {
+              onCardTap(index - 1);
+            },
+            child: childBuilder(index - 1),
+          );
+        },
       ),
     );
   }
