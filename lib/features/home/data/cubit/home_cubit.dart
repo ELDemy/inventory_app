@@ -16,15 +16,18 @@ import 'package:inventory_app/features/home/data/home_repo/home_repo.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(HomeInitial());
+  HomeCubit() : super(HomeInitial()) {
+    _allProducts = [];
+    _homeRepo = Injector.register<HomeRepo>(HomeRepo());
+  }
 
-  HomeRepo homeRepo = HomeRepo();
+  late HomeRepo _homeRepo;
+  late List<ProductModel> _allProducts;
+
   StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? _subscription;
   StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
 
-  List<ProductModel> _allProducts = [];
-
-  List<ProductModel> get products {
+  List<ProductModel> get activeProducts {
     if (selectedCategory == null) return _allProducts;
     return _allProducts
         .where((product) => product.category == selectedCategory)
@@ -42,16 +45,16 @@ class HomeCubit extends Cubit<HomeState> {
           result.contains(ConnectivityResult.none)
               ? Injector.isOnline = false
               : Injector.isOnline = true;
-          emit(InternetState());
+          // emit(InternetState());
         },
       );
       await _getCategories();
-      _subscription = homeRepo.getProductsStream().listen(
+      _subscription = _homeRepo.getProductsStream().listen(
         (snapshot) {
           final Map<String, dynamic>? data = snapshot.data();
           if (data != null) {
             _allProducts = _parseProducts(data);
-            products;
+            activeProducts; // to update the products list
             emit(HomeProductsState());
           }
         },
@@ -75,7 +78,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> _getCategories() async {
     DocumentSnapshot<Map<String, dynamic>> categories =
-        await homeRepo.getProductsCategories();
+        await _homeRepo.getProductsCategories();
     if (categories.data() != null) {
       Injector.productsCategories = categories.data()!.keys.toList()
         ..sort((a, b) => a.compareTo(b));
@@ -94,14 +97,14 @@ class HomeCubit extends Cubit<HomeState> {
 
   void setSearchedProducts(String searchText) {
     searchText = searchText.toLowerCase();
-    searchedProducts = products.where((product) {
-      final identifierMatches = product.identifierSN != null &&
+    searchedProducts = activeProducts.where((product) {
+      final bool isIdentifierMatches = product.identifierSN != null &&
           product.identifierSN!.toLowerCase().contains(searchText);
 
-      final nameMatches = product.productName != null &&
+      final bool isNameMatches = product.productName != null &&
           product.productName!.toLowerCase().contains(searchText);
 
-      return identifierMatches || nameMatches;
+      return isIdentifierMatches || isNameMatches;
     }).toList();
 
     emit(HomeSearchedProducts(searchedProducts));
@@ -114,7 +117,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   void changeCategory(String? category) {
     selectedCategory = category;
-    products;
+    activeProducts;
     emit(HomeProductsState());
   }
 
