@@ -21,12 +21,12 @@ final class HomeFailure extends HomeState {
   HomeFailure(this.errMsg);
 }
 
-final class InternetState extends HomeState {
-  InternetState();
-
-  void connectionBanner(BuildContext context) {
-    !Injector.isOnline
-        ? ShowInfoUtil.showMaterialBanner(context, msg: "لا يوجد انترنت")
-        : ShowInfoUtil.hideCurrentMaterialBanner(context);
-  }
-}
+// final class InternetState extends HomeState {
+//   InternetState();
+//
+//   void connectionBanner(BuildContext context) {
+//     !Injector.isOnline
+//         ? ShowInfoUtil.showMaterialBanner(context, msg: "لا يوجد انترنت")
+//         : ShowInfoUtil.hideCurrentMaterialBanner(context);
+//   }
+// }

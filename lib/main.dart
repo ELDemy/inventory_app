@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:inventory_app/core/utils/app_theme.dart';
+import 'package:inventory_app/core/utils/app_themes/app_theme.dart';
 import 'package:inventory_app/features/splash_screen/splash_screen.dart';
 
 import 'core/constants/bloc_observer.dart';

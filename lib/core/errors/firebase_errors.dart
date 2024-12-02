@@ -21,11 +21,11 @@ class FirebaseFailure extends Failure {
       case 'permission-denied':
         return 'ليس لديك صلاحية الاستخدام';
       case 'not-found':
-        return 'المورد المطلوب غير موجود.';
+        return 'المنتج المطلوب غير موجود.';
       case 'unavailable':
-        return 'الخدمة غير متاحة حاليا. حاول مرة أخرى لاحقًا.';
+        return 'الخدمة غير متاحة حاليا. برجاء التحقق من الانترنت.';
       case 'already-exists':
-        return 'المورد الذي تحاول إضافته موجود بالفعل.';
+        return 'المنتج الذي تحاول إضافته موجود بالفعل.';
       case 'cancelled':
         return 'تم إلغاء العملية.';
       case 'data-loss':
@@ -35,7 +35,7 @@ class FirebaseFailure extends Failure {
       case 'invalid-argument':
         return 'تم إدخال بيانات غير صحيحة.';
       case 'unauthenticated':
-        return 'يرجى تسجيل الدخول للوصول إلى هذا المورد.';
+        return 'ليس لديك صلاحية الوصول!!';
       default:
         return ' خطأ: ${e.message}';
     }

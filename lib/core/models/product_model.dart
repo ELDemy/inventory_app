@@ -6,11 +6,12 @@ class ProductModel {
   String? identifierSN;
   String? serialNumber;
   final String? productName;
-  final num? power;
+  final num price;
+  final int qty;
+  final String? category;
+  final String? power;
   final String? input;
   final String? output;
-  final double price;
-  final int qty;
 
   ProductModel({
     this.serialNumber,
@@ -21,6 +22,7 @@ class ProductModel {
     this.power,
     this.input,
     this.output,
+    this.category,
   }) {
     parseIdentifierSN();
   }
@@ -34,16 +36,18 @@ class ProductModel {
   // Factory constructor to create ProductModel from Firestore
   factory ProductModel.fromFirestore(
     Map<String, dynamic>? data,
-    SnapshotOptions? options,
-  ) {
+    SnapshotOptions? options, {
+    String? identifierSN,
+  }) {
     return ProductModel(
-      identifierSN: data?['identifierSN'],
+      identifierSN: identifierSN ?? data?['identifierSN'],
       serialNumber: data?['serialNumber'],
       productName: data?['modelName'],
-      power: data?['power'] != null ? (data?['power'] as num) : null,
-      input: data?['input'],
-      output: data?['output'],
-      price: data?['price'] != null ? (data?['price'] as double) : 0,
+      category: data?['category'],
+      power: data?['power'].toString(),
+      input: data?['input'].toString(),
+      output: data?['output'].toString(),
+      price: data?['price'] != null ? (data?['price'] as num) : 0,
       qty: data?['quantity'] != null ? (data?['quantity'] as int) : 0,
     );
   }
@@ -54,11 +58,12 @@ class ProductModel {
       "identifierSN": identifierSN,
       "serialNumber": serialNumber,
       "modelName": productName,
+      "category": category,
+      "price": price,
+      "quantity": qty,
       if (power != null) "power": power,
       if (input != null) "input": input,
       if (output != null) "output": output,
-      "price": price,
-      "quantity": qty,
     };
   } // Convert ProductModel to a Map for Firestore
 
@@ -67,6 +72,7 @@ class ProductModel {
     return {
       identifierSN!: {
         "modelName": productName,
+        "category": category,
         "quantity": qty,
         "price": price,
       }
@@ -80,6 +86,7 @@ class ProductModel {
         'identifier_sn': identifierSN ?? "null",
         'serial_number': serialNumber ?? "null",
         'product_name': productName ?? "null",
+        "category": category ?? "null",
         'power': power ?? "null",
         'input': input ?? "null",
         'output': output ?? "null",
@@ -87,6 +94,5 @@ class ProductModel {
         'quantity': qty,
       },
     );
-    print("logViewEvent");
   }
 }

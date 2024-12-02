@@ -29,20 +29,28 @@ class ProductDetailsCard extends StatelessWidget {
                   iconWidget: const MyBarcodeIcon(height: 18),
                 ),
                 CardDetailRow(
-                  label: "Power :",
-                  content: "${productModel.power ?? "###"} ",
-                  iconData: Icons.bolt,
+                  label: "Category :",
+                  content: "${productModel.category ?? "###"} ",
+                  iconData: Icons.category_outlined,
                 ),
-                CardDetailRow(
-                  label: "Input :",
-                  content: "${productModel.input ?? "###"} ",
-                  iconData: Icons.south_west_rounded,
-                ),
-                CardDetailRow(
-                  label: "Output :",
-                  content: "${productModel.output ?? "###"} ",
-                  iconData: Icons.north_east_rounded,
-                ),
+                if (productModel.power != '')
+                  CardDetailRow(
+                    label: "Power :",
+                    content: "${productModel.power ?? "###"} ",
+                    iconData: Icons.bolt,
+                  ),
+                if (productModel.input != '')
+                  CardDetailRow(
+                    label: "Input :",
+                    content: "${productModel.input ?? "###"} ",
+                    iconData: Icons.south_west_rounded,
+                  ),
+                if (productModel.output != '')
+                  CardDetailRow(
+                    label: "Output :",
+                    content: "${productModel.output ?? "###"} ",
+                    iconData: Icons.north_east_rounded,
+                  ),
                 if (!isOrder)
                   CardDetailRow(
                     label: "السعر :",

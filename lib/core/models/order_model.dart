@@ -8,29 +8,30 @@ class OrderModel {
   final List<String> serialNumbers;
   final String? employee;
   final int quantity;
-  final double price;
+  final num price;
   final String? clientName;
   final String? clientPhoneNumber;
+  final String? clientType;
   final DateTime? creationTime;
 
-  OrderModel({
-    this.docId,
-    required this.product,
-    required this.serialNumbers,
-    this.employee,
-    this.clientName,
-    this.clientPhoneNumber,
-    required this.quantity,
-    required this.price,
-    this.creationTime,
-  });
+  OrderModel(
+      {this.docId,
+      required this.product,
+      required this.serialNumbers,
+      this.employee,
+      this.clientName,
+      this.clientPhoneNumber,
+      required this.quantity,
+      required this.price,
+      this.creationTime,
+      this.clientType});
 
   // Factory constructor to create OrderModel from Firestore
   factory OrderModel.fromFirestore(
     Map<String, dynamic>? data,
-    String docId,
+    String docId, {
     SnapshotOptions? options,
-  ) {
+  }) {
     return OrderModel(
       docId: docId,
       product: ProductModel.fromFirestore(data?['product'], null),
@@ -40,6 +41,7 @@ class OrderModel {
       employee: data?['employee'],
       clientName: data?['clientName'],
       clientPhoneNumber: data?['clientPhoneNumber'],
+      clientType: data?['clientType'],
       price: data?['price'] ?? 0,
       quantity: data?['quantity'] ?? 0,
       creationTime: data?['creationTime'] is Timestamp
@@ -59,6 +61,7 @@ class OrderModel {
       "quantity": quantity,
       "clientName": clientName,
       "clientPhoneNumber": clientPhoneNumber,
+      "clientType": clientType,
     };
   }
 }

@@ -16,22 +16,6 @@ class ProductManagementRepo {
     }
   }
 
-  Future<void> deleteProduct(String identifierSN) async {
-    try {
-      FirebaseFirestore.instance.runTransaction(
-        (transaction) async {
-          transaction.delete(Injector.productsCollection.doc(identifierSN));
-          transaction.update(
-              Injector.allProductsDoc, {identifierSN: FieldValue.delete()});
-        },
-      );
-      return await Injector.productsCollection.doc(identifierSN).delete();
-    } on Exception catch (e) {
-      log("Error getting Product $identifierSN  : ${e.toString()}");
-      rethrow;
-    }
-  }
-
   Future<void> addProduct(ProductModel productModel) async {
     try {
       final DocumentReference<Map<String, dynamic>> docRef =
@@ -49,11 +33,71 @@ class ProductManagementRepo {
           );
         },
       );
-    } on FirebaseException catch (firebaseException) {
-      print('Error creating document: ${firebaseException.message}');
+    } on FirebaseException {
       rethrow;
     } catch (e) {
-      print('An unexpected error occurred: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> updateProduct(ProductModel productModel) async {
+    try {
+      final DocumentReference<Map<String, dynamic>> docRef =
+          Injector.productsCollection.doc(productModel.identifierSN);
+      final DocumentReference<Map<String, dynamic>> allProductsDocRef =
+          Injector.allProductsDoc;
+
+      return await FirebaseFirestore.instance.runTransaction(
+        (transaction) async {
+          transaction.update(docRef, productModel.toFirestore());
+          transaction.update(
+            allProductsDocRef,
+            productModel.toFirestoreBasicValues(),
+          );
+        },
+      );
+    } on FirebaseException {
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> addCategory(String category) async {
+    try {
+      Injector.productsCategoriesDoc
+          .set({category: null}, SetOptions(merge: true));
+    } on Exception {
+      rethrow;
+    }
+  }
+
+  Future<void> deleteProduct(String identifierSN) async {
+    try {
+      FirebaseFirestore.instance.runTransaction(
+        (transaction) async {
+          transaction.delete(Injector.productsCollection.doc(identifierSN));
+          transaction.update(
+              Injector.allProductsDoc, {identifierSN: FieldValue.delete()});
+        },
+      );
+      return await Injector.productsCollection.doc(identifierSN).delete();
+    } on Exception catch (e) {
+      log("Error getting Product $identifierSN  : ${e.toString()}");
+      rethrow;
+    }
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getOrder(String barcode) async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> x = await Injector
+          .ordersHistoryCollection
+          .where("serialNumbers", arrayContains: barcode)
+          .limit(1)
+          .get();
+      return x;
+    } on Exception catch (e) {
+      log("Error getting Product $barcode  : ${e.toString()}");
       rethrow;
     }
   }
@@ -61,7 +105,7 @@ class ProductManagementRepo {
   Future<void> makeOrder(OrderModel orderModel) async {
     try {
       final DocumentReference<Map<String, dynamic>> docRef =
-          Injector.productsHistoryCollection.doc();
+          Injector.ordersHistoryCollection.doc();
 
       return await FirebaseFirestore.instance.runTransaction(
         (transaction) async {
@@ -79,25 +123,9 @@ class ProductManagementRepo {
           );
         },
       );
-    } on FirebaseException catch (firebaseException) {
-      print('Error creating document: ${firebaseException.message}');
+    } on FirebaseException {
       rethrow;
     } catch (e) {
-      print('An unexpected error occurred: $e');
-      rethrow;
-    }
-  }
-
-  Future<QuerySnapshot<Map<String, dynamic>>> getOrder(String barcode) async {
-    try {
-      QuerySnapshot<Map<String, dynamic>> x = await Injector
-          .productsHistoryCollection
-          .where("serialNumbers", arrayContains: barcode)
-          .limit(1)
-          .get();
-      return x;
-    } on Exception catch (e) {
-      log("Error getting Product $barcode  : ${e.toString()}");
       rethrow;
     }
   }

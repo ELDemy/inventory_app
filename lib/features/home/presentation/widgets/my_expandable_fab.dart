@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:inventory_app/core/components/my_barcode_icon.dart';
-import 'package:inventory_app/core/utils/app_colors.dart';
-import 'package:inventory_app/core/utils/barcode_util.dart';
-import 'package:inventory_app/features/product_management/add_edit_product/presentation/add_new_product/add_new_product_screen.dart';
+import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
+import 'package:inventory_app/features/home/presentation/widgets/serial_search_screen.dart';
+import 'package:inventory_app/features/product_management/add_edit_product/presentation/add_new_product_screen.dart';
 import 'package:inventory_app/features/product_management/find_order/presentation/find_order_screen.dart';
 import 'package:inventory_app/features/product_management/make_order/presentation/make_order_screen.dart';
 
@@ -49,15 +49,17 @@ class _MyExpandableFABState extends State<MyExpandableFAB> {
       child: const MyBarcodeIcon(color: AppColors.fabIconsColor),
       onPressed: () async {
         _key.currentState?.toggle();
-        String barcodeScanRes = await BarcodeUtil.scanBarcodeNormal();
-        if (barcodeScanRes == "-1") {
-          return; // to not push if the code is invalid
-        }
-
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => FindOrderScreen(barcode: barcodeScanRes)),
+            builder: (context) => SerialSearchScreen((barcode) {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FindOrderScreen(barcode: barcode),
+                  ));
+            }),
+          ),
         );
       },
     );
@@ -71,16 +73,17 @@ class _MyExpandableFABState extends State<MyExpandableFAB> {
       child: const Icon(Icons.shopping_cart_outlined),
       onPressed: () async {
         _key.currentState?.toggle();
-
-        String barcodeScanRes = await BarcodeUtil.scanBarcodeNormal();
-        if (barcodeScanRes == "-1") {
-          return; // to not push if the code is invalid
-        }
-
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => MakeOrderScreen(barcode: barcodeScanRes)),
+            builder: (context) => SerialSearchScreen((barcode) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MakeOrderScreen(barcode: barcode)),
+              );
+            }),
+          ),
         );
       },
     );

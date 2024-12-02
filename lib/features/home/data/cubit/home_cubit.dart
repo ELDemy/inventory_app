@@ -8,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:inventory_app/core/errors/abstract_failure_class.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/core/models/product_model.dart';
-import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/di/auth_service.dart';
 import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/home/data/home_repo/home_repo.dart';
@@ -16,42 +15,28 @@ import 'package:inventory_app/features/home/data/home_repo/home_repo.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(HomeInitial());
+  HomeCubit() : super(HomeInitial()) {
+    _allProducts = [];
+    _homeRepo = Injector.register<HomeRepo>(HomeRepo());
+  }
+
+  late HomeRepo _homeRepo;
+  late List<ProductModel> _allProducts;
 
   StreamSubscription<DocumentSnapshot<Map<String, dynamic>>>? _subscription;
   StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
 
-  List<ProductModel> products = [];
+  List<ProductModel> get activeProducts {
+    if (selectedCategory == null) return _allProducts;
+    return _allProducts
+        .where((product) => product.category == selectedCategory)
+        .toList();
+  }
+
   List<ProductModel>? searchedProducts;
+  String? selectedCategory;
 
-  void setSearchedProducts(String searchText) {
-    searchText = searchText.toLowerCase();
-    searchedProducts = products.where((product) {
-      final identifierMatches = product.identifierSN != null &&
-          product.identifierSN!.toLowerCase().contains(searchText);
-
-      final nameMatches = product.productName != null &&
-          product.productName!.toLowerCase().contains(searchText);
-
-      return identifierMatches || nameMatches;
-    }).toList();
-
-    emit(HomeSearchedProducts(searchedProducts));
-  }
-
-  void clearSearchedProducts() {
-    searchedProducts = null;
-    emit(HomeProductsState());
-  }
-
-  @override
-  Future<void> close() {
-    _subscription?.cancel();
-    _connectivitySubscription?.cancel();
-    return super.close();
-  }
-
-  getProductModelsStream(BuildContext context) {
+  getProductModelsStream(BuildContext context) async {
     emit(HomeLoading());
     try {
       _connectivitySubscription = Connectivity().onConnectivityChanged.listen(
@@ -59,14 +44,16 @@ class HomeCubit extends Cubit<HomeState> {
           result.contains(ConnectivityResult.none)
               ? Injector.isOnline = false
               : Injector.isOnline = true;
-          emit(InternetState());
+          // emit(InternetState());
         },
       );
-      _subscription = HomeRepo().getProductsStream().listen(
+      await _getCategories();
+      _subscription = _homeRepo.getProductsStream().listen(
         (snapshot) {
           final Map<String, dynamic>? data = snapshot.data();
           if (data != null) {
-            products = _parseProducts(data);
+            _allProducts = _parseProducts(data);
+            activeProducts; // to update the products list
             emit(HomeProductsState());
           }
         },
@@ -88,17 +75,56 @@ class HomeCubit extends Cubit<HomeState> {
     }
   }
 
+  Future<void> _getCategories() async {
+    DocumentSnapshot<Map<String, dynamic>> categories =
+        await _homeRepo.getProductsCategories();
+    if (categories.data() != null) {
+      Injector.productsCategories = categories.data()!.keys.toList()
+        ..sort((a, b) => a.compareTo(b));
+    }
+    return;
+  }
+
   List<ProductModel> _parseProducts(Map<String, dynamic> data) {
     List<ProductModel> allProducts = [];
     for (var key in data.keys) {
-      final fields = data[key];
-      allProducts.add(ProductModel(
-        identifierSN: key,
-        productName: fields['modelName'],
-        price: fields['price'] ?? 0,
-        qty: fields['quantity'] ?? 0,
-      ));
+      allProducts
+          .add(ProductModel.fromFirestore(data[key], null, identifierSN: key));
     }
     return allProducts;
+  }
+
+  void setSearchedProducts(String searchText) {
+    searchText = searchText.toLowerCase();
+    searchedProducts = activeProducts.where((product) {
+      final bool isIdentifierMatches = product.identifierSN != null &&
+          product.identifierSN!.toLowerCase().contains(searchText);
+
+      final bool isNameMatches = product.productName != null &&
+          product.productName!.toLowerCase().contains(searchText);
+
+      return isIdentifierMatches || isNameMatches;
+    }).toList();
+
+    emit(HomeSearchedProducts(searchedProducts));
+  }
+
+  void clearSearchedProducts() {
+    searchedProducts = null;
+    emit(HomeProductsState());
+  }
+
+  void changeCategory(String? category) {
+    selectedCategory = category;
+    activeProducts;
+    emit(HomeProductsState());
+  }
+
+  @override
+  Future<void> close() {
+    _subscription?.cancel();
+    _connectivitySubscription?.cancel();
+    Injector.unregister<HomeCubit>();
+    return super.close();
   }
 }

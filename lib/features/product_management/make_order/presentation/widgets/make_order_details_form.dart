@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inventory_app/core/components/custom_text_form_field.dart';
 import 'package:inventory_app/core/models/product_model.dart';
-import 'package:inventory_app/core/utils/app_colors.dart';
 import 'package:inventory_app/core/utils/app_icons.dart';
+import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
 import 'package:inventory_app/core/utils/barcode_util.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
 
@@ -98,7 +98,7 @@ class _MakeOrderDetailsFormState extends State<MakeOrderDetailsForm> {
         widget.barcodes.add(barcode);
         setState(() {});
       },
-      child: AppIcons.barcodeIcon(
+      child: AppIcons().barcodeIcon(
         height: 40,
         color: AppColors.primaryColor,
       ),

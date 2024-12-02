@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inventory_app/core/utils/app_colors.dart';
+import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
 
 class CustomCard extends StatelessWidget {
   const CustomCard(
@@ -37,11 +37,7 @@ class CustomCard extends StatelessWidget {
                 ],
               ),
               const Divider(color: AppColors.primaryColor, thickness: 1),
-              Row(
-                children: [
-                  Expanded(child: child),
-                ],
-              ),
+              Row(children: [Expanded(child: child)]),
             ],
           ),
         ),

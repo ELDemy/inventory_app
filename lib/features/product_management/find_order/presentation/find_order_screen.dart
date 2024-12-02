@@ -12,7 +12,7 @@ class FindOrderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("بيانات المنتج")),
+      appBar: AppBar(title: const Text("بيانات الطلب")),
       body: BlocProvider(
         create: (context) => FindOrderCubit(barcode),
         child: const FindOrderBody(),

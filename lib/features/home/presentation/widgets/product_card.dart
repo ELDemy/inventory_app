@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inventory_app/core/models/product_model.dart';
-import 'package:inventory_app/core/utils/app_colors.dart';
+import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
 import 'package:inventory_app/features/product_management/product_profile/presentation/product_profile_screen.dart';
 
 class ProductCard extends StatelessWidget {
@@ -118,9 +118,9 @@ class ProductCard extends StatelessWidget {
 
   Color get _cardColor {
     switch (product.qty) {
-      case >= 3:
+      case >= 6:
         return AppColors.primaryColor;
-      case < 3:
+      case < 6:
         return AppColors.lightRedColor;
       default:
         return AppColors.primaryColor;

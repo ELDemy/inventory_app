@@ -4,11 +4,16 @@ import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/features/product_management/add_edit_product/data/add_edit_product_cubit/add_edit_product_cubit.dart';
 import 'package:inventory_app/features/product_management/add_edit_product/presentation/widgets/product_form.dart';
+import 'package:inventory_app/features/product_management/product_profile/data/product_cubit/product_profile_cubit.dart';
 
 class EditProductForm extends StatelessWidget {
-  const EditProductForm({super.key, required this.productModel});
+  const EditProductForm(
+      {super.key,
+      required this.productModel,
+      required this.productProfileCubit});
 
   final ProductModel productModel;
+  final ProductProfileCubit productProfileCubit;
 
   @override
   Widget build(BuildContext context) {
@@ -30,32 +35,14 @@ class EditProductForm extends StatelessWidget {
             }
           },
           builder: (context, state) => ProductForm(
+            defaultCategory: productModel.category,
+            buttonText: "تعديل المنتج",
             isUpdate: true,
             productModel: productModel,
-            buttonText: "تعديل المنتج",
-            onSubmit: ({
-              required formKey,
-              required productNameController,
-              required serialNumberController,
-              required priceController,
-              required quantityController,
-              required powerController,
-              required inputController,
-              required outputController,
-            }) {
-              if (formKey.currentState!.validate()) {
-                BlocProvider.of<AddEditProductCubit>(context)
-                    .updateProduct(ProductModel(
-                  serialNumber: serialNumberController.text,
-                  productName: productNameController.text,
-                  price: double.parse(priceController.text),
-                  qty: int.parse(quantityController.text),
-                  power: num.parse(powerController.text),
-                  input: inputController.text,
-                  output: outputController.text,
-                ));
-                print(productModel.identifierSN);
-              }
+            onSubmit: (productModel) async {
+              await BlocProvider.of<AddEditProductCubit>(context)
+                  .updateProduct(productModel);
+              await productProfileCubit.fetchProduct();
             },
           ),
         ),
