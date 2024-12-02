@@ -187,7 +187,7 @@ class _CategorySelectionFieldState extends State<CategorySelectionField> {
                             widget.onCategorySelected(category);
                             _searchController.clear();
                             _filterCategories('');
-                            _removeOverlay();
+                            _toggleDropdown();
                             setState(() {});
                           },
                         );

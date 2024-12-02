@@ -62,21 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       labelText: 'اسم المسخدم',
                       isRequired: true,
                     ),
-                    ValueListenableBuilder<String?>(
-                      valueListenable: selectedRole,
-                      builder: (context, category, child) {
-                        return CategorySelectionField(
-                          height: 250,
-                          categories: const ['موظف', 'مدير'],
-                          selectedCategory: category,
-                          onCategorySelected: (role) {
-                            selectedRole.value = role;
-                          },
-                          isEditable: false,
-                          onNewCategoryAdded: (newCategory) {},
-                        );
-                      },
-                    ),
+                    _dropDownList(),
                     CustomTextFormField(
                       controller: _emailController,
                       labelText: 'البريد الالكتروني',
@@ -121,6 +107,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
           );
         },
       ),
+    );
+  }
+
+  ValueListenableBuilder<String?> _dropDownList() {
+    return ValueListenableBuilder<String?>(
+      valueListenable: selectedRole,
+      builder: (context, category, child) {
+        return CategorySelectionField(
+          height: 130,
+          isSearchable: false,
+          categories: const ['موظف', 'مدير'],
+          selectedCategory: category,
+          onCategorySelected: (role) {
+            selectedRole.value = role;
+          },
+          isEditable: false,
+          onNewCategoryAdded: (newCategory) {},
+        );
+      },
     );
   }
 }
