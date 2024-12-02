@@ -14,7 +14,7 @@ class TopWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: CustomResponsiveRow(
         children: [
-          Text(title, style: AppTextStyles.headLine24),
+          // Text(title, style: AppTextStyles.headLine24),
           Wrap(
             alignment: WrapAlignment.end,
             crossAxisAlignment: WrapCrossAlignment.start,

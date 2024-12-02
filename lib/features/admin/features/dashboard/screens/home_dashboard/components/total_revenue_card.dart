@@ -27,12 +27,10 @@ class TotalRevenueCard extends StatelessWidget {
           children: [
             _totalRevenueData(reportStatistics.totalRevenue),
             const SizedBox(height: 16),
-            _dataRow("عدد الطلبات", "${reportStatistics.totalOrders} طلبات"),
-            _dataRow(
-                "عدد المنتجات", "${reportStatistics.totalProducts} منتجات"),
+            _dataRow("عدد الطلبات", "${reportStatistics.totalOrders} طلب"),
+            _dataRow("عدد المنتجات", "${reportStatistics.totalProducts} منتج"),
             _dataRow("عدد الوحدات", "${reportStatistics.totalUnits} وحدة"),
-            _dataRow(
-                "عدد العملاء", "${reportStatistics.uniqueCustomers} عملاء"),
+            _dataRow("عدد العملاء", "${reportStatistics.uniqueCustomers} عميل"),
           ],
         ),
       ),
@@ -50,7 +48,7 @@ class TotalRevenueCard extends StatelessWidget {
             children: [
               const Text('إجمالي الإيرادات', style: AppTextStyles.headLine30),
               Text(
-                '$totalRevenue £E',
+                '$totalRevenue E£',
                 style: AppTextStyles.headLine24.copyWith(color: Colors.green),
               ),
             ],

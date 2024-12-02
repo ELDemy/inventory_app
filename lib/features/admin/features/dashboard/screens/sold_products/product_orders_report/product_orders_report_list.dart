@@ -50,9 +50,9 @@ class ProductOrdersReportList extends StatelessWidget {
         TopWidget(
           title: 'الطلبات',
           children: [
-            "${productStats.uniqueClients.length} عملاء",
-            "${productStats.orders.length} طلبات",
             "${productStats.totalUnits} وحدة",
+            "${productStats.orders.length} طلب",
+            "${productStats.uniqueClients.length} عميل",
           ],
         ),
       ],

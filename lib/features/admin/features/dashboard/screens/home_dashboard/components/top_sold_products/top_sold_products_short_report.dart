@@ -13,7 +13,7 @@ class TopSoldProductsShortReport extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<ProductStats> productsStats =
-        context.watch<DashboardCubit>().productStats;
+        context.watch<DashboardCubit>().productsStats;
     return ReportWidget(
       title: "افضل المنتجات",
       itemCount: productsStats.length,
@@ -34,7 +34,7 @@ class TopSoldProductsShortReport extends StatelessWidget {
         );
       },
       childBuilder: (index) => TopSoldProductCardData(
-        productStats: context.read<DashboardCubit>().productStats[index],
+        productStats: context.read<DashboardCubit>().productsStats[index],
       ),
     );
   }

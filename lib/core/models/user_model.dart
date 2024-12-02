@@ -29,7 +29,7 @@ class UserModel {
   }
 
   // Convert the model to a map to save it back to Firestore
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toFireStore() {
     return {
       'createdAt': Timestamp.fromDate(createdAt),
       'password': password,

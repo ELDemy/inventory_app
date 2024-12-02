@@ -9,6 +9,6 @@ abstract class SuperAdmin {
   }
 
   static bool isAdmin() {
-    return Injector.activeUser?.role == "المدير" || isSuperAdmin();
+    return Injector.activeUser?.role == "مدير" || isSuperAdmin();
   }
 }

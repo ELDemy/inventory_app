@@ -27,9 +27,7 @@ class UserManagementCubit extends Cubit<UserManagementState> {
 
       if (usersDocs.docs.isNotEmpty) {
         for (var doc in usersDocs.docs) {
-          if (doc.data()['role'] != "المدير") {
-            users.add(UserModel.fromFirestore(doc.data()));
-          }
+          users.add(UserModel.fromFirestore(doc.data()));
         }
       }
       emit(UserManagementSuccess());
@@ -46,7 +44,6 @@ class UserManagementCubit extends Cubit<UserManagementState> {
     try {
       emit(UserManagementLoading());
       await Injector.usersCollection.doc(email).delete();
-      print("ELDEMY:: deleted doc");
       await getUsers();
       emit(UserManagementSuccess());
     } on FirebaseException catch (firebaseException) {
@@ -59,10 +56,7 @@ class UserManagementCubit extends Cubit<UserManagementState> {
   }
 
   Future<void> signUp({
-    required String email,
-    required String password,
-    required String name,
-    required String role,
+    required UserModel userModel,
   }) async {
     try {
       emit(UserSignUpLoading());
@@ -73,14 +67,14 @@ class UserManagementCubit extends Cubit<UserManagementState> {
           name: 'admin-app', options: Firebase.app().options);
       await FirebaseAuth.instanceFor(app: Firebase.app('admin-app'))
           .createUserWithEmailAndPassword(
-        email: email,
-        password: password,
+        email: userModel.email,
+        password: userModel.password,
       );
-      await _addUserDoc(email, name, password, role);
+      await _addUserDoc(userModel);
       emit(UserSignUpSuccess());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        await _addUserDoc(email, name, password, role);
+        await _addUserDoc(userModel);
         emit(UserSignUpSuccess());
         return emit(UserSignUpFailure(
             "البريد الالكتروني مسجل سابقا!! يجب استخدام الباسوورد القديم"));
@@ -99,23 +93,16 @@ class UserManagementCubit extends Cubit<UserManagementState> {
       try {
         await Firebase.app('admin-app').delete();
       } catch (e) {
-        // Silently handle any errors during cleanup
+        Failure.exception(e);
         print('Error deleting admin app: $e');
       }
     }
   }
 
-  Future<void> _addUserDoc(
-      String email, String name, String password, String role) async {
-    await Injector.usersCollection.doc(email).set(
-      {
-        'name': name,
-        'email': email,
-        'password': password,
-        'role': role,
-        'createdAt': Timestamp.now(),
-      },
-    );
+  Future<void> _addUserDoc(UserModel userModel) async {
+    await Injector.usersCollection.doc(userModel.email).set(
+          userModel.toFireStore(),
+        );
     await getUsers();
   }
 }

@@ -22,13 +22,13 @@ class AllProductsReportListScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: ListView.builder(
-                  itemCount: dashboardCubit.productStats.length + 1,
+                  itemCount: dashboardCubit.productsStats.length + 1,
                   itemBuilder: (context, index) {
                     if (index == 0) {
                       return _topWidget(dashboardCubit);
                     }
                     return ProductDetailsReportCard(
-                      productStats: dashboardCubit.productStats[index - 1],
+                      productStats: dashboardCubit.productsStats[index - 1],
                     );
                   },
                 ),
@@ -44,8 +44,9 @@ class AllProductsReportListScreen extends StatelessWidget {
     return TopWidget(
       title: 'كل المنتجات',
       children: [
-        '${dashboardCubit.statistics.uniqueCustomers} عملاء',
-        "${dashboardCubit.productStats.length} منتجات"
+        "${dashboardCubit.productsStats.length} منتج",
+        '${dashboardCubit.statistics.uniqueCustomers} عميل',
+        '${dashboardCubit.statistics.totalUnits} وحدة',
       ],
     );
   }

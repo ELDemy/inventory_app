@@ -36,8 +36,9 @@ class AllOrdersReportDetailsScreen extends StatelessWidget {
   TopWidget _topWidget(DashboardCubit dashboardCubit, List<OrderModel> orders) {
     return TopWidget(
       children: [
+        "${orders.length} طلب",
         "${dashboardCubit.statistics.totalUnits} وحدة",
-        "${orders.length} طلبات",
+        "${dashboardCubit.statistics.totalRevenue} E£",
       ],
       title: 'الطلبات',
     );

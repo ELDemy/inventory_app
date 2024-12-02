@@ -43,9 +43,9 @@ class EmployeesListReportScreen extends StatelessWidget {
     return TopWidget(
       title: 'البائعون',
       children: [
+        "${dashboardCubit.employeesStats.length} بائعين",
         '${dashboardCubit.statistics.uniqueCustomers} عميل',
         '${dashboardCubit.statistics.totalUnits} وحدة',
-        "${dashboardCubit.employeesStats.length} بائعين"
       ],
     );
   }

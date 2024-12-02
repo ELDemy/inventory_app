@@ -90,82 +90,118 @@ class DashboardScreen extends StatelessWidget {
 
     final products = [
       {
-        "modelName": "غسالة سوبر 1000",
+        "modelName": "V9-H4T11G/15L",
         "identifierSN": "A0016853660332407",
-        "category": "غسالة",
+        "category": "Category 1",
         "price": 5000,
       },
       {
-        "modelName": "ثلاجة كول 200",
+        "modelName": "DP-2101EA",
         "identifierSN": "A5013800040002304",
-        "category": "ثلاجة",
-        "price": 7000,
+        "category": "Category 2",
+        "price": 3000,
+        "power": "2101EA",
+        "input": "AC1PH 220V",
+        "output": "0-60Hz"
       },
       {
-        "modelName": "شاشة سمارت 500",
+        "modelName": "VDS40-2S2.2",
         "identifierSN": "802R2G124FC",
-        "category": "شاشة",
-        "price": 8000,
-      },
-      {
-        "modelName": "كمبيوتر سريع 3000",
-        "identifierSN": "8O1R5G324FC",
-        "category": "كمبيوتر",
-        "price": 15000,
-      },
-      {
-        "modelName": "ميكروويف فائق 700",
-        "identifierSN": "802R2G324FC",
-        "category": "ميكروويف",
-        "price": 3000,
-      },
-      {
-        "modelName": "خلاط باور 150",
-        "identifierSN": "80R75G324FC",
-        "category": "خلاط",
-        "price": 1200,
-      },
-      {
-        "modelName": "مكيف بارد 4000",
-        "identifierSN": "801R5G124FC",
-        "category": "مكيف",
-        "price": 10000,
-      },
-      {
-        "modelName": "مكانس برو 900",
-        "identifierSN": "A0016858410062407",
-        "category": "مكنسة",
+        "category": "Category 3",
         "price": 2500,
+        "power": "2.2KW",
+        "input": "AC2PH 220V",
+        "output": "0-100Hz"
       },
       {
-        "modelName": "فرن كهربائي 2500",
-        "identifierSN": "A5013801730002312",
-        "category": "فرن",
+        "modelName": "VDS40-4T1.5",
+        "identifierSN": "8O1R5G324FC",
+        "category": "Category 4",
         "price": 4000,
+        "power": "1.5KW",
+        "input": "AC3PH 200-240V",
+        "output": "0-300Hz"
       },
       {
-        "modelName": "غسالة صغيرة 800",
-        "identifierSN": "B0016853660332407",
-        "category": "غسالة",
-        "price": 3000,
+        "modelName": "VDS40-4T2.2",
+        "identifierSN": "802R2G324FC",
+        "category": "Category 5",
+        "price": 4500,
+        "power": "2.2KW",
+        "input": "AC3PH 200-240V",
+        "output": "0-300Hz"
       },
       {
-        "modelName": "ثلاجة عائلية 600",
-        "identifierSN": "C5013800040002304",
-        "category": "ثلاجة",
-        "price": 9000,
+        "modelName": "VDS40-4TO.75",
+        "identifierSN": "80R75G324FC",
+        "category": "Category 6",
+        "price": 2000,
+        "power": "0.75KW",
+        "input": "AC3PH 200-240V",
+        "output": "0-300Hz"
       },
       {
-        "modelName": "شاشة 4K بلس",
-        "identifierSN": "D802R2G124FC",
-        "category": "شاشة",
+        "modelName": "VDS40-2S1.5",
+        "identifierSN": "801R5G124FC",
+        "category": "Category 7",
+        "price": 3500,
+        "power": "1.5KW",
+        "input": "AC2PH 220V",
+        "output": "0-100Hz"
+      },
+      {
+        "modelName": "V9.H.2T2.2G.14",
+        "identifierSN": "A0016858410062407",
+        "category": "Category 8",
+        "price": 5500,
+        "power": "2.2G",
+        "input": "AC3PH 200-240V",
+        "output": "0-300Hz"
+      },
+      {
+        "modelName": "VDS50-6T5.5",
+        "identifierSN": "B802T5G124XY",
+        "category": "Category 9",
+        "price": 6000,
+        "power": "5.5KW",
+        "input": "AC3PH 380-480V",
+        "output": "0-400Hz"
+      },
+      {
+        "modelName": "VDS50-6T4.0",
+        "identifierSN": "C702R4G324XZ",
+        "category": "Category 10",
+        "price": 5000,
+        "power": "4.0KW",
+        "input": "AC3PH 380-480V",
+        "output": "0-400Hz"
+      },
+      {
+        "modelName": "DP-3102EA",
+        "identifierSN": "D6012A0040014302",
+        "category": "Category 11",
+        "price": 7000,
+        "power": "3102EA",
+        "input": "AC1PH 220V",
+        "output": "0-75Hz"
+      },
+      {
+        "modelName": "VDS60-8T7.5",
+        "identifierSN": "E90175G124FC",
+        "category": "Category 12",
+        "price": 8000,
+        "power": "7.5KW",
+        "input": "AC3PH 380-480V",
+        "output": "0-500Hz"
+      },
+      {
+        "modelName": "VDS60-8T10.0",
+        "identifierSN": "F702R10G324XY",
+        "category": "Category 13",
         "price": 10000,
-      },
-      {
-        "modelName": "كمبيوتر ألعاب 5000",
-        "identifierSN": "E8O1R5G324FC",
-        "category": "كمبيوتر",
-        "price": 20000,
+        "power": "10.0KW",
+        "input": "AC3PH 380-480V",
+        "output": "0-500Hz"
       },
     ];
 

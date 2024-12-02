@@ -36,8 +36,9 @@ class EmployeeOrdersReport extends StatelessWidget {
   TopWidget _topWidget(List<OrderModel> orders) {
     return TopWidget(
       children: [
+        "${employeeStats.totalRevenue} E£",
         "${employeeStats.totalUnits} وحدة",
-        "${orders.length} طلبات",
+        "${orders.length} طلب",
       ],
       title: 'الطلبات',
     );

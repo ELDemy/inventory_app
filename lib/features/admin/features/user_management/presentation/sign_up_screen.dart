@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/components/custom_dropdown_button_form_field.dart';
 import 'package:inventory_app/core/components/custom_text_form_field.dart';
+import 'package:inventory_app/core/models/user_model.dart';
 import 'package:inventory_app/core/utils/app_icons.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/features/admin/features/user_management/data/user_management_cubit/user_management_cubit.dart';
@@ -96,10 +97,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             : () {
                                 if (_formKey.currentState!.validate()) {
                                   context.read<UserManagementCubit>().signUp(
-                                        name: _nameController.text.trim(),
-                                        role: selectedRole.value,
-                                        email: _emailController.text.trim(),
-                                        password: _passwordController.text,
+                                        userModel: UserModel(
+                                          name: _nameController.text.trim(),
+                                          role: selectedRole.value,
+                                          email: _emailController.text
+                                              .trim()
+                                              .toLowerCase(),
+                                          password: _passwordController.text,
+                                          createdAt: DateTime.now(),
+                                        ),
                                       );
                                 }
                               },
