@@ -14,12 +14,14 @@ class ProductForm extends StatefulWidget {
     required this.onSubmit,
     required this.buttonText,
     this.isUpdate = false,
+    this.defaultCategory,
   });
 
   final bool isUpdate;
 
   final String buttonText;
   final ProductModel? productModel;
+  final String? defaultCategory;
 
   final void Function(ProductModel productModel) onSubmit;
 
@@ -43,9 +45,11 @@ class _ProductFormState extends State<ProductForm> {
   @override
   void initState() {
     super.initState();
-    Injector.productsCategories.isNotEmpty
-        ? selectedCategory.value = Injector.productsCategories[0]
-        : selectedCategory;
+    widget.defaultCategory != null
+        ? selectedCategory.value = widget.defaultCategory
+        : Injector.productsCategories.isNotEmpty
+            ? selectedCategory.value = Injector.productsCategories[0]
+            : selectedCategory;
 
     if (widget.productModel != null) {
       productNameController.text = widget.productModel!.productName ?? "";

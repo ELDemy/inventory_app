@@ -20,7 +20,7 @@ class Injector {
   static List<String> productsCategories = [];
 
   // fireStore database
-  final projectDocName = 'inverters';
+  final _projectDocName = 'inverters';
   final momenDocName = 'momengrad';
 
   static final DocumentReference<Map<String, dynamic>> projectDoc =
@@ -33,7 +33,7 @@ class Injector {
       productsCollection.doc('all');
 
   static final CollectionReference<Map<String, dynamic>>
-      productsHistoryCollection = projectDoc.collection('products_history');
+      ordersHistoryCollection = projectDoc.collection('products_history');
 
   static final CollectionReference<Map<String, dynamic>> usersCollection =
       projectDoc.collection('users');
@@ -48,4 +48,17 @@ class Injector {
 
   // Generic method to get instances
   static T get<T extends Object>() => _getIt<T>();
+
+  static T register<T extends Object>(T instance) {
+    if (!_getIt.isRegistered<T>()) {
+      return _getIt.registerSingleton<T>(instance);
+    }
+    return _getIt.get<T>();
+  }
+
+  static unregister<T extends Object>() {
+    if (_getIt.isRegistered<T>()) {
+      _getIt.unregister<T>();
+    }
+  }
 }

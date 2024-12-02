@@ -26,8 +26,7 @@ class UserManagementCubit extends Cubit<UserManagementState> {
           await Injector.usersCollection.get();
 
       if (usersDocs.docs.isNotEmpty) {
-        for (QueryDocumentSnapshot<Map<String, dynamic>> doc
-            in usersDocs.docs) {
+        for (var doc in usersDocs.docs) {
           if (doc.data()['role'] != "المدير") {
             users.add(UserModel.fromFirestore(doc.data()));
           }
@@ -63,6 +62,7 @@ class UserManagementCubit extends Cubit<UserManagementState> {
     required String email,
     required String password,
     required String name,
+    required String role,
   }) async {
     try {
       emit(UserSignUpLoading());
@@ -76,11 +76,11 @@ class UserManagementCubit extends Cubit<UserManagementState> {
         email: email,
         password: password,
       );
-      await _addUserDoc(email, name, password);
+      await _addUserDoc(email, name, password, role);
       emit(UserSignUpSuccess());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        await _addUserDoc(email, name, password);
+        await _addUserDoc(email, name, password, role);
         emit(UserSignUpSuccess());
         return emit(UserSignUpFailure(
             "البريد الالكتروني مسجل سابقا!! يجب استخدام الباسوورد القديم"));
@@ -105,13 +105,14 @@ class UserManagementCubit extends Cubit<UserManagementState> {
     }
   }
 
-  Future<void> _addUserDoc(String email, String name, String password) async {
+  Future<void> _addUserDoc(
+      String email, String name, String password, String role) async {
     await Injector.usersCollection.doc(email).set(
       {
         'name': name,
         'email': email,
         'password': password,
-        'role': "موظف",
+        'role': role,
         'createdAt': Timestamp.now(),
       },
     );

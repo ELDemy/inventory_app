@@ -9,7 +9,7 @@ class ProductProfileContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProductProfileCubit productCubit =
+    final ProductProfileCubit productProfileCubit =
         BlocProvider.of<ProductProfileCubit>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -17,7 +17,7 @@ class ProductProfileContent extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 30),
-            ProductDetailsCard(productModel: productCubit.productModel),
+            ProductDetailsCard(productModel: productProfileCubit.productModel),
             const SizedBox(height: 20),
             Row(
               children: [
@@ -27,8 +27,11 @@ class ProductProfileContent extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => EditProductForm(
-                                  productModel: productCubit.productModel)),
+                            builder: (context) => EditProductForm(
+                              productModel: productProfileCubit.productModel,
+                              productProfileCubit: productProfileCubit,
+                            ),
+                          ),
                         );
                       },
                       child:

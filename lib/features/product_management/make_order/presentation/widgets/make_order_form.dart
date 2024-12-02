@@ -97,7 +97,8 @@ class _MakeOrderFormState extends State<MakeOrderForm> {
                     OrderModel(
                       product: orderCubit.productModel,
                       serialNumbers: [
-                        "${orderCubit.productModel.identifierSN ?? 123456}${int.parse(_qtyController.text)}"
+                        "${orderCubit.productModel.identifierSN ?? 123456}${int.parse(_qtyController.text)}",
+                        ...barcodes,
                       ],
                       price: double.parse(_priceController.text),
                       quantity: int.parse(_qtyController.text),

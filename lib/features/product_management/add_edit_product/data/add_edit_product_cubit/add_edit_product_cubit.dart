@@ -4,6 +4,7 @@ import 'package:inventory_app/core/errors/abstract_failure_class.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/di/injector.dart';
+import 'package:inventory_app/features/home/data/cubit/home_cubit.dart';
 import 'package:inventory_app/features/product_management/shared/data/product_management_repo/product_management_repo.dart';
 import 'package:meta/meta.dart';
 
@@ -27,7 +28,6 @@ class AddEditProductCubit extends Cubit<AddEditProductState> {
           await productManagementRepo.getProduct(productModel.identifierSN!);
 
       if (doc.exists) {
-        print('Document with ID ${productModel.identifierSN} already exists.');
         return emit(AddEditProductFailure(
             "المنتج رقم ${productModel.identifierSN} موجود بالفعل "));
       }
@@ -51,7 +51,7 @@ class AddEditProductCubit extends Cubit<AddEditProductState> {
     }
     emit(AddEditProductLoading());
     try {
-      await productManagementRepo.addProduct(productModel);
+      await productManagementRepo.updateProduct(productModel);
       emit(AddEditProductSuccess());
     } on FirebaseException catch (firebaseException) {
       return emit(AddEditProductFailure(
@@ -65,6 +65,9 @@ class AddEditProductCubit extends Cubit<AddEditProductState> {
   Future<void> addNewCategory(String category) async {
     try {
       await productManagementRepo.addCategory(category);
+
+      // to update the categories list in the Home Screen
+      Injector.get<HomeCubit>().emit(HomeProductsState());
     } catch (e) {
       Failure.exception(e);
     }

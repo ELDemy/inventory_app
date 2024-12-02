@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/components/custom_text_form_field.dart';
-import 'package:inventory_app/core/utils/app_colors.dart';
+import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/features/auth/data/auth_cubit/auth_cubit.dart';
 import 'package:inventory_app/features/home/presentation/home_screen.dart';

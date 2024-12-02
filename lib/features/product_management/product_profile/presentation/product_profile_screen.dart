@@ -3,9 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:inventory_app/core/components/custom_icon_container.dart';
 import 'package:inventory_app/core/components/failure_screen.dart';
 import 'package:inventory_app/core/components/my_citcular_loading.dart';
-import 'package:inventory_app/core/utils/app_colors.dart';
+import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/features/product_management/product_profile/data/product_cubit/product_profile_cubit.dart';
+import 'package:inventory_app/helpers/super_admin.dart';
 
 import 'widgets/product_profile_content.dart';
 
@@ -50,7 +51,10 @@ class ProductProfileScreen extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: const Text("بيانات المنتج"),
-              actions: [_trashIcon(context), const SizedBox(width: 10)],
+              actions: [
+                if (SuperAdmin.isAdmin()) _trashIcon(context),
+                const SizedBox(width: 10),
+              ],
             ),
             body: bodyContent,
           );

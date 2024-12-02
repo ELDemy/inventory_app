@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:inventory_app/core/components/custom_icon_container.dart';
-import 'package:inventory_app/core/utils/app_colors.dart';
+import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
 import 'package:inventory_app/di/auth_service.dart';
 import 'package:inventory_app/di/injector.dart';
+import 'package:inventory_app/features/admin/admin_home_screen/admin_home_screen.dart';
 import 'package:inventory_app/features/home/data/cubit/home_cubit.dart';
-import 'package:inventory_app/features/user_management/presentation/user_management_screen.dart';
-import 'package:inventory_app/super_admin.dart';
+import 'package:inventory_app/helpers/super_admin.dart';
 
 import 'widgets/anim_search.dart';
 import 'widgets/home_screen_body.dart';
@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit(),
+      create: (context) => Injector.register<HomeCubit>(HomeCubit()),
       child: Scaffold(
         appBar: AppBar(
           title: const Padding(
@@ -43,15 +43,13 @@ class HomeScreen extends StatelessWidget {
   Widget _usersManagementIcon(BuildContext context) {
     if (FirebaseAuth.instance.currentUser?.email == null) {
       Injector.get<AuthService>().handleUserDeletion(context);
-    } else if (Injector.activeUser?.role == "المدير" ||
-        SuperAdmin.isSuperAdmin()) {
+    } else if (SuperAdmin.isAdmin()) {
       return CustomIconContainer(
         child: const Icon(Icons.person, color: AppColors.appBarIconsColor),
         onTap: () {
           Navigator.push(
             context,
-            MaterialPageRoute(
-                builder: (context) => const UserManagementScreen()),
+            MaterialPageRoute(builder: (context) => const AdminHomeScreen()),
           );
         },
       );

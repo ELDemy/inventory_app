@@ -4,9 +4,11 @@ abstract class AppColors {
   static const Color primaryColor = Color(0xFFDCA500);
   static const Color primaryBackgroundColor = Color(0xFFF5FCFB);
   static const Color cardBackgroundColor = Color(0xFFF5FCFB);
+  static const Color cardYellowBackgroundColor = Color(0x56FFD456);
 
   static const Color foregroundColor = Colors.black;
   static const Color labelColor = Color(0xFFCC9900);
+  static const Color greyColor = Color(0xff999999);
 
   static const Color iconsColor = Colors.black;
   static const Color appBarIconsColor = Colors.black;

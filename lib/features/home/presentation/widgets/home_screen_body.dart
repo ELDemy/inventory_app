@@ -36,7 +36,7 @@ class HomeScreenBody extends StatelessWidget {
 
         return Column(
           children: [
-            CategoriesList(),
+            const CategoriesList(),
             products.isNotEmpty
                 ? Expanded(
                     child: ListView.builder(

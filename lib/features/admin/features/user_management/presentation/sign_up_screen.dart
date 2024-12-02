@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:inventory_app/core/components/custom_dropdown_button_form_field.dart';
 import 'package:inventory_app/core/components/custom_text_form_field.dart';
+import 'package:inventory_app/core/utils/app_icons.dart';
 import 'package:inventory_app/core/utils/show_info_util.dart';
-import 'package:inventory_app/features/user_management/data/user_management_cubit/user_management_cubit.dart';
+import 'package:inventory_app/features/admin/features/user_management/data/user_management_cubit/user_management_cubit.dart';
 
 // sign_up_screen.dart
 class SignUpScreen extends StatefulWidget {
@@ -16,16 +18,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _userTypeController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _userTypeController.text = 'مستخدم عادي';
+    super.initState();
+  }
 
   @override
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+    _userTypeController.dispose();
     super.dispose();
   }
+
+  ValueNotifier<String> selectedRole = ValueNotifier<String>("مستخدم عادي");
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +65,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: Column(
                   children: [
                     const SizedBox(height: 30),
-                    Image.asset("assets/logo.png", height: 200),
+                    AppIcons().appLogo(height: 200),
                     CustomTextFormField(
                       controller: _nameController,
                       labelText: 'اسم المسخدم',
                       isRequired: true,
+                    ),
+                    ValueListenableBuilder<String?>(
+                      valueListenable: selectedRole,
+                      builder: (context, category, child) {
+                        return CategorySelectionField(
+                          height: 250,
+                          categories: ['مستخدم عادي', 'مدير'],
+                          selectedCategory: category,
+                          onCategorySelected: (role) {
+                            selectedRole.value = role;
+                          },
+                          isEditable: false,
+                          onNewCategoryAdded: (newCategory) {},
+                        );
+                      },
                     ),
                     CustomTextFormField(
                       controller: _emailController,
@@ -79,6 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 if (_formKey.currentState!.validate()) {
                                   context.read<UserManagementCubit>().signUp(
                                         name: _nameController.text.trim(),
+                                        role: selectedRole.value,
                                         email: _emailController.text.trim(),
                                         password: _passwordController.text,
                                       );
