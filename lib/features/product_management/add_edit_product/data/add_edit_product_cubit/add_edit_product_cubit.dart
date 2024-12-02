@@ -51,7 +51,7 @@ class AddEditProductCubit extends Cubit<AddEditProductState> {
     }
     emit(AddEditProductLoading());
     try {
-      await productManagementRepo.addProduct(productModel);
+      await productManagementRepo.updateProduct(productModel);
       emit(AddEditProductSuccess());
     } on FirebaseException catch (firebaseException) {
       return emit(AddEditProductFailure(
@@ -65,6 +65,8 @@ class AddEditProductCubit extends Cubit<AddEditProductState> {
   Future<void> addNewCategory(String category) async {
     try {
       await productManagementRepo.addCategory(category);
+
+      // to update the categories list in the Home Screen
       Injector.get<HomeCubit>().emit(HomeProductsState());
     } catch (e) {
       Failure.exception(e);

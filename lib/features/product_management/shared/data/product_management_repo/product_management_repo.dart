@@ -40,6 +40,29 @@ class ProductManagementRepo {
     }
   }
 
+  Future<void> updateProduct(ProductModel productModel) async {
+    try {
+      final DocumentReference<Map<String, dynamic>> docRef =
+          Injector.productsCollection.doc(productModel.identifierSN);
+      final DocumentReference<Map<String, dynamic>> allProductsDocRef =
+          Injector.allProductsDoc;
+
+      return await FirebaseFirestore.instance.runTransaction(
+        (transaction) async {
+          transaction.update(docRef, productModel.toFirestore());
+          transaction.update(
+            allProductsDocRef,
+            productModel.toFirestoreBasicValues(),
+          );
+        },
+      );
+    } on FirebaseException catch (firebaseException) {
+      rethrow;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<void> addCategory(String category) async {
     try {
       Injector.productsCategoriesDoc
