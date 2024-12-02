@@ -8,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:inventory_app/core/errors/abstract_failure_class.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
 import 'package:inventory_app/core/models/product_model.dart';
-import 'package:inventory_app/core/utils/show_info_util.dart';
 import 'package:inventory_app/di/auth_service.dart';
 import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/home/data/home_repo/home_repo.dart';

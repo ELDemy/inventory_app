@@ -19,7 +19,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  ValueNotifier<String> selectedRole = ValueNotifier<String>("مستخدم عادي");
+  ValueNotifier<String> selectedRole = ValueNotifier<String>("موظف");
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -67,7 +67,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       builder: (context, category, child) {
                         return CategorySelectionField(
                           height: 250,
-                          categories: ['مستخدم عادي', 'مدير'],
+                          categories: const ['موظف', 'مدير'],
                           selectedCategory: category,
                           onCategorySelected: (role) {
                             selectedRole.value = role;

@@ -33,7 +33,7 @@ class ProductManagementRepo {
           );
         },
       );
-    } on FirebaseException catch (firebaseException) {
+    } on FirebaseException {
       rethrow;
     } catch (e) {
       rethrow;
@@ -56,7 +56,7 @@ class ProductManagementRepo {
           );
         },
       );
-    } on FirebaseException catch (firebaseException) {
+    } on FirebaseException {
       rethrow;
     } catch (e) {
       rethrow;
@@ -67,7 +67,7 @@ class ProductManagementRepo {
     try {
       Injector.productsCategoriesDoc
           .set({category: null}, SetOptions(merge: true));
-    } on Exception catch (e) {
+    } on Exception {
       rethrow;
     }
   }
@@ -123,7 +123,7 @@ class ProductManagementRepo {
           );
         },
       );
-    } on FirebaseException catch (firebaseException) {
+    } on FirebaseException {
       rethrow;
     } catch (e) {
       rethrow;

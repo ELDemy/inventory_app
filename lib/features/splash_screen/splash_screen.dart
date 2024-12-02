@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:inventory_app/core/components/my_citcular_loading.dart';
+import 'package:inventory_app/core/components/my_circular_loading.dart';
 import 'package:inventory_app/features/auth/data/auth_cubit/auth_cubit.dart';
 import 'package:inventory_app/features/auth/presentation/signin.dart';
 import 'package:inventory_app/features/home/presentation/home_screen.dart';
@@ -21,7 +21,7 @@ class SplashScreen extends StatelessWidget {
 }
 
 class _SplashScreen extends StatefulWidget {
-  const _SplashScreen({super.key});
+  const _SplashScreen();
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
