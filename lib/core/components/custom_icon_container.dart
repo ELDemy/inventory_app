@@ -7,17 +7,20 @@ class CustomIconContainer extends StatelessWidget {
   final Widget child;
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        height: 35,
-        width: 48,
-        margin: const EdgeInsets.only(right: 5),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(30),
+    return Padding(
+      padding: const EdgeInsets.only(right: 5),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(30),
+        onTap: onTap,
+        child: Ink(
+          height: 35,
+          width: 48,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: child,
         ),
-        child: child,
       ),
     );
   }

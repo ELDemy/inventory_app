@@ -4,40 +4,38 @@ import 'package:inventory_app/core/utils/app_themes/app_colors.dart';
 import 'package:inventory_app/di/injector.dart';
 import 'package:inventory_app/features/home/data/cubit/home_cubit.dart';
 
-class CategoriesList extends StatefulWidget {
+class CategoriesList extends StatelessWidget {
   const CategoriesList({super.key});
 
   @override
-  State<CategoriesList> createState() => _CategoriesListState();
-}
-
-class _CategoriesListState extends State<CategoriesList> {
-  @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 60,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        children: [
-          CategoryWidget(
-            null,
-            () {
-              BlocProvider.of<HomeCubit>(context).changeCategory(null);
-              setState(() {});
-            },
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        return SizedBox(
+          height: 60,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            children: [
+              CategoryWidget(
+                null,
+                () {
+                  BlocProvider.of<HomeCubit>(context).changeCategory(null);
+                },
+              ),
+              ...Injector.productsCategories.map(
+                (category) => CategoryWidget(
+                  category,
+                  () {
+                    BlocProvider.of<HomeCubit>(context)
+                        .changeCategory(category);
+                  },
+                ),
+              )
+            ],
           ),
-          ...Injector.productsCategories.map(
-            (category) => CategoryWidget(
-              category,
-              () {
-                BlocProvider.of<HomeCubit>(context).changeCategory(category);
-                setState(() {});
-              },
-            ),
-          )
-        ],
-      ),
+        );
+      },
     );
   }
 }

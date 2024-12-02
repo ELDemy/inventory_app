@@ -20,7 +20,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeCubit(),
+      create: (context) => Injector.register<HomeCubit>(HomeCubit()),
       child: Scaffold(
         appBar: AppBar(
           title: const Padding(
@@ -43,8 +43,7 @@ class HomeScreen extends StatelessWidget {
   Widget _usersManagementIcon(BuildContext context) {
     if (FirebaseAuth.instance.currentUser?.email == null) {
       Injector.get<AuthService>().handleUserDeletion(context);
-    } else if (Injector.activeUser?.role == "المدير" ||
-        SuperAdmin.isSuperAdmin()) {
+    } else if (SuperAdmin.isAdmin()) {
       return CustomIconContainer(
         child: const Icon(Icons.person, color: AppColors.appBarIconsColor),
         onTap: () {

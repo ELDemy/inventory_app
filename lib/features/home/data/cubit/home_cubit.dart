@@ -122,6 +122,7 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> close() {
     _subscription?.cancel();
     _connectivitySubscription?.cancel();
+    Injector.unregister<HomeCubit>();
     return super.close();
   }
 }
