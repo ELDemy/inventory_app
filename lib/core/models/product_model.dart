@@ -75,6 +75,7 @@ class ProductModel {
         "category": category,
         "quantity": qty,
         "price": price,
+        if (power != null) "power": power,
       }
     };
   }

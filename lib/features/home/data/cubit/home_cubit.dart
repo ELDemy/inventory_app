@@ -7,6 +7,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:inventory_app/core/errors/abstract_failure_class.dart';
 import 'package:inventory_app/core/errors/firebase_errors.dart';
+import 'package:inventory_app/core/models/power_utils.dart';
 import 'package:inventory_app/core/models/product_model.dart';
 import 'package:inventory_app/di/auth_service.dart';
 import 'package:inventory_app/di/injector.dart';
@@ -18,7 +19,7 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial()) {
     _allProducts = [];
     _homeRepo = Injector.register<HomeRepo>(HomeRepo());
-  }
+  } // ChangeNotifierProvider(create: (context) => HomeCubit()),
 
   late HomeRepo _homeRepo;
   late List<ProductModel> _allProducts;
@@ -52,7 +53,7 @@ class HomeCubit extends Cubit<HomeState> {
         (snapshot) {
           final Map<String, dynamic>? data = snapshot.data();
           if (data != null) {
-            _allProducts = _parseProducts(data);
+            _allProducts = PowerUtils.sortProductsByPower(_parseProducts(data));
             activeProducts; // to update the products list
             emit(HomeProductsState());
           }
@@ -128,3 +129,18 @@ class HomeCubit extends Cubit<HomeState> {
     return super.close();
   }
 }
+
+// update the products list in all products doc
+//  oneTimeUpdate() async {
+//     var data = await Injector.productsCollection.get();
+//     var products = data.docs.map((doc) {
+//       if (doc.id == "all") {
+//         return null;
+//       }
+//       return ProductModel.fromFirestore(doc.data(), null, identifierSN: doc.id);
+//     }).toList();
+//     for (var product in products) {
+//       if (product == null) continue;
+//       await Injector.allProductsDoc.update(product.toFirestoreBasicValues());
+//     }
+//   }
